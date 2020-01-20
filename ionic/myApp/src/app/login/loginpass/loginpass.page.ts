@@ -49,12 +49,11 @@ export class LoginpassPage implements OnInit {
    this.storage.get("loginDetails").then(data => {
      if(data){
       
-       console.log(data)
        this.loginDetails.email=data.email
        this.loginDetails.OUCategory = data.OUCategory
       this.pass=data.password
       this.getou.getLoginPic(data.username,data.password).pipe(first()).subscribe(data => {
-        console.log(data)
+        data = JSON.parse(data.data);
        // this.logPic.log=data.LoginCompanyLogo
        // this.logPic.background=data.LoginBKImage
       });
@@ -78,6 +77,7 @@ export class LoginpassPage implements OnInit {
     .pipe(first())
     .subscribe(
       result => {
+        result=JSON.parse(result.data)
         if(result.returnResponse=="Success"){
           this.loginDetails.username=this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
           this.loginDetails.password=this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
@@ -88,16 +88,19 @@ export class LoginpassPage implements OnInit {
           localStorage.setItem('hasLogged','true');
           this.getou.getous(this.user,this.pass).pipe(first()).subscribe(
             data => {
+              data = JSON.parse(data.data);
               this.storage.set('ous', JSON.stringify(data));    
             }
           )
           this.getpsn.getpersoninfo(this.user,this.pass).pipe(first()).subscribe(
             data => {
+              data = JSON.parse(data.data);
               this.storage.set('psninfo', JSON.stringify(data));    
             }
           )
           this.getallforms.getAllForms(this.loginDetails).pipe(first()).subscribe(data => {
              // console.log("forms信息"+JSON.stringify(data))
+             data = JSON.parse(data.data);
               this.storage.set('allforms', JSON.stringify(data));    
           })
           this.router.navigate(['tabs/tab1'])

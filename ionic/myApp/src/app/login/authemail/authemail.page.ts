@@ -53,6 +53,7 @@ export class AuthemailPage implements OnInit {
         result => 
         {
           console.log(result)
+          result=JSON.parse(result.data)
           if(result.status!="fail"){
             this.sendStat=true;
             localStorage.setItem('user',result.username);

@@ -11,6 +11,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LogoutService } from '../../services/logout/logout.service';
 import { GetousService } from "../../services/getous.service";
+import {AppConfig } from '../../config'
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -28,6 +29,7 @@ export class Tab1Page {
   public loading: any
   public listIco = { 'background': 'url(sfv3/appmgt.nsf//va_IconLib//collect.png//$FILE//collect.png) no-repeat top left' };
   public titlelog :string ;
+  public sdomain:string = AppConfig.domain;
   constructor(
     public popoverController: PopoverController,
     public Nav: NavController,
@@ -46,6 +48,7 @@ export class Tab1Page {
       this.geapp.getPortalInfo(data).pipe(first())
         .subscribe(data => {
           console.log(data)
+          data = JSON.parse(data.data);
           this.portalInfo = data
           this.portalTile = data.selectedPortal
           this.data = this.getDataBykey(this.portalTile, "Title")
@@ -53,6 +56,7 @@ export class Tab1Page {
         })
         this.getou.getLoginPic(data.username,data.password).pipe(first()).subscribe(data => {
           console.log(data)
+          data = JSON.parse(data.data);
           this.titlelog=data.HeaderCompanyLogo
           
         });
@@ -96,6 +100,7 @@ export class Tab1Page {
       this.logoutService.setLogout(data.username, data.password, data.email, lan, this.portalTile).pipe(first())
         .subscribe(res => {
           console.log(res)
+          res = JSON.parse(res.data);
           if (res.status) {
             console.log('退出登录');
             this.Nav.navigateRoot('loginpass');

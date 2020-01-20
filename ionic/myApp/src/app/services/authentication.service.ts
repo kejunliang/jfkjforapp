@@ -1,33 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable,from } from 'rxjs';
 import { catchError,map } from 'rxjs/operators';
 import { CommonService } from './common.service';
+import { HTTP } from '@ionic-native/http/ngx';
+import {AppConfig } from '../config'
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient,private common:CommonService) { }
+  constructor(private http: HttpClient,private common:CommonService,private httpnative: HTTP) { }
 
   login(userid: string,pass:string): Observable<any> {
     console.log("code")
-    let  data=new HttpParams().set("Code","");
+    let  data={
+      "Code": ""
+    }
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
-      headers: {
         "Content-Type":"application/json; charset=utf-8",
-        "Authorization":auth
-      }
+        "Authorization":auth 
     };
-    return this.http.post<{token: string}>('sfv3/integrumws.nsf/doLoginSuccessAuth?OpenPage',data,options)
-      .pipe(
-        map(result => { 
-                 console.log(result);
-                 return result;
-        }),
-        catchError(this.common.handleError)
-      )
+    return from(this.httpnative.post(AppConfig.domain+'/sfv3/integrumws.nsf/doLoginSuccessAuth?OpenPage',data,options))
+    
   }
 
   
@@ -35,15 +31,13 @@ export class AuthenticationService {
   sendEmail(email:string,slid:string,code:string):Observable<any>{
     let s=new Date();
     let deviceid=s.getTime().toString()
-    let  data=new HttpParams().set("email",email).set("code",code).set("deviceid",deviceid).set("devicettype","test"); 
-    return this.http.post('/sfv3/appmgt.nsf/xp_ws.xsp/UserAuthentication',data).pipe(
-       map(
-        result => { 
-          console.log(result)
-          return result;
-        } 
-       )
-      
-    )
+    let  data= {
+      "email": email,
+      "code": code,
+      "deviceid":deviceid,
+      "devicettype":"test"
+  }
+  
+    return from(this.httpnative.post(AppConfig.domain+'/sfv3/appmgt.nsf/xp_ws.xsp/UserAuthentication',data,""))
   }
 }

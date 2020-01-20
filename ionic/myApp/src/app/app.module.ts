@@ -25,6 +25,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 //扫描
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
 //导出加载函数
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -49,6 +50,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FileTransfer, // 文件上传
     Geolocation,
     QRScanner,
+    HTTP,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

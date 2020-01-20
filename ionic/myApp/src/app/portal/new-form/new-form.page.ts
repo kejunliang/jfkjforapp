@@ -350,7 +350,6 @@ export class NewFormPage implements OnInit {
       }
       //get Person
       this.storage.get('psninfo').then(data => {
-        console.log(JSON.parse(data))
         this.psninfo = JSON.parse(data).person
         this.guidanceData = this.psninfo
 
@@ -602,7 +601,9 @@ export class NewFormPage implements OnInit {
       this.storage.get("loginDetails").then(logindata => {
         //this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
           this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
-            console.log(data)
+            console.log('this.getforms.submit:',data)
+            //data = JSON.parse(data.data);
+            console.log('this.getforms.submit:',JSON.parse(data.data))
             //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
            if(this.subformflag){
             this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
@@ -623,6 +624,7 @@ export class NewFormPage implements OnInit {
         this.para.unid = unid
         this.para.isedit = isedit=='edit'?'yes':'no';
         this.getforms.getFormData(data, this.para).pipe(first()).subscribe(data => {
+          data = JSON.parse(data.data);
           resolve(data)
         })
       })
@@ -920,6 +922,7 @@ export class NewFormPage implements OnInit {
     return new Promise((resolve, reject) => {
       this.storage.get("loginDetails").then(data => {
         this.getforms.getLoopupOptions(data, para).pipe(first()).subscribe(data => {
+          data = JSON.parse(data.data);
           resolve(data)
         })
       })

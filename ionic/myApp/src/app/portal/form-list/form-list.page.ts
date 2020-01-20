@@ -89,6 +89,7 @@ export class FormListPage implements OnInit {
               this.geapp.getViewData(data, this.para).pipe(first())
                 .subscribe(data => {
                   console.log(data)
+                  data = JSON.parse(data.data);
                   let tempdate;
                   data.data.forEach(element => {
                     tempdate = new Date(element.calendarDate.replace("ZE8", ""))
@@ -109,6 +110,7 @@ export class FormListPage implements OnInit {
               this.geapp.getActDocsAssoForms(data, this.para).pipe(first())
                 .subscribe(data => {
                   console.log(data)
+                  data = JSON.parse(data.data);
                   let tempdate;
                   data.actDocs.forEach(element => {
                     if(element.ActDueforCompletion){
@@ -151,6 +153,7 @@ export class FormListPage implements OnInit {
             this.geapp.getViewData(data, this.para).pipe(first())
               .subscribe(data => {
                 console.log(data)
+                data = JSON.parse(data.data);
                 let tempdate;
                 data.data.forEach(element => {
                   tempdate = new Date(element.calendarDate.replace("ZE8", ""))
@@ -170,6 +173,7 @@ export class FormListPage implements OnInit {
             this.geapp.getActDocsAssoForms(data, this.para).pipe(first())
               .subscribe(data => {
                 console.log(data)
+                data = JSON.parse(data.data);
                 let tempdate;
                 data.actDocs.forEach(element => {
                   if(element.ActDueforCompletion){
