@@ -90,7 +90,9 @@ export class NewFormPage implements OnInit {
   public subformflag:string;
   public mainunid:string;
   public quesSecId:any = [];
-  public tobj:any;
+  // riskmatrix
+  public riskname:string;
+  public riskmatrixvalue:any;
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -109,6 +111,10 @@ export class NewFormPage implements OnInit {
     this.ulrs.title = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "title"))
     this.ulrs.stat = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "stat"))
     
+    this.riskname = this.getQueryVariable( this.ulrs.url, "riskName")
+    if(this.riskname){
+      this.riskmatrixvalue = JSON.parse(decodeURIComponent(this.getQueryVariable( this.ulrs.url, "value")));
+    }
     this.storage.get('ous').then(data => {
       this.ous = data
     })
@@ -153,9 +159,9 @@ export class NewFormPage implements OnInit {
             if (!this.selecttemplat) {
               return false;
             }
-            if (this.type == "edit") {
+            //if (this.type == "edit") {
               this.btnBox = this.selecttemplat.menubaritem
-            }
+            //}
 
             this.selecttemplat.template.secs[0].fields.forEach(data => {
 
@@ -236,7 +242,21 @@ export class NewFormPage implements OnInit {
                     }
                    
                   }else if(data.xtype=='riskmatrix'){
-                    this.tobj = JSON.stringify(data.RiskMatrix);
+                    if(this.riskname){
+                      if(this.riskname==data.name){
+                        data.value = this.riskmatrixvalue;
+                      }
+                    }else{
+                      if(data.value && data.value.ResultColor){
+                        let ResultColor:string = data.value.ResultColor;
+                        if(ResultColor.indexOf('.jpg')!=-1){
+                          let corlor:string = ResultColor.split('.jpg')[0];
+                          if(corlor.indexOf('riskrank_')!=-1){
+                            data.value['ResultColor'] = corlor.split('riskrank_')[1];
+                          }
+                        }
+                      }
+                    }
                   }
                   this.fields.push(data) //
                  // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
@@ -979,6 +999,24 @@ export class NewFormPage implements OnInit {
    getValue(){
     console.log('我选中的是', this.radio.value)
   }
- 
+  riskMatrix(selectedRiskMatrix,savedValue,riskName){
+    let obj:Object = {
+      riskMatrixFrameData:selectedRiskMatrix,
+      riskMatrixSaveData:savedValue,
+      riskName,
+
+      type:this.type,
+      unid:  this.ulrs.unid,
+      aid: this.ulrs.aid,
+      title: this.ulrs.title,
+      stat: this.ulrs.stat,
+      refresh: new Date().getTime(),
+      cururl:this.lasturl,
+      lasturl:this.router.url
+    }
+    this.nav.navigateBack('/risk-matrix',{queryParams:obj});
+    //this.navCtrl.push(RiskMatrix, {riskMatrixFrameData:selectedRiskMatrix,riskMatrixSaveData:savedValue});
+    //this.riskName=riskName;
+  };
 }
 

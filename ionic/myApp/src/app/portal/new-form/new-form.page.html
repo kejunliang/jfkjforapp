@@ -162,8 +162,8 @@
             </div> -->
             <div *ngIf="field.xtype==='riskmatrix'">
               <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-               <!-- <button style="padding-left:10px;" ion-item block color="secondary" (click)="riskMatrix(field.RiskMatrix,field.value,field.name)">Risk Matrix</button> -->
-               <a [routerLink]="['/risk-matrix']" [queryParams]="{riskMatrixFrameData:tobj,riskMatrixSaveData:field.value,riskName:field.name}">Risk Matrix</a>
+              <button style="padding-left:10px;" ion-item block color="secondary" (click)="riskMatrix(field.RiskMatrix,field.value,field.name)">Risk Matrix</button>
+               <!-- <a [routerLink]="['/risk-matrix']" [queryParams]="{riskMatrixFrameData:tobj,riskMatrixSaveData:field.value,riskName:field.name}">Risk Matrix</a> -->
                <ion-item *ngIf="field.value" [ngStyle]="{ 'background-color': field.value.ResultColor,'padding-left':'10px' }">
                   {{field.value.TheScore}}
                </ion-item>
@@ -441,8 +441,8 @@
                   </div>
                   <div *ngIf="field.xtype==='riskmatrix'">
                     <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
-                     <!-- <button style="padding-left:10px;" ion-item block color="secondary" (click)="riskMatrix(field.RiskMatrix,field.value,field.name)">Risk Matrix</button> -->
-                     <a [routerLink]="['/risk-matrix']" [queryParams]="{riskMatrixFrameData:tobj,riskMatrixSaveData:field.value,riskName:field.name}">Risk Matrix</a>
+                    <button style="padding-left:10px;" ion-item block color="secondary" (click)="riskMatrix(field.RiskMatrix,field.value,field.name)">Risk Matrix</button>
+                     <!-- <a [routerLink]="['/risk-matrix']" [queryParams]="{riskMatrixFrameData:tobj,riskMatrixSaveData:field.value,riskName:field.name}">Risk Matrix</a> -->
                      <ion-item *ngIf="field.value" [ngStyle]="{ 'background-color': field.value.ResultColor,'padding-left':'10px' }">
                         {{field.value.TheScore}}
                      </ion-item>

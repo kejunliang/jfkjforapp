@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RiskMatrixPageModule } from "./risk-matrix.module";
 
-import { PopoverController } from '@ionic/angular';
-import { PopoverComponent } from "../../common/popover/popover.component";
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-risk-matrix',
   templateUrl: './risk-matrix.page.html',
@@ -29,31 +28,77 @@ export class RiskMatrixPage implements OnInit {
   public rmTable;
   public rmtableTdWidth;
   public riskMatrixObj = {};
-  public btnBox: any = {
-    "result": [
-      { "btnType": "btnOK", "btnLabel": "OK" },
-      { "btnType": "btnClose", "btnLabel": "Close" }
-    ]
-  };
+  public type:string;
+  public ulrs = {
+    "type":"",
+      "unid":  "",
+      "aid": "",
+      "title": "",
+      "stat": "",
+      "refresh": new Date().getTime(),
+      "cururl":"",
+
+      "value":"",
+      "riskName":"",
+  }
+  public lasturl:string;
+  public riskname:string;
   constructor(
     public activeRoute: ActivatedRoute,
-    public popoverController: PopoverController,
+    public nav:NavController,
     public router: Router,
   ) {
 
     this.activeRoute.queryParams.subscribe(res => {
       if(res){
-        console.log('res:',res);
-        console.log('riskMatrixFrameData:',JSON.parse(res.riskMatrixFrameData));
-        //this.riskMatrix = res.riskMatrixFrameData;
-        this.riskMatrix = JSON.parse(res.riskMatrixFrameData);
+        this.riskMatrix = res.riskMatrixFrameData;
+        if(res.riskMatrixSaveData){
+          this.Consequence  = res.riskMatrixSaveData.Consequence;
+          this.Likelihood   = res.riskMatrixSaveData.Likelihood;
+          this.seletedScore = res.riskMatrixSaveData.TheScore;
+          this.riskLevel    = res.riskMatrixSaveData.RiskRank_2D;
+          this.levelDes     = res.riskMatrixSaveData.RankingResultDes_2D;
+          this.levelColor   = res.riskMatrixSaveData.ResultColor;
+          this.cellId       = res.riskMatrixSaveData.ResultCell;
+        }
         this.riskMatrixSaveData = res.riskMatrixSaveData;
         if(this.riskMatrix){
           this.rmTable = this.riskMatrix.RMTable;
           this.YAxisOptions = this.riskMatrix.YAxisOptions;
           this.XAxisOptions = this.riskMatrix.XAxisOptions;
           this.rmtableTdWidth = 100 / this.riskMatrix.matrix_X + '%';
+
+          if(this.rmTable && this.cellId){
+            let rmTable = this.rmTable;
+            let i:number = 0;
+            for(let key in rmTable){
+              i++;
+            }
+            for(let j=1;j<=i;j++){
+              let key = 'r'+j;
+              let tmp:any;
+              if(rmTable.hasOwnProperty(key)){
+                tmp = rmTable[key];
+                let v = tmp.find(item=>item.CellID ==this.cellId);
+                if(v){
+                  v.display = true;
+                  break;
+                }
+              }
+            }
+          }
         }
+
+        this.type = res.type;
+        this.ulrs.type = res.type;
+        this.ulrs.unid = res.unid;
+        this.ulrs.aid = res.aid;
+        this.ulrs.title = res.title;
+        this.ulrs.stat = res.stat;
+        this.ulrs.cururl = res.cururl;
+
+        this.lasturl = res.lasturl;
+        this.riskname = res.riskName;
       
       }
      
@@ -190,34 +235,17 @@ export class RiskMatrixPage implements OnInit {
   this.showCellDisplay();
   
    };
-   async presentPopover(ev: any) {
-    const popover = await this.popoverController.create({
-      component: PopoverComponent,
-      event: ev,
-      componentProps: { type: "action", data: this.btnBox, formdata: '', unid: '', tempid: '' },
-      translucent: true,
-      cssClass: "custom-popover",
-      mode: "md"
-    });
-    popover.present();
-    const { data } = await popover.onDidDismiss();
-    console.log(data)
-    this.getBtnLink(data)
-  }
-
-  getBtnLink(btn) {
-
-    let actiontype = ""
-    switch (btn) {
-      case "btnEdit":
-        actiontype = "edit"
-        this.router.navigate(["/new-form"], { queryParams: { type: actiontype, refresh: new Date().getTime() } });
-        break;
-      case "btnSave":
-        break;
-    }
-  }
+   
   btnok(){
-    console.log('don t work!')
+    this.ulrs.value = JSON.stringify(this.riskMatrixObj);
+    this.ulrs.riskName = this.riskname;
+    
+    //this.nav.navigateBack('/new-form',{queryParams:this.ulrs});
+    this.router.navigate(['new-form'],{queryParams:this.ulrs})
+
+  }
+  goBack(){
+    //this.nav.navigateBack('/new-form',{queryParams:this.ulrs});
+    this.router.navigateByUrl(this.lasturl);
   }
 }

@@ -5,7 +5,7 @@
       <ion-back-button defaultHref="tabs/tab1"  (click)="goBack()" text="" color="dark"></ion-back-button>
     </ion-buttons>
     <ion-title>{{riskMatrix?.TemplateTitle}}</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="type=='edit'">
       <ion-button (click)="btnok()">
         OK
       </ion-button>
