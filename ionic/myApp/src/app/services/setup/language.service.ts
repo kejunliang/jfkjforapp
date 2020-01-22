@@ -1,30 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable,from } from 'rxjs';
 import { catchError,map } from 'rxjs/operators';
+import { HTTP } from '@ionic-native/http/ngx';
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient,private httpnative: HTTP) { }
 
   
-  getAppTranslation(userid: string,pass:string): Observable<any> {
+  getAppTranslation(userid: string,pass:string,domain:string,folder:string): Observable<any> {
     let auth='Basic '+btoa(userid+':'+pass);
     const options = {
-      headers: {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
-      }
     };
-    return this.http.get<{token: string}>('sfv3/integrumws.nsf/xp_App.xsp/getAppTranslation',options)
-      .pipe(
-        map(result => { 
-                 return result;
-        }),
-        catchError(this.handleError)
-      )
+    return from(this.httpnative.get(domain+'/'+folder+'/integrumws.nsf/xp_App.xsp/getAppTranslation','',options))
   }
 
   private handleError (error: Response | any) {

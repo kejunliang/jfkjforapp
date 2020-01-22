@@ -4,7 +4,6 @@ import { Observable,from } from 'rxjs';
 import { catchError,map } from 'rxjs/operators';
 import { CommonService } from './common.service';
 import { HTTP } from '@ionic-native/http/ngx';
-import {AppConfig } from '../config'
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +17,7 @@ export class GetAppPortalService {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
     };
-    return from(this.httpnative.get(AppConfig.domain+'/sfv3/integrumws.nsf/xp_App.xsp/getAppPortal?&email='+logindetail.email,"",options));
+    return from(this.httpnative.get(logindetail.server+'/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/getAppPortal?&email='+logindetail.email,"",options));
     
   }
   //sfv3/integrumws.nsf/xp_App.xsp/getViewData?key=Activity_form_New_Iberian&countperpage=10&curpage=4
@@ -31,7 +30,7 @@ export class GetAppPortalService {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
     };
-    return from(this.httpnative.get(AppConfig.domain+'/sfv3/integrumws.nsf/xp_App.xsp/getViewData?viewid='+key+'&countperpage='+count+'&curpage='+curpage,'',options));
+    return from(this.httpnative.get(logindetail.server+'/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/getViewData?viewid='+key+'&countperpage='+count+'&curpage='+curpage,'',options));
     
   }
 
@@ -42,7 +41,7 @@ export class GetAppPortalService {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
     };
-    return from(this.httpnative.get(AppConfig.domain+'/sfv3/integrumws.nsf/xp_App.xsp/getActDocsAssoForms?unid='+key,'',options));
+    return from(this.httpnative.get(logindetail.server+'/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/getActDocsAssoForms?unid='+key,'',options));
   }
 
 }

@@ -24,7 +24,9 @@ export class AuthemailPage implements OnInit {
   public loginDetails ={
       email:"",
       code:"",
-      OUCategory:""
+      OUCategory:"",
+      server:"",
+      folder:""
   }
   constructor(public  alertController:AlertController,private auth: AuthenticationService,private router: Router
     ,private storage:Storage,
@@ -60,10 +62,14 @@ export class AuthemailPage implements OnInit {
             this.loginDetails.email=this.authform.value.email
             this.loginDetails.code=this.authform.value.code
             this.loginDetails.OUCategory=result.OUCategory;
+            this.loginDetails.server = result.server;
+            this.loginDetails.folder = result.folder;
             this.storage.set("loginDetails",this.loginDetails)
             this.router.navigate(['loginpass'])
             localStorage.setItem('email',this.authform.value.email)
             localStorage.setItem('OUCategory',result.OUCategory)
+            localStorage.setItem('server',result.server);
+            localStorage.setItem('folder',result.folder);
           }else{
              this.translate.get('login').subscribe((res: any) => {
              this.resmsg=res.authmailerr;

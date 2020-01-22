@@ -4,7 +4,6 @@ import { Observable,from } from 'rxjs';
 import { catchError,map } from 'rxjs/operators';
 import { CommonService } from './common.service';
 import { HTTP } from '@ionic-native/http/ngx';
-import {AppConfig } from '../config'
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +17,7 @@ export class GetallformsService {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
     };
-    return from(this.httpnative.get(AppConfig.domain+'/sfv3/integrumws.nsf/xp_App.xsp/getAllForms?ver=v2&languageid&cnname='+encodeURIComponent(logindetail.username),'',options));
+    return from(this.httpnative.get(logindetail.server+'/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/getAllForms?ver=v2&languageid&cnname='+encodeURIComponent(logindetail.username),'',options));
   }
 
 
@@ -30,7 +29,7 @@ export class GetallformsService {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
     };
-    return from(this.httpnative.get(AppConfig.domain+'/sfv3/integrumws.nsf/xp_App.xsp/getDocInfoV2?unid='+unid+'&cnname='+logindetail.username+'&isedit='+isedit,'',options));
+    return from(this.httpnative.get(logindetail.sever+'/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/getDocInfoV2?unid='+unid+'&cnname='+logindetail.username+'&isedit='+isedit,'',options));
   }
   submit(logindetail:any,para:any ):Observable<any>{
     let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
@@ -42,7 +41,7 @@ export class GetallformsService {
     console.log('para:',para)
     let  data=para
     this.httpnative.setDataSerializer("json")
-    return from(this.httpnative.post(AppConfig.domain+'/sfv3/integrumws.nsf/xp_App.xsp/submitFormV2',data,options));
+    return from(this.httpnative.post(logindetail.server+'/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/submitFormV2',data,options));
   }
   getLoopupOptions(logindetail:any,para:any):Observable<any>{
     let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
@@ -55,7 +54,7 @@ export class GetallformsService {
         "Authorization":auth
     };
     let sparas = '&db='+db+'&view='+view+'&column='+column;
-    return from(this.httpnative.get(AppConfig.domain+'/sfv3/integrumws.nsf/xp_App.xsp/getLookupOption?key='+key+sparas,'',options));
+    return from(this.httpnative.get(logindetail.server+'/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/getLookupOption?key='+key+sparas,'',options));
   }
 
 }

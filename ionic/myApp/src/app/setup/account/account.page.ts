@@ -19,6 +19,8 @@ export class AccountPage implements OnInit {
   public pass:string='';
   public email:string='';
   public accountLan:string
+  public server:string;
+  public folder:string;
   constructor(
     public translate :TranslateService,
     public http:HttpClient,public account:AccountService,
@@ -38,9 +40,12 @@ export class AccountPage implements OnInit {
     this.user=data.username;
     this.pass=data.password;
     this.email=data.email;
-    this.account.getAccount(this.user,this.pass,this.email).pipe(first()).subscribe(
+    this.server = data.server;
+    this.folder = data.folder;
+    this.account.getAccount(this.user,this.pass,this.email,data.server,data.folder).pipe(first()).subscribe(
       data => {
         console.log(data)
+        data = JSON.parse(data.data)
         this.accountData=data;
         let draftDate=this.accountData.lasttimelogout.substring(0,this.accountData.lasttimelogout.length-3)
         this.accountData.lasttimelogout=this.datePipe.transform(draftDate,'dd/MM/yyyy')
@@ -55,8 +60,9 @@ export class AccountPage implements OnInit {
     let browerLang=this.translate.getDefaultLang();
     console.log(browerLang)
    if(this.accountData.language==browerLang){
-    this.LanguageService.getAppTranslation(this.user,this.pass).pipe(first()).subscribe(
+    this.LanguageService.getAppTranslation(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
       data => {
+        data = JSON.parse(data.data);
        let langularArr=data.Languages;
        langularArr.forEach(item => {
          if(item.SelectedLanguages==this.accountData.language){
@@ -66,8 +72,9 @@ export class AccountPage implements OnInit {
       }
     )
    }else{
-    this.LanguageService.getAppTranslation(this.user,this.pass).pipe(first()).subscribe(
+    this.LanguageService.getAppTranslation(this.user,this.pass,this.server,this.folder).pipe(first()).subscribe(
       data => {
+        data = JSON.parse(data.data);
        let langularArr=data.Languages;
        langularArr.forEach(item => {
          if(item.SelectedLanguages==browerLang){

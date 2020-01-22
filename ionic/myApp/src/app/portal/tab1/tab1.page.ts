@@ -29,7 +29,8 @@ export class Tab1Page {
   public loading: any
   public listIco = { 'background': 'url(sfv3/appmgt.nsf//va_IconLib//collect.png//$FILE//collect.png) no-repeat top left' };
   public titlelog :string ;
-  public sdomain:string = AppConfig.domain;
+  public sdomain:string;
+  public folder:string;
   constructor(
     public popoverController: PopoverController,
     public Nav: NavController,
@@ -45,6 +46,8 @@ export class Tab1Page {
 
     this.show()
     this.storage.get("loginDetails").then(data => {
+      this.sdomain = data.server;
+      this.folder = data.folder;
       this.geapp.getPortalInfo(data).pipe(first())
         .subscribe(data => {
           console.log(data)
@@ -54,7 +57,7 @@ export class Tab1Page {
           this.data = this.getDataBykey(this.portalTile, "Title")
           this.hide()
         })
-        this.getou.getLoginPic(data.username,data.password).pipe(first()).subscribe(data => {
+        this.getou.getLoginPic(data.username,data.password,data.server,data.folder).pipe(first()).subscribe(data => {
           console.log(data)
           data = JSON.parse(data.data);
           this.titlelog=data.HeaderCompanyLogo
@@ -97,7 +100,7 @@ export class Tab1Page {
     let lan = this.translate.getDefaultLang();
     console.log(this.logoutService)
     this.storage.get("loginDetails").then(data => {
-      this.logoutService.setLogout(data.username, data.password, data.email, lan, this.portalTile).pipe(first())
+      this.logoutService.setLogout(data.username, data.password, data.email, lan, this.portalTile,data.server,data.folder).pipe(first())
         .subscribe(res => {
           console.log(res)
           res = JSON.parse(res.data);

@@ -12,7 +12,7 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient,private common:CommonService,private httpnative: HTTP) { }
 
-  login(userid: string,pass:string): Observable<any> {
+  login(userid: string,pass:string,domain:string,folder:string): Observable<any> {
     console.log("code")
     let  data={
       "Code": ""
@@ -22,7 +22,7 @@ export class AuthenticationService {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth 
     };
-    return from(this.httpnative.post(AppConfig.domain+'/sfv3/integrumws.nsf/doLoginSuccessAuth?OpenPage',data,options))
+    return from(this.httpnative.post(domain+'/'+folder+'/integrumws.nsf/doLoginSuccessAuth?OpenPage',data,options))
     
   }
 
@@ -38,6 +38,6 @@ export class AuthenticationService {
       "devicettype":"test"
   }
   
-    return from(this.httpnative.post(AppConfig.domain+'/sfv3/appmgt.nsf/xp_ws.xsp/UserAuthentication',data,""))
+    return from(this.httpnative.post(AppConfig.domain+'/'+AppConfig.folder+'/appmgt.nsf/xp_ws.xsp/UserAuthentication',data,""))
   }
 }

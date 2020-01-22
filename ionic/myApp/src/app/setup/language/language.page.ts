@@ -27,7 +27,7 @@ export class LanguagePage implements OnInit {
       console.log(data)
       this.user=data.username;
       this.pass=data.password;
-      this.LanguageService.getAppTranslation(this.user,this.pass).pipe(first()).subscribe(
+      this.LanguageService.getAppTranslation(this.user,this.pass,data.server,data.folder).pipe(first()).subscribe(
         data => {
           this.langularArr=data.Languages;
            //获取当前设置的语言

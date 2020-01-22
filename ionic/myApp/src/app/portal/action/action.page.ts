@@ -76,6 +76,7 @@ export class ActionPage implements OnInit {
       this.getActionSerice.getPriority(data).pipe(first()).subscribe(
         data => {
           //console.log(data)
+          data = JSON.parse(data.data)
           this.optionData=data.data;
         }
       )
