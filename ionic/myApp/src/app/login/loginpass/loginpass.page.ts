@@ -58,11 +58,11 @@ export class LoginpassPage implements OnInit {
       this.pass=data.password
       this.server = data.server;
       this.folder = data.folder;
-      this.getou.getLoginPic(data.username,data.password,data.server,data.folder).pipe(first()).subscribe(data => {
-        data = JSON.parse(data.data);
-       // this.logPic.log=data.LoginCompanyLogo
-       // this.logPic.background=data.LoginBKImage
-      });
+      // this.getou.getLoginPic(data.username,data.password,data.server,data.folder).pipe(first()).subscribe(data => {
+      //   data = JSON.parse(data.data);
+      //  // this.logPic.log=data.LoginCompanyLogo
+      //  // this.logPic.background=data.LoginBKImage
+      // });
      }else{
       this.loginDetails.email = localStorage.getItem('email')
       this.loginDetails.OUCategory = localStorage.getItem('OUCategory')
