@@ -35,7 +35,7 @@
     "@ngx-translate/core": "^11.0.0",
     "@ngx-translate/http-loader": "^4.0.0",
     "brower": "0.0.2",
-    "cordova-android": "^8.1.0",
+    "cordova-android": "8.1.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-advanced-http": "^2.3.1",
     "cordova-plugin-camera": "^4.1.0",
