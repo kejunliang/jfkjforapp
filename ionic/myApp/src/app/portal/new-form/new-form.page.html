@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/tab1"  (click)="goBack()" text="" color="dark"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{title }}</ion-title>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="presentPopover($event)">
         <ion-icon name="ios-more"></ion-icon>
@@ -39,7 +39,7 @@
       <div *ngIf="field.xtype=='date'" [hidden]="field.hide">
         <ion-item lines="none">
           <ion-label>{{field.label}}</ion-label>
-          <ion-datetime displayFormat="YYYY/MM/DD" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
+          <ion-datetime displayFormat="DD/MM/YYYY" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
             placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
           <span class="down">
             <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
@@ -359,7 +359,7 @@
                   </ion-select>
          
                
-                  <ion-radio-group  *ngIf="getSelectOption(field,section.secId).length < 4"  class="groupRadio3">
+                  <ion-radio-group  *ngIf="getSelectOption(field,section.secId).length < 4"  class="groupRadio3" (ionChange)="getSublistOption(field,section.secId)">
                     <ion-item *ngFor="let option of getSelectOption(field,section.secId)">
                       <ion-label>{{option.text}}</ion-label>
                       <ion-radio *ngIf="field.value==option.text" checked  slot="start" value="{{option.text}}" (click)="selectScore(field,option.text,section.title)"></ion-radio>
@@ -403,11 +403,14 @@
 
     <div *ngFor="let field of sysfields;let index = index;">
       <!--date-->
-      <div>
+      <div [hidden]="field.hide"> 
         <ion-item lines="none">
           <ion-label>{{field.label}}</ion-label>
           <ion-text color="primary">
-            {{field.value}}
+            <div *ngIf="field.xtype=='date'">
+              {{field.value | date:'dd/MM/yyyy' }}
+            </div>
+            <div *ngIf="field.xtype!='date'">{{field.value}}</div>
           </ion-text>
         </ion-item>
       </div>
@@ -427,7 +430,7 @@
         </ion-item>
         <div *ngIf="list[index].show" class="guidance-box">
           <div *ngIf="section.secId!='AuditTrail' && section.secId!='subform' ">
-            <div *ngFor="let field of section.fields;let index = index;" class="fieldshow">
+            <div *ngFor="let field of section.fields;let index = index;" class="fieldshow" [hidden]="field.hide">
               <!--multiselectfield-->
                 <ion-item lines="none">
                   <div *ngIf="field.xtype!='riskmatrix'">

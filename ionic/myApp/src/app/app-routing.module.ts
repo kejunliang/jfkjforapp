@@ -18,7 +18,8 @@ const routes: Routes = [
   { path: 'action', loadChildren: './portal/action/action.module#ActionPageModule' },
   { path: 'add-action', loadChildren: './portal/add-action/add-action.module#AddActionPageModule' },
   { path: 'sanner', loadChildren: './portal/sanner/sanner.module#SannerPageModule' },
-  { path: 'risk-matrix', loadChildren: './portal/risk-matrix/risk-matrix.module#RiskMatrixPageModule' },
+  { path: 'risk-matrix', loadChildren: './portal/risk-matrix/risk-matrix.module#RiskMatrixPageModule' },  { path: 'subformlist', loadChildren: './portal/subformlist/subformlist.module#SubformlistPageModule' },
+
 
 
 

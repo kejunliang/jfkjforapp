@@ -29,7 +29,8 @@ export class GetallformsService {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
     };
-    return from(this.httpnative.get(logindetail.server+'/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/getDocInfoV2?unid='+unid+'&cnname='+logindetail.username+'&isedit='+isedit,'',options));
+    let param:string = logindetail.server+'/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/getDocInfoV2?unid='+encodeURIComponent(unid)+'&isedit='+encodeURIComponent(isedit);
+    return from(this.httpnative.get(param,'',options));
   }
   submit(logindetail:any,para:any ):Observable<any>{
     let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
@@ -53,8 +54,9 @@ export class GetallformsService {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
     };
-    let sparas = '&db='+db+'&view='+view+'&column='+column;
-    return from(this.httpnative.get(logindetail.server+'/'+logindetail.folder+'/integrumws.nsf/xp_App.xsp/getLookupOption?key='+key+sparas,'',options));
+    let sparas:string = `&db=${encodeURIComponent(db)}&view=${encodeURIComponent(view)}&column=${encodeURIComponent(column)}`;
+    let param:string = `${logindetail.server}/${logindetail.folder}/integrumws.nsf/xp_App.xsp/getLookupOption?key=${encodeURIComponent(key)}${sparas}`
+    return from(this.httpnative.get(param,'',options));
   }
 
 }

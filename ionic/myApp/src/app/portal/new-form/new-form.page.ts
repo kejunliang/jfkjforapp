@@ -84,7 +84,7 @@ export class NewFormPage implements OnInit {
   //subfield select --end
   public lasturl:string 
   public portaltitle :string 
-  public radio={ 
+  public radio={
     value:null
   }
   public subformflag:string;
@@ -169,9 +169,12 @@ export class NewFormPage implements OnInit {
                 //data.value = new Date()
                 
                 let element = data.value;
-                  let tempdate = new Date(element.replace("ZE8", ""))
+                if(element!=''){
+                  //let tempdate = new Date(element.replace("ZE8", ""))
                   //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
-                  data.value  = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
+                  //data.value  = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
+                }
+                  
               } else {
                 //data.value = formdata[data.name]
               }
@@ -264,15 +267,14 @@ export class NewFormPage implements OnInit {
               }
               // console .log(this.selecttemplat.template.secs[i])
               // console.log(this.selecttemplat.template.secs[i].secId)
-              console.log('selectSecId:',selectSecId)
-              //if(selectSecId.indexOf(this.selecttemplat.template.secs[i].secId)!=-1) this.sections.push(this.selecttemplat.template.secs[i])
-              if(this.quesSecId.indexOf(this.selecttemplat.template.secs[i].secId)==-1) this.sections.push(this.selecttemplat.template.secs[i])
+              if(selectSecId.indexOf(this.selecttemplat.template.secs[i].secId)!=-1) this.sections.push(this.selecttemplat.template.secs[i])
+              //if(this.quesSecId.indexOf(this.selecttemplat.template.secs[i].secId)==-1) this.sections.push(this.selecttemplat.template.secs[i])
               this.sectionsold.push(this.selecttemplat.template.secs[i])
-              console.log('this.sections:',this.sections);
               
               this.list.push({ "show": false })
               this.commonCtrl.hide()
             }
+            this.initHasSubfield();
             // console.log(this.list)
             let flag = this.sections.some(function (obj, index) {
               return obj.title == "Severity"
@@ -358,8 +360,9 @@ export class NewFormPage implements OnInit {
             this.sectionsold.push(this.selecttemplat.template.secs[i])
             this.list.push({ "show": false })
           }
+          this.initHasSubfield();
           let flag = this.sections.some(function (obj, index) {
-            console.log(obj.title)
+            //console.log(obj.title)
             return obj.title == "Severity"
           })
           if (flag) {
@@ -377,10 +380,6 @@ export class NewFormPage implements OnInit {
 
     })
 
-
-
-
-
   }
 
   getTemplatByViewId(data, vid) {
@@ -395,7 +394,7 @@ export class NewFormPage implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.sections[0])
+    //console.log(this.sections[0])
 
   }
 
@@ -443,11 +442,11 @@ export class NewFormPage implements OnInit {
   }
 
   getBtnLink(btn) {
-    this.fields.forEach(data => {
-      if(data.xtype == "date"&&data.value!=undefined){
-       data.value =data.value.substring(0,data.value.indexOf("T"))
-      }
-    })
+    // this.fields.forEach(data => {
+    //   if(data.xtype == "date"&&data.value!=undefined){
+    //    data.value =data.value.substring(0,data.value.indexOf("T"))
+    //   }
+    // })
     let actiontype = ""
     switch (btn) {
       case "btnEdit":
@@ -571,8 +570,10 @@ export class NewFormPage implements OnInit {
         break;
       case "btnNewSubForm":
           actiontype = "edit"
-          let aid:string = this.selecttemplat.template.subform.templates[0];
-          this.router.navigate(["/new-form"], { queryParams:{aTitle: this.title,aid,temptitle: this.portaltitle,subform:"true",mainunid:this.ulrs.unid,cururl: this.lasturl}});
+          let aid: string = this.selecttemplat.template.subform.templates.join('**');
+
+        //this.router.navigate(["/new-form"], { queryParams:{aTitle: this.title,aid,temptitle: this.portaltitle,subform:"true",mainunid:this.ulrs.unid,cururl: this.lasturl}});
+        this.router.navigate(["/subformlist"], { queryParams: { aTitle: this.title, aid, temptitle: this.portaltitle, subform: "true", mainunid: this.ulrs.unid, cururl: this.lasturl, lasturl: this.router.url } });
           break;
       case "btnClose":
         actiontype = "open"
@@ -690,7 +691,7 @@ export class NewFormPage implements OnInit {
       });
       disSecId.forEach(element => {
         let el = this.sectionsold.find(e=>e.secId==element);
-        if(el) this.sections.push(el);
+        if(el) this.sections.push(el);this.initHasSubfield();
       });
       
     }
@@ -937,6 +938,14 @@ export class NewFormPage implements OnInit {
         }
       }
     }
+    for (var i = 0; i < this.selecttemplat.template.hasSubFields.length; i++) {
+      var sfield = this.selecttemplat.template.hasSubFields[i];
+      //if(secId!=field.parentSecId) continue;
+      var hasSubFieldEl = sfield.fieldId;
+      if (hasSubFieldEl == field.name) {
+        this.hasSubfieldChange(sfield, field.value);
+      }
+    }
   }
   getLookupOptions(para: object) {
     return new Promise((resolve, reject) => {
@@ -1017,6 +1026,285 @@ export class NewFormPage implements OnInit {
     this.nav.navigateBack('/risk-matrix',{queryParams:obj});
     //this.navCtrl.push(RiskMatrix, {riskMatrixFrameData:selectedRiskMatrix,riskMatrixSaveData:savedValue});
     //this.riskName=riskName;
+  };
+  hasSubfieldChange(field, v) {
+    if (!field.subField) return;
+    var hideSubfield = [];
+    //var showSubfield=[];
+    let hasChildSubfields = [];
+    for (let g = 0; g < field.subField.length; g++) {
+      let ids = field.subField[g].id;
+      for (var j = 0; j < ids.length; j++) {
+        if (ids[j] == '') continue;
+        var obj = field.parentSecId + '_' + ids[j];
+        hideSubfield.push(obj);
+        hideSubfield.push(ids[j]);
+        let v = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==obj || e.fieldId==ids[j]);
+        if(v) hasChildSubfields.push(v.fieldId);
+      }
+    }
+    
+    this.hideSubfieldFunc(hideSubfield)
+    //
+    var v = (!v) ? "" : v;
+    var array = [];
+    if (typeof (v) == 'string') {
+
+      array.push(v);
+    } else {
+      array = array.concat(v);
+    }
+    let showSubfield = [];
+
+    for (var i = 0; i < field.subField.length; i++) {
+
+
+      if (array.indexOf(typeof (field.subField[i].displayWhen) == "string" ? field.subField[i].displayWhen : field.subField[i].displayWhen[0]) >= 0) {
+        var ids = field.subField[i].id;
+        for (let h = 0; h < array.length; h++) {
+          if (array[h] == field.subField[i].displayWhen) {
+            for (var j = 0; j < ids.length; j++) {
+
+              if (ids[j] == '') continue;
+              var obj = field.parentSecId + '_' + ids[j];
+              // this.hasSubObjId=obj;
+              showSubfield.push(obj);
+              showSubfield.push(ids[j]);
+            }//end for j loop
+          }
+        }
+
+
+      }
+
+    }
+    this.showSubfieldFunc(showSubfield);
+
+    for (let i = 0; i < hasChildSubfields.length; i++) {
+      const pfid = hasChildSubfields[i];
+      for (let j = 0; j < this.sections.length; j++) {
+        let element = this.sections[j];
+        if(element.fields){
+          let v = element.fields.find(e=>e.name==pfid);
+          if(v){
+            
+            let hide = v.hide && v.hide==true ? true:false;
+            if(hide){
+              let f = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==pfid);
+              if(f){
+                let hasSubFieldEl = f.subField;
+                let hideSubfield = [];
+                for (let g = 0; g < hasSubFieldEl.length; g++) {
+                  let ids = hasSubFieldEl[g].id;
+                  for (var m = 0; m < ids.length; m++) {
+                    if (ids[m] == '') continue;
+                    var obj = f.parentSecId + '_' + ids[m];
+                    hideSubfield.push(obj);
+                    hideSubfield.push(ids[m]);
+
+                  }
+                }
+                this.hideSubfieldFunc(hideSubfield);
+              }
+            }else{
+              let val = v.value;
+              let sval = (!val) ? "" : val;
+              let array = [];
+              if (typeof (sval) == 'string') {
+
+                array.push(sval);
+              } else {
+                array = array.concat(sval);
+              }
+              let showSubfield = [];
+              let f = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==pfid);
+              if(f){
+  
+                for (let i = 0; i < f.subField.length; i++) {
+  
+  
+                  if (array.indexOf(typeof (f.subField[i].displayWhen) == "string" ? f.subField[i].displayWhen : f.subField[i].displayWhen[0]) >= 0) {
+                    let ids = f.subField[i].id;
+                    for (let h = 0; h < array.length; h++) {
+                      if (array[h] == f.subField[i].displayWhen) {
+                        for (let j = 0; j < ids.length; j++) {
+  
+                          if (ids[j] == '') continue;
+                          let obj = f.parentSecId + '_' + ids[j];
+                          // this.hasSubObjId=obj;
+                          showSubfield.push(obj);
+                          showSubfield.push(ids[j]);
+                        }//end for j loop
+                      }
+                    }
+  
+  
+                  }
+  
+                }
+                this.showSubfieldFunc(showSubfield);
+              }
+              
+            }
+            break;
+          }
+        }
+      }
+      
+    }
+  };
+  showSubfieldFunc(showSubfield) {
+    
+    for (let e = 0; e < showSubfield.length; e++) {
+      for (let c = 0; c < this.sections.length; c++) {
+        if(this.sections[c].fields){
+          for (let d = 0; d < this.sections[c].fields.length; d++) {
+
+
+            if (this.sections[c].fields[d].name == showSubfield[e]) {
+  
+              this.sections[c].fields[d].hide = false;
+            }
+          }
+        }
+        
+      }
+
+    }//End for loop
+
+
+  };
+  initHasSubfieldValue(hasSubFieldId) {
+    let value;
+    for (let c = 0; c < this.sections.length; c++) {
+      if(this.sections[c].fields){
+        for (let d = 0; d < this.sections[c].fields.length; d++) {
+          if (this.sections[c].fields[d].name == hasSubFieldId) {
+            value = this.sections[c].fields[d].value;
+  
+          }
+        }
+      }
+
+    }
+    return value;
+  }
+  initHasSubfield() {
+    let hideSubfield = [];
+    let showSubfield = [];
+    let pid = [];
+    //var showSubfield=[];
+    for (var i = 0; i < this.selecttemplat.template.hasSubFields.length; i++) {
+      var field = this.selecttemplat.template.hasSubFields[i];
+      if (!field) return;
+      //if(secId!=field.parentSecId) continue;
+      let hasSubFieldEl = field.subField;
+      pid.push(field.fieldId);
+      for (let g = 0; g < hasSubFieldEl.length; g++) {
+        let ids = hasSubFieldEl[g].id;
+        for (var j = 0; j < ids.length; j++) {
+          if (ids[j] == '') continue;
+          var obj = field.parentSecId + '_' + ids[j];
+          hideSubfield.push(obj);
+          hideSubfield.push(ids[j]);
+
+        }
+      }
+    }
+    this.hideSubfieldFunc(hideSubfield);
+
+    for (var m = 0; m < this.selecttemplat.template.hasSubFields.length; m++) {
+
+      var showfield = this.selecttemplat.template.hasSubFields[m];
+
+      let v = this.initHasSubfieldValue(showfield.fieldId);
+
+      var array = [];
+      if (!v) return;
+      if (typeof (v) == 'string') {
+
+        array.push(v);
+      } else {
+        array = array.concat(v);
+      }
+
+      for (var n = 0; n < showfield.subField.length; n++) {
+
+
+        if (array.indexOf(typeof (showfield.subField[n].displayWhen) == "string" ? showfield.subField[n].displayWhen : showfield.subField[n].displayWhen[0]) >= 0) {
+          var ids = showfield.subField[n].id;
+          for (let h = 0; h < array.length; h++) {
+            if (array[h] == showfield.subField[n].displayWhen) {
+              for (var j = 0; j < ids.length; j++) {
+
+                if (ids[j] == '') continue;
+                var obj = showfield.parentSecId + '_' + ids[j];
+                // this.hasSubObjId=obj;
+                showSubfield.push(obj);
+                showSubfield.push(ids[j]);
+              }//end for j loop
+            }
+          }
+
+
+        }
+
+      }
+    }
+    this.showSubfieldFunc(showSubfield);
+
+    for (let i = 0; i < pid.length; i++) {
+      const pfid = pid[i];
+      for (let j = 0; j < this.sections.length; j++) {
+        const element = this.sections[j];
+        if(element.fields){
+          let v = element.fields.find(e=>e.name==pfid);
+          if(v){
+            
+            let hide = v.hide && v.hide==true ? true:false;
+            if(hide){
+              let f = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==pfid);
+              if(f){
+                let hasSubFieldEl = f.subField;
+                let hideSubfield = [];
+                for (let g = 0; g < hasSubFieldEl.length; g++) {
+                  let ids = hasSubFieldEl[g].id;
+                  for (var m = 0; m < ids.length; m++) {
+                    if (ids[m] == '') continue;
+                    var obj = f.parentSecId + '_' + ids[m];
+                    hideSubfield.push(obj);
+                    hideSubfield.push(ids[m]);
+
+                  }
+                }
+                this.hideSubfieldFunc(hideSubfield);
+              }
+            }
+            break;
+          }
+        }
+      }
+      
+    }
+  };
+  hideSubfieldFunc(hideSubfield) {
+    //this.hasSubFieldArray=hideSubfield;
+    //var hideParentFieldIds=[];
+     
+    for (let c = 0; c < this.sections.length; c++) {
+      if(this.sections[c].fields){
+        for (let d = 0; d < this.sections[c].fields.length; d++) {
+
+          for (let e = 0; e < hideSubfield.length; e++) {
+            if (this.sections[c].fields[d].name == hideSubfield[e]) {
+              this.sections[c].fields[d].hide = true;
+  
+            }
+          }
+        }
+      }
+
+    }//End for loop
   };
 }
 
