@@ -84,7 +84,7 @@ export class NewFormPage implements OnInit {
   //subfield select --end
   public lasturl:string 
   public portaltitle :string 
-  public radio={
+  public radio={ 
     value:null
   }
   public subformflag:string;
