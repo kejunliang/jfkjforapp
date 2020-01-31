@@ -92,10 +92,11 @@ export class FormListPage implements OnInit {
                   data = JSON.parse(data.data);
                   let tempdate;
                   data.data.forEach(element => {
-                    tempdate = new Date(element.calendarDate.replace("ZE8", ""))
-                    //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
-                    this.draftime = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
-                    element.calendarDate = this.draftime;
+                    // tempdate = new Date(element.calendarDate.replace("ZE8", ""))
+                    // //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
+                    // this.draftime = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
+                    // element.calendarDate = this.draftime;
+                    element.calendarDate = element.calendarDate.split(' ')[0]
                   });
                   this.data = this.data.concat( data.data)
                   this.databak =this.data
@@ -114,9 +115,10 @@ export class FormListPage implements OnInit {
                   let tempdate;
                   data.actDocs.forEach(element => {
                     if(element.ActDueforCompletion){
-                      tempdate = new Date(element.ActDueforCompletion.replace("ZE8", ""))
-                      this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
-                      element.ActDueforCompletion = this.draftime;
+                      // tempdate = new Date(element.ActDueforCompletion.replace("ZE8", ""))
+                      // this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
+                      // element.ActDueforCompletion = this.draftime;
+                      element.ActDueforCompletion = element.ActDueforCompletion.split(' ')[0]
                     }
                   
                   });
@@ -152,14 +154,15 @@ export class FormListPage implements OnInit {
             this.para.curpage = this.searchkey.start
             this.geapp.getViewData(data, this.para).pipe(first())
               .subscribe(data => {
-                console.log(data)
+                // console.log(data)
                 data = JSON.parse(data.data);
                 let tempdate;
                 data.data.forEach(element => {
-                  tempdate = new Date(element.calendarDate.replace("ZE8", ""))
-                  //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
-                  this.draftime = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
-                  element.calendarDate = this.draftime;
+                  // tempdate = new Date(element.calendarDate.replace("ZE8", ""))
+                  // //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
+                  // this.draftime = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
+                  // element.calendarDate = this.draftime;
+                  element.calendarDate = element.calendarDate.split(' ')[0];
                 });
                 this.data = data.data
                 this.databak =this.data
@@ -177,9 +180,10 @@ export class FormListPage implements OnInit {
                 let tempdate;
                 data.actDocs.forEach(element => {
                   if(element.ActDueforCompletion){
-                    tempdate = new Date(element.ActDueforCompletion.replace("ZE8", ""))
-                    this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
-                    element.ActDueforCompletion = this.draftime;
+                    // tempdate = new Date(element.ActDueforCompletion.replace("ZE8", ""))
+                    // this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
+                    // element.ActDueforCompletion = this.draftime;
+                    element.ActDueforCompletion = element.ActDueforCompletion.split(' ')[0];
                   }
                 
                 });
