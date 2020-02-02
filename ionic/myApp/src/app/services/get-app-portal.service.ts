@@ -31,8 +31,7 @@ export class GetAppPortalService {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
     };
-    let params:string = `${logindetail.server}/${logindetail.folder}/integrumws.nsf/xp_App.xsp/getViewData?
-    viewid=${encodeURIComponent(key)}&countperpage=${encodeURIComponent(count)}&curpage=${encodeURIComponent(curpage)}`;
+    let params:string = `${logindetail.server}/${logindetail.folder}/integrumws.nsf/xp_App.xsp/getViewData?viewid=${encodeURIComponent(key)}&countperpage=${encodeURIComponent(count)}&curpage=${encodeURIComponent(curpage)}`;
     return from(this.httpnative.get(params,'',options));
     
   }
