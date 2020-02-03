@@ -38,7 +38,7 @@
         <div class="action">
           <ion-label>{{item.WFStatus}}</ion-label>
           <ion-label>{{item.formMR}}</ion-label>
-          <ion-label>{{item.calendarDate }}</ion-label>
+          <ion-label>{{item.calendarDate | date:'dd/MM/yyyy'}}</ion-label>
         </div>
       </div>
       <div class="contentright" *ngIf="item.hasResponse=='yes'">
@@ -61,7 +61,7 @@
         <div class="action">
           <ion-label>{{item.WFStatus}}</ion-label>
           <ion-label>{{item.actAssignee}}</ion-label>
-          <ion-label>{{item.ActDueforCompletion }}</ion-label>
+          <ion-label>{{item.ActDueforCompletion | date:'dd/MM/yyyy' }}</ion-label>
         </div>
       </div>
       <div class="contentright" *ngIf="item.hasResponse=='yes'">
