@@ -21,7 +21,17 @@ export class PopoverComponent implements OnInit {
     })
     this.type = this.params.get("type")
     if(this.params.get("portal")){
-      this.portalList = this.params.get("portal").items
+      let plist = this.params.get("portal").items;
+      let userallportal = this.params.get("portal").userallportal;
+      if(userallportal){
+        for (let i = 0; i < userallportal.length; i++) {
+          const element = userallportal[i];
+          let v = plist.find(e=>e.Title == element);
+          if(v) this.portalList.push(v);
+        }
+      }else{
+        this.portalList = this.params.get("portal").items
+      }
     }
    
   }

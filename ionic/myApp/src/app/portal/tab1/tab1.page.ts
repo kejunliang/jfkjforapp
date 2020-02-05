@@ -48,7 +48,7 @@ export class Tab1Page {
     this.storage.get("loginDetails").then(data => {
       this.sdomain = data.server;
       this.folder = data.folder;
-      this.geapp.getPortalInfo(data).pipe(first())
+      this.geapp.getPortalInfoV2(data).pipe(first())
         .subscribe(data => {
           console.log(data)
           data = JSON.parse(data.data);
