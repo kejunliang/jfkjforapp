@@ -39,7 +39,7 @@
       <div *ngIf="field.xtype=='date'" [hidden]="field.hide">
         <ion-item lines="none">
           <ion-label>{{field.label}}</ion-label>
-          <ion-datetime displayFormat="DD/MM/YYYY" min="2017-06-16" max="2027-12-31" [(ngModel)]='field.value'
+          <ion-datetime displayFormat="DD/MM/YYYY" [min]="minDate" max="2027-12-31" [(ngModel)]='field.value'
             placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
           <span class="down">
             <ion-icon slot="end" name="calendar" mode="md"></ion-icon>

@@ -93,6 +93,7 @@ export class NewFormPage implements OnInit {
   // riskmatrix
   public riskname:string;
   public riskmatrixvalue:any;
+  public minDate:string = '';
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -104,7 +105,8 @@ export class NewFormPage implements OnInit {
     public alertController: AlertController,
     public nav: NavController
   ) {
-
+    let strnow = new Date();
+    this.minDate = `${strnow.getFullYear()}-${(strnow.getMonth()+1).toString().padStart(2,'0')}-${strnow.getDate().toString().padStart(2,'0')}`;
     this.ulrs.url = this.router.url
     this.ulrs.unid = this.getQueryVariable( this.ulrs.url, "unid")
     this.ulrs.aid = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "aid"))
