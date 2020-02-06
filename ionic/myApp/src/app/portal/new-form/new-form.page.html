@@ -271,13 +271,18 @@
             <!--textfield-->
             <div *ngIf="field.xtype==='text'" class="text-number" [hidden]="field.hide">
               <ion-item>
-                <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
-                  {{field.label}}
-                  <span *ngIf="field.hasmust==true" class="needfill">*</span>
-                </ion-label>
-
-                <ion-input type="text" style="background-color:#eee; font-size: 20px;" [(ngModel)]='field.value'
-                  placeholder="Tap to enter"></ion-input>
+                <div class="divText">
+                  <div>
+                    <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+                      {{field.label}}
+                      <span *ngIf="field.hasmust==true" class="needfill">*</span>
+                    </ion-label>
+                  </div>
+                  <div>
+                    <ion-input type="text" style="background-color:#eee; font-size: 20px;" [(ngModel)]='field.value'
+                      placeholder="Tap to enter"></ion-input>
+                  </div>
+                </div>
               </ion-item>
             </div>
             <!--numberfield-->
@@ -309,7 +314,8 @@
                   <ion-list>
                     <ion-item *ngFor="let option of field.options">
                       <ion-label>{{option.text}}</ion-label>
-                      <ion-checkbox slot="end" [(ngModel)]="field.value"></ion-checkbox>
+                      <ion-checkbox slot="end" [(ngModel)]="option.ischeck" (ionChange)='getCheckValue(option,field)'>
+                      </ion-checkbox>
                     </ion-item>
                   </ion-list>
                 </div>

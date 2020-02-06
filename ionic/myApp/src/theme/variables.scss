@@ -182,6 +182,17 @@ select::-ms-expand {display: none;}
 
 .custom-popover {
    .popover-content{
-     width: 30%;
+    width: 60% !important;
    }
 }
+
+.popover-content.sc-ion-popover-ios,.popover-content.sc-ion-popover-md  {
+  width: 100%;
+}
+ion-radio-group {
+  .item .sc-ion-label-md-h, .item .sc-ion-label-ios-h{
+    white-space: normal;
+    word-break: break-all;
+  }
+}
+

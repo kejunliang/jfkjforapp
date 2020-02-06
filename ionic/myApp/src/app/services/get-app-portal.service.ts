@@ -28,7 +28,7 @@ export class GetAppPortalService {
       "Content-Type":"application/json; charset=utf-8",
       "Authorization":auth
     };
-    let params:string = `${AppConfig.domain}/${AppConfig.folder}/appmgt.nsf/xp_App.xsp/getAppPortal?&email=${encodeURIComponent(logindetail.email)}`;
+    let params:string = `${AppConfig.domain}/${AppConfig.folder}/appmgt.nsf/xp_ws.xsp/getAppPortal?&email=${encodeURIComponent(logindetail.email)}`;
     return from(this.httpnative.get(params,"",options));
   }
   //sfv3/integrumws.nsf/xp_App.xsp/getViewData?key=Activity_form_New_Iberian&countperpage=10&curpage=4

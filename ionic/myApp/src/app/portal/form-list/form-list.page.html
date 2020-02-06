@@ -22,9 +22,9 @@
   <ion-list *ngIf="stype==='formlist'">
     <ion-item *ngFor="let item of data">
       <div class="contentIcon">
-        <ion-icon *ngIf="item.WFStatus=='Completed'" name="checkmark-circle"></ion-icon>
-        <ion-icon *ngIf="item.WFStatus=='Open'" name="checkmark-circle-outline"></ion-icon>
-        <ion-icon *ngIf="item.WFStatus=='Draft'" name="close-circle"></ion-icon>
+        <ion-icon *ngIf="item.WFStatus=='Completed'" name="checkmark-circle" style="color: #4caf50;"></ion-icon>
+        <ion-icon *ngIf="item.WFStatus=='Open'" name="time" style="color: yellow;"></ion-icon>
+        <ion-icon *ngIf="item.WFStatus=='Draft'" name="close-circle" style="color: #FF9900;"></ion-icon>
       </div>
       <div class="contentLeft">
         <div class="title">
@@ -37,7 +37,7 @@
         </div>
         <div class="action">
           <ion-label>{{item.WFStatus}}</ion-label>
-          <ion-label>{{item.formMR}}</ion-label>
+          <ion-label>{{item.formMR}}&nbsp;</ion-label>
           <ion-label>{{item.calendarDate | date:'dd/MM/yyyy'}}</ion-label>
         </div>
       </div>

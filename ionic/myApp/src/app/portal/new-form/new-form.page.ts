@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { ModalController, AlertController,NavController } from '@ionic/angular';
+import { ModalController, AlertController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { GetallformsService } from "../../services/getallforms.service";
@@ -44,7 +44,7 @@ export class NewFormPage implements OnInit {
   };
   public para = {
     "unid": "",
-    'isedit':''
+    'isedit': ''
   }
   public formdata: any;
   public type: string;
@@ -63,37 +63,37 @@ export class NewFormPage implements OnInit {
   public ou5select: any = [];
   public paraforsubmit: any;
   public today = new Date().toISOString();
-  public initiator:any='';
-  public initiatorOU:any = '';
-  
+  public initiator: any = '';
+  public initiatorOU: any = '';
+
   public ulrs = {
-    "url":"",
-    "stat":"",
-    "title":"",
-    "aid":"",
-    "unid":""
+    "url": "",
+    "stat": "",
+    "title": "",
+    "aid": "",
+    "unid": ""
   }
   //lookup select --start 20200106
-  public lookupOptins2:any=[];
-  public lookupOptins3:any=[];
+  public lookupOptins2: any = [];
+  public lookupOptins3: any = [];
 
   //lookup select --end
 
   //subfield select --start 20200106
-  public subfields:any = [];
+  public subfields: any = [];
   //subfield select --end
-  public lasturl:string 
-  public portaltitle :string 
-  public radio={
-    value:null
+  public lasturl: string
+  public portaltitle: string
+  public radio = {
+    value: null
   }
-  public subformflag:string;
-  public mainunid:string;
-  public quesSecId:any = [];
+  public subformflag: string;
+  public mainunid: string;
+  public quesSecId: any = [];
   // riskmatrix
-  public riskname:string;
-  public riskmatrixvalue:any;
-  public minDate:string = '';
+  public riskname: string;
+  public riskmatrixvalue: any;
+  public minDate: string = '';
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -106,22 +106,22 @@ export class NewFormPage implements OnInit {
     public nav: NavController
   ) {
     let strnow = new Date();
-    this.minDate = `${strnow.getFullYear()}-${(strnow.getMonth()+1).toString().padStart(2,'0')}-${strnow.getDate().toString().padStart(2,'0')}`;
+    this.minDate = `${strnow.getFullYear()}-${(strnow.getMonth() + 1).toString().padStart(2, '0')}-${strnow.getDate().toString().padStart(2, '0')}`;
     this.ulrs.url = this.router.url
-    this.ulrs.unid = this.getQueryVariable( this.ulrs.url, "unid")
-    this.ulrs.aid = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "aid"))
-    this.ulrs.title = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "title"))
-    this.ulrs.stat = decodeURIComponent(this.getQueryVariable( this.ulrs.url, "stat"))
-    
-    this.riskname = this.getQueryVariable( this.ulrs.url, "riskName")
-    if(this.riskname){
-      this.riskmatrixvalue = JSON.parse(decodeURIComponent(this.getQueryVariable( this.ulrs.url, "value")));
+    this.ulrs.unid = this.getQueryVariable(this.ulrs.url, "unid")
+    this.ulrs.aid = decodeURIComponent(this.getQueryVariable(this.ulrs.url, "aid"))
+    this.ulrs.title = decodeURIComponent(this.getQueryVariable(this.ulrs.url, "title"))
+    this.ulrs.stat = decodeURIComponent(this.getQueryVariable(this.ulrs.url, "stat"))
+
+    this.riskname = this.getQueryVariable(this.ulrs.url, "riskName")
+    if (this.riskname) {
+      this.riskmatrixvalue = JSON.parse(decodeURIComponent(this.getQueryVariable(this.ulrs.url, "value")));
     }
     this.storage.get('ous').then(data => {
       this.ous = data
     })
-    
-    this.storage.get('loginDetails').then(data=>{
+
+    this.storage.get('loginDetails').then(data => {
       this.initiator = data.username;
       this.initiatorOU = data.OUCategory;
     })
@@ -130,12 +130,12 @@ export class NewFormPage implements OnInit {
       console.log("进")
       this.sections = []
       this.sectionsold = []
-      this.portaltitle=res.temptitle
-      this.subformflag=res.subform
-      this.mainunid=res.mainunid
+      this.portaltitle = res.temptitle
+      this.subformflag = res.subform
+      this.mainunid = res.mainunid
       if (res.unid) {
-        this.lasturl=res.cururl
-        this.fields=[];
+        this.lasturl = res.cururl
+        this.fields = [];
         this.formID = res.unid
         console.log("旧文档")
         this.type = res.type
@@ -146,149 +146,165 @@ export class NewFormPage implements OnInit {
         }
 
         this.commonCtrl.show()
-        this.getFormData(res.unid,res.type).then((data:any) => {
+        this.getFormData(res.unid, res.type).then((data: any) => {
           // console.log(formdata)
           //this.storage.get("allforms").then(data => {
-            // console.log(JSON.parse(data))
-            //this.templates = JSON.parse(data).templates
-            this.templates = data.templates
-            //  console.log(this.templates)
-            // alert(fileName);
-            //this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
-            this.selecttemplat = this.templates[0]
-            let selectSecId:any = this.selecttemplat.sectionids?this.selecttemplat.sectionids:[];
-            selectSecId = ['FormMr'].concat(selectSecId);
-            if (!this.selecttemplat) {
-              return false;
+          // console.log(JSON.parse(data))
+          //this.templates = JSON.parse(data).templates
+          this.templates = data.templates
+          //  console.log(this.templates)
+          // alert(fileName);
+          //this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
+          this.selecttemplat = this.templates[0]
+          let selectSecId: any = this.selecttemplat.sectionids ? this.selecttemplat.sectionids : [];
+          selectSecId = ['FormMr'].concat(selectSecId);
+          if (!this.selecttemplat) {
+            return false;
+          }
+          //if (this.type == "edit") {
+          this.btnBox = this.selecttemplat.menubaritem
+          //}
+
+          this.selecttemplat.template.secs[0].fields.forEach(data => {
+
+            if (data.xtype == "date") {
+              //data.value = new Date()
+
+              let element = data.value;
+              if (element != '') {
+                //let tempdate = new Date(element.replace("ZE8", ""))
+                //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
+                //data.value  = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
+              }
+
+            } else {
+              //data.value = formdata[data.name]
             }
-            //if (this.type == "edit") {
-              this.btnBox = this.selecttemplat.menubaritem
-            //}
+          })
+          this.sysfields = this.selecttemplat.template.secs[0].fields
+          this.mandafields = this.selecttemplat.template.mandaFields
+          this.templatid = this.selecttemplat.templateId
+          let quesFields: any = this.selecttemplat.template.quesFields;
+          for (let i = 0; i < quesFields.length; i++) {
+            const element = quesFields[i];
+            let answerWhen = element.answerWhen;
+            for (let key in answerWhen) {
+              this.quesSecId = this.quesSecId.concat(answerWhen[key]);
+            }
+          }
+          for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
+            if (this.selecttemplat.template.secs[i].fields) {
+              this.selecttemplat.template.secs[i].fields.forEach(data => {
 
-            this.selecttemplat.template.secs[0].fields.forEach(data => {
-
-              if (data.xtype == "date") {
-                //data.value = new Date()
-                
-                let element = data.value;
-                if(element!=''){
-                  //let tempdate = new Date(element.replace("ZE8", ""))
-                  //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
-                  //data.value  = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
-                }
-                  
-              } else {
                 //data.value = formdata[data.name]
-              }
-            })
-            this.sysfields = this.selecttemplat.template.secs[0].fields
-            this.mandafields = this.selecttemplat.template.mandaFields
-            this.templatid = this.selecttemplat.templateId
-            let quesFields:any = this.selecttemplat.template.quesFields;
-            for (let i = 0; i < quesFields.length; i++) {
-              const element = quesFields[i];
-              let answerWhen = element.answerWhen;
-              for (let key in answerWhen) {
-                this.quesSecId = this.quesSecId.concat(answerWhen[key]);
-              }
-            }
-            for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
-              if(this.selecttemplat.template.secs[i].fields){
-                this.selecttemplat.template.secs[i].fields.forEach(data => {
-                  
-                  //data.value = formdata[data.name]
-                  if (data.name == "GMP_SEV_GMP_SH") {
-                    this.severityvalue = data.value
-                  }
-                  if(this.mandafields){
-                    this.mandafields.forEach(element => {
-                      if (element.label == data.label) {
-                        data.hasmust = true
-                      }
-                    });
-                  }
-                  if (data.xtype == "radio" || data.xtype == "select") {
-                    data.options = data.options.filter(function (obj) { return obj.value != "" })
-                    if(data.xtype == "select"){
-                      let secId = this.selecttemplat.template.secs[i].secId;
-                      if(this.selecttemplat.template.subListFields.length>0){
-                        let fieldname = data.name;
-                        let fieldId = fieldname.split(secId+'_')[1];
-                        let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && 
-                          e.options && e.options.subfieldlist && e.options.subfieldlist.pfieldid && e.options.subfieldlist.pfieldid==fieldId)
-                        if(v){
-                          data.hasSubfield = true;
-                          data.fieldId = fieldId;
-                          this.getSublistOption(data,secId);
-                        }
-                        
-                      }
-                      if(data.lookup.view){
-                        this.getSublistOption(data,secId);
-                      }
+                if (data.name == "GMP_SEV_GMP_SH") {
+                  this.severityvalue = data.value
+                }
+                if (this.mandafields) {
+                  this.mandafields.forEach(element => {
+                    if (element.label == data.label) {
+                      data.hasmust = true
                     }
-                  }else if(data.xtype == 'multiou' || data.xtype == 'singleou'){
-                    let obj: any = this.getOuLevelAndGroupId(data.name, this.selecttemplat.template.secs[i].secId);
-                    let level: number = obj.level;
-                    let ouGroupId: string = obj.ouGroupId;
-                    
-                    if (data.value){
-                      // let iou:any = data.value.split('/');
-                      // let tmp:any = '';
-                      // for(let m=0;m<level;m++){
-                      //   if(tmp==''){
-                      //     if(iou[m]) tmp=iou[m];
-                      //   }else{
-                      //     if(iou[m]) tmp+="/"+iou[m];
-                      //   }
-                      // }
-                      this.getOUSublistdetails(data.name,data.value,this.selecttemplat.template.secs[i].secId);
-                      //data.value = tmp;
-                    }
-                   
-                  }else if(data.xtype=='riskmatrix'){
-                    if(this.riskname){
-                      if(this.riskname==data.name){
-                        data.value = this.riskmatrixvalue;
+                  });
+                }
+                if (data.xtype == "radio" || data.xtype == "select") {
+                  data.options = data.options.filter(function (obj) { return obj.value != "" })
+                  if (data.xtype == "select") {
+                    let secId = this.selecttemplat.template.secs[i].secId;
+                    if (this.selecttemplat.template.subListFields.length > 0) {
+                      let fieldname = data.name;
+                      let fieldId = fieldname.split(secId + '_')[1];
+                      let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId == secId &&
+                        e.options && e.options.subfieldlist && e.options.subfieldlist.pfieldid && e.options.subfieldlist.pfieldid == fieldId)
+                      if (v) {
+                        data.hasSubfield = true;
+                        data.fieldId = fieldId;
+                        this.getSublistOption(data, secId);
                       }
-                    }else{
-                      if(data.value && data.value.ResultColor){
-                        let ResultColor:string = data.value.ResultColor;
-                        if(ResultColor.indexOf('.jpg')!=-1){
-                          let corlor:string = ResultColor.split('.jpg')[0];
-                          if(corlor.indexOf('riskrank_')!=-1){
-                            data.value['ResultColor'] = corlor.split('riskrank_')[1];
-                          }
+
+                    }
+                    if (data.lookup.view) {
+                      this.getSublistOption(data, secId);
+                    }
+                  }
+                } else if (data.xtype == 'multiou' || data.xtype == 'singleou') {
+                  let obj: any = this.getOuLevelAndGroupId(data.name, this.selecttemplat.template.secs[i].secId);
+                  let level: number = obj.level;
+                  let ouGroupId: string = obj.ouGroupId;
+
+                  if (data.value) {
+                    // let iou:any = data.value.split('/');
+                    // let tmp:any = '';
+                    // for(let m=0;m<level;m++){
+                    //   if(tmp==''){
+                    //     if(iou[m]) tmp=iou[m];
+                    //   }else{
+                    //     if(iou[m]) tmp+="/"+iou[m];
+                    //   }
+                    // }
+                    this.getOUSublistdetails(data.name, data.value, this.selecttemplat.template.secs[i].secId);
+                    //data.value = tmp;
+                  }
+
+                } else if (data.xtype == 'riskmatrix') {
+                  if (this.riskname) {
+                    if (this.riskname == data.name) {
+                      data.value = this.riskmatrixvalue;
+                    }
+                  } else {
+                    if (data.value && data.value.ResultColor) {
+                      let ResultColor: string = data.value.ResultColor;
+                      if (ResultColor.indexOf('.jpg') != -1) {
+                        let corlor: string = ResultColor.split('.jpg')[0];
+                        if (corlor.indexOf('riskrank_') != -1) {
+                          data.value['ResultColor'] = corlor.split('riskrank_')[1];
                         }
                       }
                     }
                   }
-                  this.fields.push(data) //
-                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
-                })
+                }else if(data.xtype == 'checkbox'){
+                  if(data.value){
+                    let cehckvalues=data.value.split(",")
+                    data.options.forEach(option =>{
+                       let flag=cehckvalues.some(v =>{
+                         return v==option.value
+                       })
+                       if(flag){
+                         option.ischeck=true
+                       }else{
+                        option.ischeck=false
+                       }
+                    })
+                  }
+                
+                 
               }
-              // console .log(this.selecttemplat.template.secs[i])
-              // console.log(this.selecttemplat.template.secs[i].secId)
-              if(selectSecId.indexOf(this.selecttemplat.template.secs[i].secId)!=-1) this.sections.push(this.selecttemplat.template.secs[i])
-              //if(this.quesSecId.indexOf(this.selecttemplat.template.secs[i].secId)==-1) this.sections.push(this.selecttemplat.template.secs[i])
-              this.sectionsold.push(this.selecttemplat.template.secs[i])
-              
-              this.list.push({ "show": false })
-              this.commonCtrl.hide()
+                this.fields.push(data) //
+                // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
+              })
             }
-            this.initHasSubfield();
-            // console.log(this.list)
-            let flag = this.sections.some(function (obj, index) {
-              return obj.title == "Severity"
-            })
-            if (flag) {
-              this.change({ "label": "Severity", "value": this.severityvalue })
-            }
+            // console .log(this.selecttemplat.template.secs[i])
+            // console.log(this.selecttemplat.template.secs[i].secId)
+            if (selectSecId.indexOf(this.selecttemplat.template.secs[i].secId) != -1) this.sections.push(this.selecttemplat.template.secs[i])
+            //if(this.quesSecId.indexOf(this.selecttemplat.template.secs[i].secId)==-1) this.sections.push(this.selecttemplat.template.secs[i])
+            this.sectionsold.push(this.selecttemplat.template.secs[i])
+
+            this.list.push({ "show": false })
+            this.commonCtrl.hide()
+          }
+          this.initHasSubfield();
+          // console.log(this.list)
+          let flag = this.sections.some(function (obj, index) {
+            return obj.title == "Severity"
+          })
+          if (flag) {
+            this.change({ "label": "Severity", "value": this.severityvalue })
+          }
           //})
         })
       } else {
-        this.lasturl="/tabs/tab1?title="+this.portaltitle
-        this.fields=[];
+        this.lasturl = "/tabs/tab1?title=" + this.portaltitle
+        this.fields = [];
         this.type = "edit"
         this.storage.get("allforms").then(data => {
           this.templates = JSON.parse(data).templates
@@ -302,14 +318,14 @@ export class NewFormPage implements OnInit {
           this.mandafields = this.selecttemplat.template.mandaFields
           this.templatid = this.selecttemplat.template.templateId
           //get questionnaire sections
-          let quesFields:any = this.selecttemplat.template.quesFields;
-            for (let i = 0; i < quesFields.length; i++) {
-              const element = quesFields[i];
-              let answerWhen = element.answerWhen;
-              for (let key in answerWhen) {
-                this.quesSecId = this.quesSecId.concat(answerWhen[key]);
-              }
+          let quesFields: any = this.selecttemplat.template.quesFields;
+          for (let i = 0; i < quesFields.length; i++) {
+            const element = quesFields[i];
+            let answerWhen = element.answerWhen;
+            for (let key in answerWhen) {
+              this.quesSecId = this.quesSecId.concat(answerWhen[key]);
             }
+          }
 
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
             this.selecttemplat.template.secs[i].fields.forEach(data => {
@@ -320,45 +336,61 @@ export class NewFormPage implements OnInit {
               });
               if (data.xtype == "radio" || data.xtype == "select") {
                 data.options = data.options.filter(function (obj) { return obj.value != "" })
-                if(data.xtype == "select"){
-                  if(this.selecttemplat.template.subListFields.length>0){
+                if (data.xtype == "select") {
+                  if (this.selecttemplat.template.subListFields.length > 0) {
                     let secId = this.selecttemplat.template.secs[i].secId;
                     let fieldname = data.name;
-                    let fieldId = fieldname.split(secId+'_')[1];
-                    let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && 
-                      e.options && e.options.subfieldlist && e.options.subfieldlist.pfieldid && e.options.subfieldlist.pfieldid==fieldId)
-                    if(v){
+                    let fieldId = fieldname.split(secId + '_')[1];
+                    let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId == secId &&
+                      e.options && e.options.subfieldlist && e.options.subfieldlist.pfieldid && e.options.subfieldlist.pfieldid == fieldId)
+                    if (v) {
                       data.hasSubfield = true;
                       data.fieldId = fieldId;
                     }
-                    
+
                   }
                 }
-              }else if(data.xtype == 'multiou' || data.xtype == 'singleou'){
+              } else if (data.xtype == 'multiou' || data.xtype == 'singleou') {
                 let obj: any = this.getOuLevelAndGroupId(data.name, this.selecttemplat.template.secs[i].secId);
                 let level: number = obj.level;
                 let ouGroupId: string = obj.ouGroupId;
-                if (this.initiatorOU){
-                  let iou:any = this.initiatorOU.split('\\');
-                  let tmp:any = '';
-                  for(let m=0;m<level;m++){
-                    if(tmp==''){
-                      if(iou[m]) tmp=iou[m];
-                    }else{
-                      if(iou[m]) tmp+="/"+iou[m];
+                if (this.initiatorOU) {
+                  let iou: any = this.initiatorOU.split('\\');
+                  let tmp: any = '';
+                  for (let m = 0; m < level; m++) {
+                    if (tmp == '') {
+                      if (iou[m]) tmp = iou[m];
+                    } else {
+                      if (iou[m]) tmp += "/" + iou[m];
                     }
                   }
-                  this.getOUSublistdetails(data.name,tmp,this.selecttemplat.template.secs[i].secId);
+                  this.getOUSublistdetails(data.name, tmp, this.selecttemplat.template.secs[i].secId);
                   data.value = tmp;
                 }
+
+              }else if(data.xtype == 'checkbox'){
+                if(data.value){
+                  let cehckvalues=data.value.split(",")
+                  data.options.forEach(option =>{
+                     let flag=cehckvalues.some(v =>{
+                       return v==option.value
+                     })
+                     if(flag){
+                       option.ischeck=true
+                     }else{
+                      option.ischeck=false
+                     }
+                  })
+                }
+              
                
-              }
+            }
               this.loadSecs.push(data);
               this.fields.push(data) //
               //this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
             })
             // console .log(this.selecttemplat.template.secs[i])
-            if(this.quesSecId.indexOf(this.selecttemplat.template.secs[i].secId)==-1) this.sections.push(this.selecttemplat.template.secs[i])
+            if (this.quesSecId.indexOf(this.selecttemplat.template.secs[i].secId) == -1) this.sections.push(this.selecttemplat.template.secs[i])
             this.sectionsold.push(this.selecttemplat.template.secs[i])
             this.list.push({ "show": false })
           }
@@ -402,7 +434,7 @@ export class NewFormPage implements OnInit {
 
 
   ionViewDidLoad() {
-    
+
   };
 
 
@@ -453,22 +485,22 @@ export class NewFormPage implements OnInit {
     switch (btn) {
       case "btnEdit":
         actiontype = "edit"
-        this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
+        this.router.navigate(["/new-form"], { queryParams: { unid: this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
         break;
       case "btnSave":
         actiontype = "edit"
         console.log("unid==" + this.formID)
         console.log(this.fields)
-        if(this.subformflag){
+        if (this.subformflag) {
           this.paraforsubmit = {
             "tempid": this.templatid,
             "formAction": "save",
             "docId": "",
             "fields": this.fields,
-            "subForm":"true",
-            "mainFormId":this.mainunid
+            "subForm": "true",
+            "mainFormId": this.mainunid
           }
-        }else{
+        } else {
           if (this.formID) {
             this.paraforsubmit = {
               "tempid": this.templatid,
@@ -486,24 +518,24 @@ export class NewFormPage implements OnInit {
             }
           }
         }
-        
+
         console.log("保存了")
-        this.submit(this.paraforsubmit,actiontype)
+        this.submit(this.paraforsubmit, actiontype)
         break;
       case "btnSubmit":
         console.log("unid==" + this.formID)
         console.log(this.fields)
         actiontype = "edit"
-        if(this.subformflag){
+        if (this.subformflag) {
           this.paraforsubmit = {
             "tempid": this.templatid,
             "formAction": "submit",
             "docId": "",
             "fields": this.fields,
-            "subForm":"true",
-            "mainFormId":this.mainunid
+            "subForm": "true",
+            "mainFormId": this.mainunid
           }
-        }else{
+        } else {
           if (this.formID) {
             this.paraforsubmit = {
               "tempid": this.templatid,
@@ -521,7 +553,7 @@ export class NewFormPage implements OnInit {
             }
           }
         }
-       
+
         console.log("提交操作")
         let msg = "";
         let fieldError = false;
@@ -562,41 +594,41 @@ export class NewFormPage implements OnInit {
         if (fieldError) {
           console.log("必填了")
           console.log(msg)
-          this.presentAlert("The following fields are mandatory:<br/>"+msg, "", "OK")
+          this.presentAlert("The following fields are mandatory:<br/>" + msg, "", "OK")
           return false;
         }
         else {
-           this.submit(this.paraforsubmit,actiontype)
+          this.submit(this.paraforsubmit, actiontype)
         }
-       
+
         break;
       case "btnNewSubForm":
-          actiontype = "edit"
-          let aid: string = this.selecttemplat.template.subform.templates.join('**');
+        actiontype = "edit"
+        let aid: string = this.selecttemplat.template.subform.templates.join('**');
 
         //this.router.navigate(["/new-form"], { queryParams:{aTitle: this.title,aid,temptitle: this.portaltitle,subform:"true",mainunid:this.ulrs.unid,cururl: this.lasturl}});
         this.router.navigate(["/subformlist"], { queryParams: { aTitle: this.title, aid, temptitle: this.portaltitle, subform: "true", mainunid: this.ulrs.unid, cururl: this.lasturl, lasturl: this.router.url } });
-          break;
+        break;
       case "btnClose":
         actiontype = "open"
-        if(this.subformflag){
+        if (this.subformflag) {
           actiontype = "edit"
-          this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
-         }else{
+          this.router.navigate(["/new-form"], { queryParams: { unid: this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
+        } else {
           this.router.navigateByUrl(this.lasturl)
-         }
-       
+        }
+
         break;
       default:
         actiontype = "open"
-       // this.router.navigateByUrl(this.lasturl)
+        // this.router.navigateByUrl(this.lasturl)
         break;
     }
     console.log("操作了吗")
-   // this.router.navigateByUrl(this.lasturl)
+    // this.router.navigateByUrl(this.lasturl)
     //
     //this.Popover.dismiss(btn)
-    
+
 
   }
   async presentAlert(msg: string, header: string, btn: string) {
@@ -619,33 +651,33 @@ export class NewFormPage implements OnInit {
     }
     return (false);
   }
-  submit(para,actiontype) {
+  submit(para, actiontype) {
     return new Promise((resolve, reject) => {
       this.storage.get("loginDetails").then(logindata => {
         //this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
-          this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
-            console.log('this.getforms.submit:',data)
-            //data = JSON.parse(data.data);
-            console.log('this.getforms.submit:',JSON.parse(data.data))
-            //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
-           if(this.subformflag){
-            this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
-           }else{
+        this.getforms.submit(logindata, para).pipe(first()).subscribe(data => {
+          console.log('this.getforms.submit:', data)
+          //data = JSON.parse(data.data);
+          console.log('this.getforms.submit:', JSON.parse(data.data))
+          //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
+          if (this.subformflag) {
+            this.router.navigate(["/new-form"], { queryParams: { unid: this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
+          } else {
             this.router.navigateByUrl(this.lasturl)
-           }
-            
-          })
-          //resolve(data)
+          }
+
+        })
+        //resolve(data)
         //})
       })
     })
   }
 
-  getFormData(unid: any,isedit:any) {
+  getFormData(unid: any, isedit: any) {
     return new Promise((resolve, reject) => {
       this.storage.get("loginDetails").then(data => {
         this.para.unid = unid
-        this.para.isedit = isedit=='edit'?'yes':'no';
+        this.para.isedit = isedit == 'edit' ? 'yes' : 'no';
         this.getforms.getFormData(data, this.para).pipe(first()).subscribe(data => {
           data = JSON.parse(data.data);
           resolve(data)
@@ -672,38 +704,38 @@ export class NewFormPage implements OnInit {
     this.sections = oldsections.slice(0, curindex + 1).concat(filtersections)
     this.sections.forEach(secelement => {
       secelement.fields.forEach(element => {
-        this.selectScore(element,element.value,secelement.title)
+        this.selectScore(element, element.value, secelement.title)
       });
     });
 
   }
   change(field: any) {
-    let quesFields:any = this.selecttemplat.template.quesFields;
-    let v = quesFields.find(e=>e.fieldId==field.name);
-    if(v){
-      let quesFields:any=[];
+    let quesFields: any = this.selecttemplat.template.quesFields;
+    let v = quesFields.find(e => e.fieldId == field.name);
+    if (v) {
+      let quesFields: any = [];
       let answerWhen = v.answerWhen;
-      let disSecId:any = v.answerWhen[field.value];
+      let disSecId: any = v.answerWhen[field.value];
       for (let key in answerWhen) {
         quesFields = quesFields.concat(answerWhen[key]);
       }
       quesFields.forEach(element => {
-        let index:number = this.sections.findIndex(e=>e.secId==element);
-        if(index!=-1) this.sections.splice(index,1);
+        let index: number = this.sections.findIndex(e => e.secId == element);
+        if (index != -1) this.sections.splice(index, 1);
       });
       disSecId.forEach(element => {
-        let el = this.sectionsold.find(e=>e.secId==element);
-        if(el) this.sections.push(el);this.initHasSubfield();
+        let el = this.sectionsold.find(e => e.secId == element);
+        if (el) this.sections.push(el); this.initHasSubfield();
       });
-      
+
     }
-   
+
     this.sections.forEach(secelement => {
       secelement.fields.forEach(element => {
-        this.selectScore(element,element.value,secelement.title)
+        this.selectScore(element, element.value, secelement.title)
       });
     });
-    
+
 
   }
   //查找名称
@@ -740,16 +772,16 @@ export class NewFormPage implements OnInit {
     var tmparr: any = [];
     if (level == 1) {
       //return JSON.parse(this.ous).ou1;
-      if(this.ous){
+      if (this.ous) {
         tmparr = JSON.parse(this.ous).ou1;
         for (let i = 0; i < tmparr.length; i++) {
           arr.push({ text: tmparr[i], value: tmparr[i] });
         }
       }
-      
+
     } else {
       let ouselect: any = this['ou' + (level - 1) + 'select'];
-      
+
       if (ouselect) {
         let v: any = ouselect.find(e => e.ouGroupId == ouGroupId);
         if (v) return v['ou' + level + 'list'] ? v['ou' + level + 'list'] : [];
@@ -758,7 +790,7 @@ export class NewFormPage implements OnInit {
     return arr;
   }
   getOUSublistdetails(name: any, val: any, pSecId: any) {
-    val = typeof(val)=='string'?[val]:val;
+    val = typeof (val) == 'string' ? [val] : val;
     let obj: any = this.getOuLevelAndGroupId(name, pSecId);
     let level: number = obj.level;
     let ouGroupId: string = obj.ouGroupId;
@@ -771,7 +803,7 @@ export class NewFormPage implements OnInit {
     let tmparr2: any = [];
     let text: any;
     let value: any;
-    
+
     for (let i = 0; i < val.length; i++) {
       if (val[i].indexOf('/') > -1) {
         tmparr2 = val[i].split('/');
@@ -790,8 +822,8 @@ export class NewFormPage implements OnInit {
       tmparr1 = [];
       if (v) {
         tmparr = v['ou' + (level + 1)];
-        for (let j = 0; j <tmparr.length; j++) {
-          text = tmparr[j] + '(' + tmparr2[level-1] + ')';
+        for (let j = 0; j < tmparr.length; j++) {
+          text = tmparr[j] + '(' + tmparr2[level - 1] + ')';
           if (level == 1) {
             value = tmparr2[0] + '/' + tmparr[j];
           } else if (level == 2) {
@@ -813,7 +845,7 @@ export class NewFormPage implements OnInit {
 
       arr = arr.concat(tmparr1);
     }
-    
+
     ou['ou' + (level + 1) + 'list'] = arr;
     let index: number = this['ou' + level + 'select'].findIndex(e => e.ouGroupId == ouGroupId);
     if (index == -1) {
@@ -840,94 +872,94 @@ export class NewFormPage implements OnInit {
 
     return { level, ouGroupId };
   }
-  getSelectOption(field:any,secId:any){
-    
-    if(field.lookup.view){
-      let column:any = field.lookup.column;
-      if(column=="1"){
+  getSelectOption(field: any, secId: any) {
+
+    if (field.lookup.view) {
+      let column: any = field.lookup.column;
+      if (column == "1") {
         return field.options;
-      }else{
-        let v = this['lookupOptins'+column].find(e=>{
+      } else {
+        let v = this['lookupOptins' + column].find(e => {
           return e.secId == secId && e.view == field.lookup.view;
         });
-        return v?v.options:[];
+        return v ? v.options : [];
       }
       return [];
     }
-    if(field.pFieldId!=''){
-      let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && e.fieldId == field.name);
-      if(v){
-        let t = this.subfields.find(e=>e.secId==secId && e.fieldId == field.name);
-        
-        if(t) return t.options;
+    if (field.pFieldId != '') {
+      let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId == secId && e.fieldId == field.name);
+      if (v) {
+        let t = this.subfields.find(e => e.secId == secId && e.fieldId == field.name);
+
+        if (t) return t.options;
       }
     }
     return field.options;
   }
-  getSublistOption(field:any,secId:any){
-    if(field.lookup.view){
-      let column:any = field.lookup.column;
-      
-      let val:any= field.value;
-      let view:any = field.lookup.view;
-      if(parseInt(column)>1){
-        let v = this['lookupOptins'+column].find(e=>{
+  getSublistOption(field: any, secId: any) {
+    if (field.lookup.view) {
+      let column: any = field.lookup.column;
+
+      let val: any = field.value;
+      let view: any = field.lookup.view;
+      if (parseInt(column) > 1) {
+        let v = this['lookupOptins' + column].find(e => {
           return e.secId == secId && e.view == view;
         });
-        if(v && v.lastval) val = v.lastval + '@@' + val;
-          
+        if (v && v.lastval) val = v.lastval + '@@' + val;
+
       }
-      column = parseInt(column)+1;
-      let obj:any = {
-        key:val,
-        db:field.lookup.db?field.lookup.db:'',
+      column = parseInt(column) + 1;
+      let obj: any = {
+        key: val,
+        db: field.lookup.db ? field.lookup.db : '',
         view,
         column
       }
-      this.getLookupOptions(obj).then((data:any)=>{
-        if(data.status=="success"){
-          let options:any = [];
-          
+      this.getLookupOptions(obj).then((data: any) => {
+        if (data.status == "success") {
+          let options: any = [];
+
           for (let i = 0; i < data.data.length; i++) {
             let element = data.data[i];
-            options.push({value:element,text:element})
+            options.push({ value: element, text: element })
           }
-          
-          let tobj:object = {
+
+          let tobj: object = {
             secId,
             view,
-            lastval:val,
-            options:options
+            lastval: val,
+            options: options
           }
-          if(this['lookupOptins'+column]){
-            let index: number = this['lookupOptins'+column].findIndex(e => e.secId == secId && e.view == view);
+          if (this['lookupOptins' + column]) {
+            let index: number = this['lookupOptins' + column].findIndex(e => e.secId == secId && e.view == view);
             if (index == -1) {
-              this['lookupOptins'+column].push(tobj);
+              this['lookupOptins' + column].push(tobj);
             } else {
-              this['lookupOptins'+column].splice(index, 1, tobj);
+              this['lookupOptins' + column].splice(index, 1, tobj);
             }
           }
-           
+
         }
       });
     }
-    if(field.hasSubfield){
+    if (field.hasSubfield) {
       let val = field.value;
       let fieldId = field.fieldId;
-      let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId==secId && 
+      let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId == secId &&
         e.options && e.options.subfieldlist && e.options.subfieldlist.pfieldid &&
-        fieldId && e.options.subfieldlist.pfieldid==fieldId)
-      if(v){
-        let element = v.options.subfieldlist.list.find(e=>e.value==val);
-        if(element){
-          let options:any = [];
+        fieldId && e.options.subfieldlist.pfieldid == fieldId)
+      if (v) {
+        let element = v.options.subfieldlist.list.find(e => e.value == val);
+        if (element) {
+          let options: any = [];
           for (let i = 0; i < element.list.length; i++) {
             let ele = element.list[i];
-            options.push({value:ele,text:ele})
+            options.push({ value: ele, text: ele })
           }
-          let obj:object = {
+          let obj: object = {
             secId,
-            fieldId:v.fieldId,
+            fieldId: v.fieldId,
             options
           }
           let index: number = this.subfields.findIndex(e => e.secId == secId && e.fieldId == v.fieldId);
@@ -936,7 +968,7 @@ export class NewFormPage implements OnInit {
           } else {
             this.subfields.splice(index, 1, obj);
           }
-          
+
         }
       }
     }
@@ -960,72 +992,72 @@ export class NewFormPage implements OnInit {
     })
   }
 
-  goBack(){
+  goBack() {
     // this.nav.back()
-      console.log( this.subformflag)
-      if(this.subformflag){
-        let actiontype = "edit"
-        this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(),cururl:this.lasturl } });
-      }else{
-        this.router.navigateByUrl(this.lasturl)
-        //this.nav.navigateBack('/tabs/tab1',{queryParams:{title:this.portaltitle}});
-      }
-     　
-     
-   }
+    console.log(this.subformflag)
+    if (this.subformflag) {
+      let actiontype = "edit"
+      this.router.navigate(["/new-form"], { queryParams: { unid: this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
+    } else {
+      this.router.navigateByUrl(this.lasturl)
+      //this.nav.navigateBack('/tabs/tab1',{queryParams:{title:this.portaltitle}});
+    }
 
-   selectScore(field,value,sectiontitle){
-     
-      this.sections.forEach(element => {
-        // console.log(element)
-         if(element.title==sectiontitle){
-           console.log(element.fields)
-           element.fields.forEach(data => {
-               if(field.name==data.name){
-                 data.value=value
-               }
-           });
-           let tempscore=0;
-           let num=0
-           element.fields.forEach(data => {
-            if(data.xtype=="radio"){
-               if(data.value=="Yes"){
-                tempscore=tempscore+1
-               }
-               num=num+1
-               if(data.value=="N/A"){
-                num=num-1
-               }
+
+  }
+
+  selectScore(field, value, sectiontitle) {
+
+    this.sections.forEach(element => {
+      // console.log(element)
+      if (element.title == sectiontitle) {
+        console.log(element.fields)
+        element.fields.forEach(data => {
+          if (field.name == data.name) {
+            data.value = value
+          }
+        });
+        let tempscore = 0;
+        let num = 0
+        element.fields.forEach(data => {
+          if (data.xtype == "radio") {
+            if (data.value == "Yes") {
+              tempscore = tempscore + 1
             }
-          });
-          console.log( this.templatid) 
-          if(num!=0&&this.templatid=="GMP_AU"){
-            element.score=tempscore+"/"+num+"   ("+(tempscore/num*100)+"%)"
+            num = num + 1
+            if (data.value == "N/A") {
+              num = num - 1
+            }
           }
-          
-          }
-        
-      });
-   }
-   getValue(){
+        });
+        console.log(this.templatid)
+        if (num != 0 && this.templatid == "GMP_AU") {
+          element.score = tempscore + "/" + num + "   (" + (tempscore / num * 100) + "%)"
+        }
+
+      }
+
+    });
+  }
+  getValue() {
     console.log('我选中的是', this.radio.value)
   }
-  riskMatrix(selectedRiskMatrix,savedValue,riskName){
-    let obj:Object = {
-      riskMatrixFrameData:selectedRiskMatrix,
-      riskMatrixSaveData:savedValue,
+  riskMatrix(selectedRiskMatrix, savedValue, riskName) {
+    let obj: Object = {
+      riskMatrixFrameData: selectedRiskMatrix,
+      riskMatrixSaveData: savedValue,
       riskName,
 
-      type:this.type,
-      unid:  this.ulrs.unid,
+      type: this.type,
+      unid: this.ulrs.unid,
       aid: this.ulrs.aid,
       title: this.ulrs.title,
       stat: this.ulrs.stat,
       refresh: new Date().getTime(),
-      cururl:this.lasturl,
-      lasturl:this.router.url
+      cururl: this.lasturl,
+      lasturl: this.router.url
     }
-    this.nav.navigateBack('/risk-matrix',{queryParams:obj});
+    this.nav.navigateBack('/risk-matrix', { queryParams: obj });
     //this.navCtrl.push(RiskMatrix, {riskMatrixFrameData:selectedRiskMatrix,riskMatrixSaveData:savedValue});
     //this.riskName=riskName;
   };
@@ -1041,11 +1073,11 @@ export class NewFormPage implements OnInit {
         var obj = field.parentSecId + '_' + ids[j];
         hideSubfield.push(obj);
         hideSubfield.push(ids[j]);
-        let v = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==obj || e.fieldId==ids[j]);
-        if(v) hasChildSubfields.push(v.fieldId);
+        let v = this.selecttemplat.template.hasSubFields.find(e => e.fieldId == obj || e.fieldId == ids[j]);
+        if (v) hasChildSubfields.push(v.fieldId);
       }
     }
-    
+
     this.hideSubfieldFunc(hideSubfield)
     //
     var v = (!v) ? "" : v;
@@ -1086,14 +1118,14 @@ export class NewFormPage implements OnInit {
       const pfid = hasChildSubfields[i];
       for (let j = 0; j < this.sections.length; j++) {
         let element = this.sections[j];
-        if(element.fields){
-          let v = element.fields.find(e=>e.name==pfid);
-          if(v){
-            
-            let hide = v.hide && v.hide==true ? true:false;
-            if(hide){
-              let f = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==pfid);
-              if(f){
+        if (element.fields) {
+          let v = element.fields.find(e => e.name == pfid);
+          if (v) {
+
+            let hide = v.hide && v.hide == true ? true : false;
+            if (hide) {
+              let f = this.selecttemplat.template.hasSubFields.find(e => e.fieldId == pfid);
+              if (f) {
                 let hasSubFieldEl = f.subField;
                 let hideSubfield = [];
                 for (let g = 0; g < hasSubFieldEl.length; g++) {
@@ -1108,7 +1140,7 @@ export class NewFormPage implements OnInit {
                 }
                 this.hideSubfieldFunc(hideSubfield);
               }
-            }else{
+            } else {
               let val = v.value;
               let sval = (!val) ? "" : val;
               let array = [];
@@ -1119,18 +1151,18 @@ export class NewFormPage implements OnInit {
                 array = array.concat(sval);
               }
               let showSubfield = [];
-              let f = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==pfid);
-              if(f){
-  
+              let f = this.selecttemplat.template.hasSubFields.find(e => e.fieldId == pfid);
+              if (f) {
+
                 for (let i = 0; i < f.subField.length; i++) {
-  
-  
+
+
                   if (array.indexOf(typeof (f.subField[i].displayWhen) == "string" ? f.subField[i].displayWhen : f.subField[i].displayWhen[0]) >= 0) {
                     let ids = f.subField[i].id;
                     for (let h = 0; h < array.length; h++) {
                       if (array[h] == f.subField[i].displayWhen) {
                         for (let j = 0; j < ids.length; j++) {
-  
+
                           if (ids[j] == '') continue;
                           let obj = f.parentSecId + '_' + ids[j];
                           // this.hasSubObjId=obj;
@@ -1139,37 +1171,37 @@ export class NewFormPage implements OnInit {
                         }//end for j loop
                       }
                     }
-  
-  
+
+
                   }
-  
+
                 }
                 this.showSubfieldFunc(showSubfield);
               }
-              
+
             }
             break;
           }
         }
       }
-      
+
     }
   };
   showSubfieldFunc(showSubfield) {
-    
+
     for (let e = 0; e < showSubfield.length; e++) {
       for (let c = 0; c < this.sections.length; c++) {
-        if(this.sections[c].fields){
+        if (this.sections[c].fields) {
           for (let d = 0; d < this.sections[c].fields.length; d++) {
 
 
             if (this.sections[c].fields[d].name == showSubfield[e]) {
-  
+
               this.sections[c].fields[d].hide = false;
             }
           }
         }
-        
+
       }
 
     }//End for loop
@@ -1179,11 +1211,11 @@ export class NewFormPage implements OnInit {
   initHasSubfieldValue(hasSubFieldId) {
     let value;
     for (let c = 0; c < this.sections.length; c++) {
-      if(this.sections[c].fields){
+      if (this.sections[c].fields) {
         for (let d = 0; d < this.sections[c].fields.length; d++) {
           if (this.sections[c].fields[d].name == hasSubFieldId) {
             value = this.sections[c].fields[d].value;
-  
+
           }
         }
       }
@@ -1259,14 +1291,14 @@ export class NewFormPage implements OnInit {
       const pfid = pid[i];
       for (let j = 0; j < this.sections.length; j++) {
         const element = this.sections[j];
-        if(element.fields){
-          let v = element.fields.find(e=>e.name==pfid);
-          if(v){
-            
-            let hide = v.hide && v.hide==true ? true:false;
-            if(hide){
-              let f = this.selecttemplat.template.hasSubFields.find(e=>e.fieldId==pfid);
-              if(f){
+        if (element.fields) {
+          let v = element.fields.find(e => e.name == pfid);
+          if (v) {
+
+            let hide = v.hide && v.hide == true ? true : false;
+            if (hide) {
+              let f = this.selecttemplat.template.hasSubFields.find(e => e.fieldId == pfid);
+              if (f) {
                 let hasSubFieldEl = f.subField;
                 let hideSubfield = [];
                 for (let g = 0; g < hasSubFieldEl.length; g++) {
@@ -1286,21 +1318,21 @@ export class NewFormPage implements OnInit {
           }
         }
       }
-      
+
     }
   };
   hideSubfieldFunc(hideSubfield) {
     //this.hasSubFieldArray=hideSubfield;
     //var hideParentFieldIds=[];
-     
+
     for (let c = 0; c < this.sections.length; c++) {
-      if(this.sections[c].fields){
+      if (this.sections[c].fields) {
         for (let d = 0; d < this.sections[c].fields.length; d++) {
 
           for (let e = 0; e < hideSubfield.length; e++) {
             if (this.sections[c].fields[d].name == hideSubfield[e]) {
               this.sections[c].fields[d].hide = true;
-  
+
             }
           }
         }
@@ -1308,5 +1340,16 @@ export class NewFormPage implements OnInit {
 
     }//End for loop
   };
+  getCheckValue(option, field) {
+    let resvalue = [];
+    field.options.forEach(option => {
+      if (option.ischeck == true) {
+        resvalue.push(option.value)
+      } else {
+        // resvalue.push("no")
+      }
+    });
+    field.value = resvalue.join(",")
+  }
 }
 
