@@ -6,6 +6,14 @@ ion-item {
     ion-text,ion-datetime,ion-select,ion-radio-group ion-item{
        color: #b81321;
     }
+    ion-select{
+      max-width: 100%;
+      .select-text{
+         white-space: normal !important;
+         word-break:break-all;
+      }
+      
+    }
     
 }
 
