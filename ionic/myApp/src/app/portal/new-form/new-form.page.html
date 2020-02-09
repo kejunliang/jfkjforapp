@@ -72,7 +72,7 @@
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
                 <ion-select [(ngModel)]='field.value' multiple="true" name="field.name"
-                  (ionChange)=getSublistdetails(field.name,field.value)>
+                (ionChange)="getSublistOption(field,section.secId,'change')">
                   <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
                 </ion-select>
               </ion-item>
@@ -189,7 +189,7 @@
               <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
               <span *ngIf="field.hasmust==true" class="needfill">*</span>
               <ion-item style="background-color:#eee;">
-                <ion-datetime displayFormat="hh:mm" [(ngModel)]='field.value' placeholder="Tap To Pick A Time">
+                <ion-datetime displayFormat="hh:mm A" pickerFormat="h:mm A" [(ngModel)]='field.value' placeholder="Tap To Pick A Time">
                 </ion-datetime>
               </ion-item>
             </div>
@@ -357,51 +357,66 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
-              
-                  <ion-select *ngIf="getSelectOption(field,section.secId).length >3"  [(ngModel)]='field.value' [interfaceOptions]="customPopoverOptions" interface="popover" (ionChange)="getSublistOption(field,section.secId)">
-                    <ion-select-option *ngFor="let option of getSelectOption(field,section.secId)">{{option.text}}</ion-select-option>
-                    <div *ngIf="field.name==sublistObjId">
-                      <ion-select-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-select-option>
-                    </div>
-                  </ion-select>
+              </ion-item>
+              <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
+                <ion-select [(ngModel)]='field.value'
+                [interfaceOptions]="customPopoverOptions" interface="popover"
+                (ionChange)="getSublistOption(field,section.secId,'change')">
+                <ion-select-option *ngFor="let option of getSelectOption(field,section.secId)">{{option.text}}</ion-select-option>
+                <div *ngIf="field.name==sublistObjId">
+                  <ion-select-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-select-option>
+                </div>
+              </ion-select>
          
                
-                  <ion-radio-group  *ngIf="getSelectOption(field,section.secId).length < 4"  class="groupRadio3" (ionChange)="getSublistOption(field,section.secId)">
+                  <!-- <ion-radio-group  *ngIf="getSelectOption(field,section.secId).length < 4"  class="groupRadio3" (ionChange)="getSublistOption(field,section.secId)">
                     <ion-item *ngFor="let option of getSelectOption(field,section.secId)">
                       <ion-label>{{option.text}}</ion-label>
                       <ion-radio *ngIf="field.value==option.text" checked  slot="start" value="{{option.text}}" (click)="selectScore(field,option.text,section.title)"></ion-radio>
                       <ion-radio *ngIf="field.value!=option.text"   slot="start" value="{{option.text}}" (click)="selectScore(field,option.text,section.title)" ></ion-radio>
                     </ion-item>
-                  </ion-radio-group>
+                  </ion-radio-group> -->
                 
                 
               </ion-item>
             </div>
           </div>
         </div>
+        <div *ngIf="section.secId=='subform'">
+          <ion-item lines="none">
+            <div>
+              <ion-label color="basic" stacked>
+                Ref No.
+              </ion-label>
 
-      </div>
-      <div *ngIf="section.secId=='subform'">
-        <ion-item lines="none">
-          <div>
-            <ion-label color="basic" stacked>
-              Ref No.
-            </ion-label>
-            
-          </div>
+            </div>
 
-        </ion-item>
-        <div *ngFor="let sdoc of section.sdocs;let index = index;" class="fieldshow">
+          </ion-item>
+          <div *ngFor="let sdoc of section.sdocs;let index = index;" class="fieldshow">
             <ion-item lines="none">
               <div>
                 <ion-text color="primary">
-                  <a [routerLink]="['/new-form']" style="color:#b81321" [queryParams]="{unid:sdoc.sunid,aid:sdoc.formid,title:sdoc.refNo,stat:sdoc.WFStatus,type:'open',cururl:ulrs.url}">{{sdoc.refNo}}</a>
+                  <a [routerLink]="['/new-form']" style="color:#b81321"
+                    [queryParams]="{unid:sdoc.sunid,aid:sdoc.formid,title:sdoc.refNo,stat:sdoc.WFStatus,type:'open',cururl:ulrs.url}">{{sdoc.refNo}}</a>
                 </ion-text>
               </div>
 
             </ion-item>
+          </div>
+        </div>
+        <div *ngIf="section.secId=='AuditTrail'">
+          <ion-item lines="none">
+            <div>
+              <ion-text color="primary">
+                {{section.secInfoContent}}
+              </ion-text>
+
+            </div>
+
+          </ion-item>
         </div>
       </div>
+
     </div>
     </div>
   </div>

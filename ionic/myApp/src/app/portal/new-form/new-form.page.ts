@@ -164,6 +164,15 @@ export class NewFormPage implements OnInit {
           //if (this.type == "edit") {
           this.btnBox = this.selecttemplat.menubaritem
           //}
+          if(this.btnBox.result){
+            this.btnBox.result.forEach((val,index,arr) => {
+              if(val.btnType && val.btnType=='btnEmailLink') arr.splice(index,1);
+            });
+            this.btnBox.result.forEach((val,index,arr) => {
+              if (val.btnType && val.btnType=='btnPdf') arr.splice(index,1);
+            });
+          }
+          
 
           this.selecttemplat.template.secs[0].fields.forEach(data => {
 
@@ -219,12 +228,12 @@ export class NewFormPage implements OnInit {
                       if (v) {
                         data.hasSubfield = true;
                         data.fieldId = fieldId;
-                        this.getSublistOption(data, secId);
+                        this.getSublistOption(data, secId,'open');
                       }
 
                     }
                     if (data.lookup.view) {
-                      this.getSublistOption(data, secId);
+                      this.getSublistOption(data, secId,'open');
                     }
                   }
                 } else if (data.xtype == 'multiou' || data.xtype == 'singleou') {
@@ -282,6 +291,8 @@ export class NewFormPage implements OnInit {
                 this.fields.push(data) //
                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
               })
+            }else if(this.selecttemplat.template.secs[i].secId == "AuditTrail"){
+              if(this.selecttemplat.template.secs[i].secInfoContent && this.selecttemplat.template.secs[i].secInfoContent!='') selectSecId.push('AuditTrail');
             }
             // console .log(this.selecttemplat.template.secs[i])
             // console.log(this.selecttemplat.template.secs[i].secId)
@@ -292,7 +303,7 @@ export class NewFormPage implements OnInit {
             this.list.push({ "show": false })
             this.commonCtrl.hide()
           }
-          this.initHasSubfield();
+          this.initHasSubfield('open');
           // console.log(this.list)
           let flag = this.sections.some(function (obj, index) {
             return obj.title == "Severity"
@@ -394,7 +405,7 @@ export class NewFormPage implements OnInit {
             this.sectionsold.push(this.selecttemplat.template.secs[i])
             this.list.push({ "show": false })
           }
-          this.initHasSubfield();
+          this.initHasSubfield('change');
           let flag = this.sections.some(function (obj, index) {
             //console.log(obj.title)
             return obj.title == "Severity"
@@ -725,7 +736,7 @@ export class NewFormPage implements OnInit {
       });
       disSecId.forEach(element => {
         let el = this.sectionsold.find(e => e.secId == element);
-        if (el) this.sections.push(el); this.initHasSubfield();
+        if (el) this.sections.push(el);this.initHasSubfield('change');
       });
 
     }
@@ -896,11 +907,12 @@ export class NewFormPage implements OnInit {
     }
     return field.options;
   }
-  getSublistOption(field: any, secId: any) {
+  getSublistOption(field: any, secId: any,stype:string) {
     if (field.lookup.view) {
       let column: any = field.lookup.column;
 
       let val: any = field.value;
+      if(val && val.trim()=='') return
       let view: any = field.lookup.view;
       if (parseInt(column) > 1) {
         let v = this['lookupOptins' + column].find(e => {
@@ -942,6 +954,27 @@ export class NewFormPage implements OnInit {
 
         }
       });
+      let v = this.sections.find(e=>e.secId == secId);
+      if(v){
+        if(v.fields){
+          for (let i = 0; i < v.fields.length; i++) {
+            let e = v.fields[i];
+            if(e.lookup && e.lookup.view){
+              
+              if(e.lookup.view==view && parseInt(e.lookup.column)>=column){
+                e.value = '';
+                if(parseInt(e.lookup.column)>column){
+                  
+                  if(this['lookupOptins' + parseInt(e.lookup.column)]){
+                      let t = this['lookupOptins' + parseInt(e.lookup.column)].find(e=>e.secId==secId && e.view == view);
+                      if(t && t.options) t.options = [];
+                  }
+                }
+              } 
+            }
+          }
+        }
+      }
     }
     if (field.hasSubfield) {
       let val = field.value;
@@ -977,7 +1010,7 @@ export class NewFormPage implements OnInit {
       //if(secId!=field.parentSecId) continue;
       var hasSubFieldEl = sfield.fieldId;
       if (hasSubFieldEl == field.name) {
-        this.hasSubfieldChange(sfield, field.value);
+        this.hasSubfieldChange(sfield, field.value,stype);
       }
     }
   }
@@ -1061,7 +1094,7 @@ export class NewFormPage implements OnInit {
     //this.navCtrl.push(RiskMatrix, {riskMatrixFrameData:selectedRiskMatrix,riskMatrixSaveData:savedValue});
     //this.riskName=riskName;
   };
-  hasSubfieldChange(field, v) {
+  hasSubfieldChange(field, v,stype:string) {
     if (!field.subField) return;
     var hideSubfield = [];
     //var showSubfield=[];
@@ -1078,13 +1111,13 @@ export class NewFormPage implements OnInit {
       }
     }
 
-    this.hideSubfieldFunc(hideSubfield)
+    this.hideSubfieldFunc(hideSubfield,stype)
     //
     var v = (!v) ? "" : v;
     var array = [];
     if (typeof (v) == 'string') {
 
-      array.push(v);
+      array.push(v.trim());
     } else {
       array = array.concat(v);
     }
@@ -1138,7 +1171,7 @@ export class NewFormPage implements OnInit {
 
                   }
                 }
-                this.hideSubfieldFunc(hideSubfield);
+                this.hideSubfieldFunc(hideSubfield,stype);
               }
             } else {
               let val = v.value;
@@ -1223,7 +1256,7 @@ export class NewFormPage implements OnInit {
     }
     return value;
   }
-  initHasSubfield() {
+  initHasSubfield(stype:string) {
     let hideSubfield = [];
     let showSubfield = [];
     let pid = [];
@@ -1245,7 +1278,7 @@ export class NewFormPage implements OnInit {
         }
       }
     }
-    this.hideSubfieldFunc(hideSubfield);
+    this.hideSubfieldFunc(hideSubfield,stype);
 
     for (var m = 0; m < this.selecttemplat.template.hasSubFields.length; m++) {
 
@@ -1311,7 +1344,7 @@ export class NewFormPage implements OnInit {
 
                   }
                 }
-                this.hideSubfieldFunc(hideSubfield);
+                this.hideSubfieldFunc(hideSubfield,stype);
               }
             }
             break;
@@ -1321,7 +1354,7 @@ export class NewFormPage implements OnInit {
 
     }
   };
-  hideSubfieldFunc(hideSubfield) {
+  hideSubfieldFunc(hideSubfield,stype:string) {
     //this.hasSubFieldArray=hideSubfield;
     //var hideParentFieldIds=[];
 
@@ -1332,7 +1365,7 @@ export class NewFormPage implements OnInit {
           for (let e = 0; e < hideSubfield.length; e++) {
             if (this.sections[c].fields[d].name == hideSubfield[e]) {
               this.sections[c].fields[d].hide = true;
-
+              if(stype=="change") this.sections[c].fields[d].value = '';
             }
           }
         }
