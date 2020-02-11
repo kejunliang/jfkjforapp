@@ -750,28 +750,28 @@ export class NewFormPage implements OnInit {
 
   }
   //查找名称
-  async getSecurity(fieldname, fieldvalue) {
+  async getSecurity(fieldname, fieldvalue,stype:string) {
     const modal = await this.modal.create({
       showBackdrop: true,
       component: SecurityComponent,
-      componentProps: { value: this.guidanceData }
+      componentProps: { value: this.guidanceData,stype,fieldvalue }
     });
     modal.present();
     //监听销毁的事件
     const { data } = await modal.onDidDismiss();
     for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
       this.selecttemplat.template.secs[i].fields.forEach(item => {
-        console.log(fieldname)
-        console.log(item.name)
+        // console.log(fieldname)
+        // console.log(item.name)
         if (item.name == fieldname) {
-          console.log(data)
+          // console.log(data)
           item.value = data.result;
         }
       })
 
     }
 
-    console.log(this.selecttemplat.template.secs)
+    // console.log(this.selecttemplat.template.secs)
 
   }
   getOuList(fieldName: any, pSecId: any) {

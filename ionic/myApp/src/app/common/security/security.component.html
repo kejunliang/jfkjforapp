@@ -30,9 +30,30 @@
         <li *ngFor="let item of listSlect;let index=index"  [ngClass]="{'active': index==selectIndex}" (click)="select(item,index)">{{item.person}}</li>
     </ul>
   </div>
-  <ion-list>
+  <ion-list *ngIf="stype=='single'">
     <ion-item *ngFor="let item of listData" (click)="setManager(item)">
       <ion-label>{{item.EMPFullName}}</ion-label>
     </ion-item>
   </ion-list>
+  <ion-list *ngIf="stype=='multi'">
+    <ion-item *ngFor="let item of listData">
+      <ion-label>{{item.EMPFullName}}</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="item.checked" (ionChange)=addCheckedItems(item.checked,item.EMPFullName)></ion-checkbox>
+      </ion-item>
+  </ion-list>
 </ion-content>
+<ion-footer>
+  <div [ngStyle]="{ 'background-color': '#b81321','color':'white'}">
+    <div class="button-wrapper">
+    
+    <button [ngStyle]="{ 'background-color': '#b81321','color':'white'}" ion-button clear item-right icon-left (click)="dismiss()" align="center">
+      Close
+    </button>
+   
+    <button [ngStyle]="{ 'background-color': '#b81321','color':'white'}" ion-button clear item-right icon-left (click)="saveChoice()" align="center">
+      Save
+    </button>
+   
+  </div>
+   </div>
+</ion-footer>

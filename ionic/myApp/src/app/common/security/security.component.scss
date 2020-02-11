@@ -91,4 +91,21 @@ ion-toolbar{
         }
     }
 }
-
+.button-wrapper{
+    display:flex;
+    flex-flow:nowrap;
+    justify-content: space-around;
+    align-items: center;
+    height:64px;
+}
+.button-wrapper button{
+flex: 1;
+}
+.button-wrapper .button-inner{
+font-size:20px;
+}
+.button-wrapper button:first-child{
+    border-right: 1px white solid;
+    border-top-right-radius: 0px;   
+    border-bottom-right-radius: 0px;  
+}
