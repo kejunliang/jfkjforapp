@@ -19,7 +19,7 @@
       <!--date-->
       <div *ngIf="!field.xtype" [hidden]="field.hide">
         <ion-item lines="none">
-          <ion-label>{{field.label}}</ion-label>
+          <ion-label position="stacked">{{field.label}}</ion-label>
           <ion-text color="primary">
             {{field.value?field.value:initiator}}
           </ion-text>
@@ -38,12 +38,10 @@
       <!--date-->
       <div *ngIf="field.xtype=='date'" [hidden]="field.hide">
         <ion-item lines="none">
-          <ion-label>{{field.label}}</ion-label>
+          <ion-label position="stacked">{{field.label}}</ion-label>
           <ion-datetime displayFormat="DD/MM/YYYY" [min]="minDate" max="2027-12-31" [(ngModel)]='field.value'
             placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
-          <span class="down">
             <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
-          </span>
         </ion-item>
       </div>
     </div>
@@ -80,7 +78,7 @@
             <!--textareafield-->
             <div *ngIf="field.xtype==='textarea'">
               <ion-item>
-                <div>
+                <div class="divTextarea">
                   <div>
                     <ion-label color="basic" stacked>
                       {{field.label}}
@@ -255,7 +253,7 @@
             <!--attachment-->
             <div *ngIf="field.xtype==='attachment'" [hidden]="field.hide">
               <ion-item>
-              <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+              <ion-label position="stacked" style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
                 {{field.label}}
                 <span *ngIf="field.hasmust==true" class="needfill">*</span>
               </ion-label>
@@ -263,12 +261,13 @@
             <ion-item> -->
               <div *ngIf="!field.value" class="signature-area">
                 <img src="../../../../assets/icon/attachment/camera.png" alt="">
-                <button ion-button clear>Take a Picture</button>
+                <button ion-button clear (click)="takePicture(field.name,field)" >Take a Picture</button>
               </div>
-              <div *ngIf="field.value" class="image-attach">
+              <div *ngIf="field.value" class="image-attach" (click)="takePicture(field.name,field)">
                 <img [src]="field.value" />
               </div>
               <canvas #latlon style="display:none"></canvas>
+              <img src="{{field.src}}" alt="" style="display:none">
             </ion-item>
             </div>
             <!--headline-->
@@ -442,7 +441,7 @@
       <!--date-->
       <div [hidden]="field.hide"> 
         <ion-item lines="none">
-          <ion-label>{{field.label}}</ion-label>
+          <ion-label position="stacked">{{field.label}}</ion-label>
           <ion-text color="primary">
             <div *ngIf="field.xtype=='date'">
               {{field.value | date:'dd/MM/yyyy' }}
