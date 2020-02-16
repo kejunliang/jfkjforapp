@@ -1500,7 +1500,11 @@ export class NewFormPage implements OnInit {
           // context.fillText('Lon: '+lon, canvas.width / 2, canvas.height * 0.8);
           let image = canvas.toDataURL();
           field.src =image // this.webview.convertFileSrc(imageData);
-          field.value =image // this.webview.convertFileSrc(imageData);
+          //field.value =image // this.webview.convertFileSrc(imageData);
+          field.value=[{
+            type:'image',
+            value:image
+          }]
           //this.setValue(name, image);
         };
 
@@ -1577,9 +1581,13 @@ export class NewFormPage implements OnInit {
          // context.fillText('Lon: ' + lon, canvas.width * 0.1, canvas.height * 0.9);
           // context.fillText('Lon: '+lon, canvas.width / 2, canvas.height * 0.8);
           let image = canvas.toDataURL();
-          console.log(image)
+          //console.log(image)
           field.src =image // this.webview.convertFileSrc(imageData);
-          field.value =image // this.webview.convertFileSrc(imageData);
+          //field.value =image // this.webview.convertFileSrc(imageData);
+          field.value=[{
+            type:'image',
+            value:image
+          }]
           this.attachedImages.push(image);
           //this.setValue(name, image);
         };

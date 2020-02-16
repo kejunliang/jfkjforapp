@@ -259,12 +259,24 @@
               </ion-label>
             <!-- </ion-item>
             <ion-item> -->
-              <div *ngIf="!field.value" class="signature-area">
+              <div *ngIf="!field.value || field.value.length==0" class="signature-area">
                 <img src="../../../../assets/icon/attachment/camera.png" alt="">
                 <button ion-button clear (click)="takePicture(field.name,field)" >Take a Picture</button>
               </div>
               <div *ngIf="field.value" class="image-attach" (click)="takePicture(field.name,field)">
-                <img [src]="field.value" />
+                <!-- <img [src]="field.value" /> -->
+                  <div *ngFor="let att of field.value">
+                    <div *ngIf="att.type==='image'">
+                      <img [src]="att.value" />
+                    </div>
+                    <div *ngIf="att.type!=='image'">
+                      <ion-text color="primary">
+                        {{att.value}}
+                      </ion-text>
+                    </div>
+                    
+                  </div>
+                  
               </div>
               <canvas #latlon style="display:none"></canvas>
               <img src="{{field.src}}" alt="" style="display:none">
@@ -474,9 +486,25 @@
                       {{field.label}}
                       <span *ngIf="field.hasmust==true" class="needfill">*</span>
                     </ion-label>
-                    <ion-text color="primary">
-                      {{field.value}}
-                    </ion-text>
+                    <div *ngIf="field.xtype==='attachment'" [hidden]="field.hide">
+                      <div *ngFor="let att of field.value">
+                        <div *ngIf="att.type==='image'">
+                          <img [src]="att.value" />
+                        </div>
+                        <div *ngIf="att.type!=='image'">
+                          <ion-text color="primary">
+                            {{att.value}}
+                          </ion-text>
+                        </div>
+                        
+                      </div>
+                      
+                    </div>
+                    <div *ngIf="field.xtype!=='attachment'" [hidden]="field.hide">
+                      <ion-text color="primary">
+                        {{field.value}}
+                      </ion-text>
+                    </div>
                   </div>
                   <div *ngIf="field.xtype==='riskmatrix'">
                     <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
