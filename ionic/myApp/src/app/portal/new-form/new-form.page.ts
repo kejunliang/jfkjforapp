@@ -770,14 +770,17 @@ export class NewFormPage implements OnInit {
     //监听销毁的事件
     const { data } = await modal.onDidDismiss();
     for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
-      this.selecttemplat.template.secs[i].fields.forEach(item => {
-        // console.log(fieldname)
-        // console.log(item.name)
-        if (item.name == fieldname) {
-          // console.log(data)
-          item.value = data.result;
-        }
-      })
+      if(this.selecttemplat.template.secs[i].fields){
+        this.selecttemplat.template.secs[i].fields.forEach(item => {
+          // console.log(fieldname)
+          // console.log(item.name)
+          if (item.name == fieldname) {
+            // console.log(data)
+            item.value = data.result;
+          }
+        })
+      }
+      
 
     }
 
