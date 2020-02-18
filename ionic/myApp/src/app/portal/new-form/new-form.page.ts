@@ -228,7 +228,7 @@ export class NewFormPage implements OnInit {
                   });
                 }
                 if (data.xtype == "radio" || data.xtype == "select") {
-                  data.options = data.options.filter(function (obj) { return obj.value != "" })
+                  //data.options = data.options.filter(function (obj) { return obj.value != "" })
                   if (data.xtype == "select") {
                     let secId = this.selecttemplat.template.secs[i].secId;
                     if (this.selecttemplat.template.subListFields.length > 0) {
@@ -298,6 +298,11 @@ export class NewFormPage implements OnInit {
                   }
                 
                  
+              }else if(data.xtype == 'questionnaire'){
+                let v = data.options[0];
+                if(v && v.value){
+                  if(v.value!='') data.options.unshift({value:'',text:''});
+                }
               }
                 this.fields.push(data) //
                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
@@ -358,7 +363,7 @@ export class NewFormPage implements OnInit {
                 }
               });
               if (data.xtype == "radio" || data.xtype == "select") {
-                data.options = data.options.filter(function (obj) { return obj.value != "" })
+                //data.options = data.options.filter(function (obj) { return obj.value != "" })
                 if (data.xtype == "select") {
                   if (this.selecttemplat.template.subListFields.length > 0) {
                     let secId = this.selecttemplat.template.secs[i].secId;
@@ -407,6 +412,11 @@ export class NewFormPage implements OnInit {
                 }
               
                
+            }else if(data.xtype == 'questionnaire'){
+              let v = data.options[0];
+              if(v && v.value){
+                if(v.value!='') data.options.unshift({value:'',text:''});
+              }
             }
               this.loadSecs.push(data);
               this.fields.push(data) //
@@ -738,13 +748,6 @@ export class NewFormPage implements OnInit {
     if (v) {
       let quesFields: any = [];
       let answerWhen = v.answerWhen;
-      let disSecId: any = v.answerWhen[field.value];
-      let newArr:any = [];
-      disSecId.forEach(e=>{
-        let index = this.sectionsold.findIndex(el=>el.secId==e);
-        if(index) newArr.push({e,index});
-      })
-      newArr.sort((a,b)=>a.index-b.index);
       for (let key in answerWhen) {
         quesFields = quesFields.concat(answerWhen[key]);
       }
@@ -752,10 +755,21 @@ export class NewFormPage implements OnInit {
         let index: number = this.sections.findIndex(e => e.secId == element);
         if (index != -1) this.sections.splice(index, 1);
       });
-      newArr.forEach(element => {
-        let el = this.sectionsold.find(e => e.secId == element.e);
-        if (el) this.sections.push(el);this.initHasSubfield('change');
-      });
+      if(field.value!=''){
+        let disSecId: any = v.answerWhen[field.value];
+        let newArr:any = [];
+        disSecId.forEach(e=>{
+          let index = this.sectionsold.findIndex(el=>el.secId==e);
+          if(index) newArr.push({e,index});
+        })
+        newArr.sort((a,b)=>a.index-b.index);
+        
+        newArr.forEach(element => {
+          let el = this.sectionsold.find(e => e.secId == element.e);
+          if (el) this.sections.push(el);this.initHasSubfield('change');
+        });
+      }
+      
 
     }
 
@@ -931,10 +945,45 @@ export class NewFormPage implements OnInit {
   getSublistOption(field: any, secId: any,stype:string) {
     if (field.lookup.view) {
       let column: any = field.lookup.column;
-
-      let val: any = field.value;
-      if(val && val.trim()=='') return
       let view: any = field.lookup.view;
+      let val: any = field.value;
+      if(!val) {
+        let newcolumn = parseInt(column) + 1;
+        while(newcolumn<5){
+          if(this['lookupOptins' + newcolumn]){
+            let v = this['lookupOptins' + newcolumn].find(e => {
+              return e.secId == secId && e.view == field.lookup.view;
+            });
+            if(v) v.options = [];
+            newcolumn++;
+          }else{
+            newcolumn = 6;
+          }
+          
+        }
+      let v = this.sections.find(e=>e.secId == secId);
+      if(v){
+        if(v.fields){
+          for (let i = 0; i < v.fields.length; i++) {
+            let e = v.fields[i];
+            if(e.lookup && e.lookup.view){
+              
+              if(e.lookup.view==view && parseInt(e.lookup.column)>=column){
+                e.value = '';
+                if(parseInt(e.lookup.column)>column){
+                  
+                  if(this['lookupOptins' + parseInt(e.lookup.column)]){
+                      let t = this['lookupOptins' + parseInt(e.lookup.column)].find(e=>e.secId==secId && e.view == view);
+                      if(t && t.options) t.options = [];
+                  }
+                }
+              } 
+            }
+          }
+        }
+      }
+        return
+      }
       if (parseInt(column) > 1) {
         let v = this['lookupOptins' + column].find(e => {
           return e.secId == secId && e.view == view;
@@ -952,7 +1001,7 @@ export class NewFormPage implements OnInit {
       this.getLookupOptions(obj).then((data: any) => {
         if (data.status == "success") {
           let options: any = [];
-
+          options.push({ value: '', text: '' })
           for (let i = 0; i < data.data.length; i++) {
             let element = data.data[i];
             options.push({ value: element, text: element })
