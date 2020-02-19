@@ -228,6 +228,7 @@ export class NewFormPage implements OnInit {
                   });
                 }
                 if (data.xtype == "radio" || data.xtype == "select") {
+                  if(data.xtype == "radio") data.options = data.options.filter(function (obj) { return obj.value != "" })
                   //data.options = data.options.filter(function (obj) { return obj.value != "" })
                   if (data.xtype == "select") {
                     let secId = this.selecttemplat.template.secs[i].secId;
@@ -363,6 +364,7 @@ export class NewFormPage implements OnInit {
                 }
               });
               if (data.xtype == "radio" || data.xtype == "select") {
+                if(data.xtype == "radio") data.options = data.options.filter(function (obj) { return obj.value != "" })
                 //data.options = data.options.filter(function (obj) { return obj.value != "" })
                 if (data.xtype == "select") {
                   if (this.selecttemplat.template.subListFields.length > 0) {
