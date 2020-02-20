@@ -16,7 +16,7 @@
    <div class="search-box">
     
       <img src="../../../../../assets/icon/search.png" alt="">
-      <ion-input type="text" placeholder="Type to search"  (ionChange)=getItems($event) ></ion-input>
+      <ion-input type="text" placeholder="Type to search"  (ionChange)=getItems($event)  [(ngModel)]="searchkey"></ion-input>
       <!-- <input type="text" placeholder="Search" [(ngModel)]="searchName" (keyup)="getSearch()" placeholder=""> -->
       <img src="../../../../../assets/icon/delect.png" class="delect" (click)="delectSelect()" *ngIf="isDelect">
    </div>
@@ -41,6 +41,10 @@
       <ion-checkbox slot="end" [(ngModel)]="item.checked" (ionChange)=addCheckedItems(item.checked,item.EMPFullName)></ion-checkbox>
       </ion-item>
   </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 <ion-footer *ngIf="stype=='multi'">
   <div [ngStyle]="{ 'background-color': '#b81321','color':'white'}">
