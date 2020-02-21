@@ -175,7 +175,7 @@
               </ion-item>
             </div> -->
             <div *ngIf="field.xtype==='riskmatrix'">
-              <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
+              <ion-label style="margin-bottom:10px; " color="basic" stacked>{{field.label}}</ion-label>
               <button style="padding-left:10px;" ion-item block color="secondary" (click)="riskMatrix(field.RiskMatrix,field.value,field.name)">Risk Matrix</button>
                <!-- <a [routerLink]="['/risk-matrix']" [queryParams]="{riskMatrixFrameData:tobj,riskMatrixSaveData:field.value,riskName:field.name}">Risk Matrix</a> -->
                <ion-item *ngIf="field.value" [ngStyle]="{ 'background-color': field.value.ResultColor,'padding-left':'10px' }">
@@ -199,7 +199,7 @@
             <!--time-->
             <div *ngIf="field.xtype==='time'" [hidden]="field.hide">
 
-              <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
+              <ion-label style="margin-bottom:10px; " color="basic" stacked>{{field.label}}</ion-label>
               <span *ngIf="field.hasmust==true" class="needfill">*</span>
               <ion-item style="background-color:#eee;">
                 <ion-datetime displayFormat="hh:mm A" pickerFormat="h:mm A" [(ngModel)]='field.value' placeholder="Tap To Pick A Time">
@@ -209,7 +209,7 @@
             <!--questionnaire quesType='multiple'-->
             <div *ngIf="field.xtype==='questionnaire' && field.quesType==='true'" [hidden]="field.hide">
               <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
-                <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+                <ion-label style="margin-bottom:10px; " color="basic" stacked>
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
@@ -222,7 +222,7 @@
             <!--questionnaire quesType='single'-->
             <div *ngIf="field.xtype==='questionnaire' " [hidden]="field.hide">
               <ion-item>
-                <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+                <ion-label style="margin-bottom:10px; " color="basic" stacked>
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
@@ -235,7 +235,7 @@
             </div>
             <!--signature-->
             <div *ngIf="field.xtype==='signature'" [hidden]="field.hide">
-              <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+              <ion-label style="margin-bottom:10px; " color="basic" stacked>
                 {{field.label}}
                 <span *ngIf="field.hasmust==true" class="needfill">*</span>
               </ion-label>
@@ -253,7 +253,7 @@
             <!--attachment-->
             <div *ngIf="field.xtype==='attachment'" [hidden]="field.hide">
               <ion-item>
-              <ion-label position="stacked" style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+              <ion-label position="stacked" style="margin-bottom:10px; " color="basic" stacked>
                 {{field.label}}
                 <span *ngIf="field.hasmust==true" class="needfill">*</span>
               </ion-label>
@@ -300,13 +300,13 @@
               <ion-item>
                 <div class="divText">
                   <div>
-                    <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+                    <ion-label style="margin-bottom:10px; " color="basic" stacked>
                       {{field.label}}
                       <span *ngIf="field.hasmust==true" class="needfill">*</span>
                     </ion-label>
                   </div>
                   <div>
-                    <ion-input type="text" style="background-color:#eee; font-size: 20px;" [(ngModel)]='field.value'
+                    <ion-input type="text" style="background-color:#eee; " [(ngModel)]='field.value'
                       placeholder="Tap to enter"></ion-input>
                   </div>
                 </div>
@@ -315,19 +315,19 @@
             <!--numberfield-->
             <div *ngIf="field.xtype==='number'" class="text-number" [hidden]="field.hide">
               <ion-item>
-                <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+                <ion-label style="margin-bottom:10px; " color="basic" stacked>
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
 
-                <ion-input type="number" style="background-color:#eee; font-size: 20px;" [(ngModel)]='field.value'
+                <ion-input type="number" style="background-color:#eee; " [(ngModel)]='field.value'
                   placeholder="Tap to enter"></ion-input>
               </ion-item>
             </div>
             <!--checkboxfield-->
             <div *ngIf="field.xtype==='checkbox'" [hidden]="field.hide">
               <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
-                <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+                <ion-label style="margin-bottom:10px; " color="basic" stacked>
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
@@ -355,7 +355,7 @@
               <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
                 <div>
                   <div class="row row-wrap item-calm">
-                    <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+                    <ion-label style="margin-bottom:10px; " color="basic" stacked>
                       {{field.label}}
                       <span *ngIf="field.hasmust==true" class="needfill">*</span>
                     </ion-label>
@@ -379,7 +379,7 @@
             <!--selectfield-->
             <div *ngIf="field.xtype=='select'" [hidden]="field.hide">
               <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
-                <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>
+                <ion-label style="margin-bottom:10px; " color="basic" stacked>
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
@@ -387,7 +387,7 @@
               <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
                 <ion-select [(ngModel)]='field.value'
                 [interfaceOptions]="customPopoverOptions" interface="popover"
-                (ionChange)="getSublistOption(field,section.secId,'change')">
+                (ionChange)="getSublistOption(field,section.secId,'change')" placeholder="Select One">
                 <ion-select-option *ngFor="let option of getSelectOption(field,section.secId)">{{option.text}}</ion-select-option>
                 <div *ngIf="field.name==sublistObjId">
                   <ion-select-option *ngFor="let option of sublistFiledOptions">{{option.text}}</ion-select-option>
@@ -507,7 +507,7 @@
                     </div>
                   </div>
                   <div *ngIf="field.xtype==='riskmatrix'">
-                    <ion-label style="margin-bottom:10px; font-size:15px;" color="basic" stacked>{{field.label}}</ion-label>
+                    <ion-label style="margin-bottom:10px; " color="basic" stacked>{{field.label}}</ion-label>
                     <button style="padding-left:10px;" ion-item block color="secondary" (click)="riskMatrix(field.RiskMatrix,field.value,field.name)">Risk Matrix</button>
                      <!-- <a [routerLink]="['/risk-matrix']" [queryParams]="{riskMatrixFrameData:tobj,riskMatrixSaveData:field.value,riskName:field.name}">Risk Matrix</a> -->
                      <ion-item *ngIf="field.value" [ngStyle]="{ 'background-color': field.value.ResultColor,'padding-left':'10px' }">
