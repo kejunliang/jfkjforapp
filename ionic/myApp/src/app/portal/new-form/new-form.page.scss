@@ -7,7 +7,8 @@ ion-item {
        color: #b81321;
     }
     ion-select{
-      max-width: 850%;
+      max-width: 100%;
+      padding-left: 0;
       .select-text{
          white-space: normal !important;
          word-break:break-all;
