@@ -846,6 +846,34 @@ export class NewFormPage implements OnInit {
     let text: any;
     let value: any;
 
+    if(val.length==0){
+      //ou5select
+      for (let i = level; i < 6; i++) {
+        if(this['ou'+i+'select']){
+          let v = this['ou' + i + 'select'].find(e => e.ouGroupId == ouGroupId);
+          if(v) v['ou' + (i + 1) + 'list'] = [];
+        }
+      }
+      let v = this.sections.find(e=>e.secId == pSecId);
+      if(v){
+        if(v.fields){
+          for (let i = 0; i < v.fields.length; i++) {
+            let e = v.fields[i];
+            if(e.xtype=='multiou' || e.xtype=='singleou'){
+              if(e.name==name) continue;
+              let o: any = this.getOuLevelAndGroupId(e.name, pSecId);
+              if(o.ouGroupId == ouGroupId){
+                
+                if(o.level>level) e.value = '';
+                
+              } 
+            }
+          }
+        }
+      }
+      return ;
+    }
+
     for (let i = 0; i < val.length; i++) {
       if (val[i].indexOf('/') > -1) {
         tmparr2 = val[i].split('/');
@@ -894,6 +922,59 @@ export class NewFormPage implements OnInit {
       this['ou' + level + 'select'].push(ou);
     } else {
       this['ou' + level + 'select'].splice(index, 1, ou);
+    }
+    // for (let i = level+1; i < 6; i++) {
+    //   if(this['ou'+i+'select']){
+    //     let v = this['ou' + i + 'select'].find(e => e.ouGroupId == ouGroupId);
+    //     if(v) v['ou' + (i + 1) + 'list'] = [];
+    //   }
+    // }
+    let v = this.sections.find(e=>e.secId == pSecId);
+    if(v){
+      if(v.fields){
+        for (let i = 0; i < v.fields.length; i++) {
+          let e = v.fields[i];
+          if(e.xtype=='multiou' || e.xtype=='singleou'){
+            if(e.name==name) continue;
+            let o: any = this.getOuLevelAndGroupId(e.name, pSecId);
+            if(o.ouGroupId == ouGroupId){
+             
+              if(o.level>level){
+                if(e.xtype=='singleou'){
+                  e.value = '';
+                  let tm:number = level+1;
+                  if(this['ou'+tm+'select']){
+                    let v = this['ou' + tm + 'select'].find(e => e.ouGroupId == ouGroupId);
+                    if(v) v['ou' + (tm + 1) + 'list'] = [];
+                  }
+                }else{
+                  let curlevel:number = o.level;
+                  let selectOU:any = this['ou' + (curlevel-1) + 'select'];
+                  if(selectOU){
+                    let gou:any = selectOU.find(a => a.ouGroupId == ouGroupId);
+                    if(gou){
+                      let eleval:any = typeof (e.value) == 'string' ? [e.value] : e.value;
+                      let list:any = gou['ou' + (curlevel) + 'list'];
+                      let t = list.find(ele=>eleval.indexOf(ele.value)!=-1);
+                      if(!t){
+                        e.value='';
+                        let tm:number = curlevel;
+                        if(this['ou'+tm+'select']){
+                          let v = this['ou' + tm + 'select'].find(e => e.ouGroupId == ouGroupId);
+                          if(v) v['ou' + (tm + 1) + 'list'] = [];
+                        }
+                      }
+                    }
+                    
+                  }
+                  
+                }
+              }
+              
+            } 
+          }
+        }
+      }
     }
   }
   getOuLevelAndGroupId(fieldName: any, pSecId: any): object {
