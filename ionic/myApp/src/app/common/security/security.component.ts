@@ -33,6 +33,7 @@ export class SecurityComponent implements OnInit {
   public searchkey: String;
   public start: number;
   public pnum: number = 30;
+  public title:string ="Security Manager";
   constructor(public navParams: NavParams, public storage: Storage, public commonCtrl: commonCtrl) {
 
   }
@@ -56,6 +57,7 @@ export class SecurityComponent implements OnInit {
       console.log('this.navParams.data:', this.navParams.data);
       this.stype = this.navParams.data.stype;
       this.fval = this.navParams.data.fieldvalue;
+      this.title =this.navParams.data.label
       if (!this.fval) {
         this.fval = [];
       } else {

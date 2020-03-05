@@ -778,11 +778,11 @@ export class NewFormPage implements OnInit {
 
   }
   //查找名称
-  async getSecurity(fieldname, fieldvalue,stype:string) {
+  async getSecurity(fieldname, fieldvalue,stype:string,label) {
     const modal = await this.modal.create({
       showBackdrop: true,
       component: SecurityComponent,
-      componentProps: {stype,fieldvalue }
+      componentProps: {stype,fieldvalue,label }
     });
     modal.present();
     //监听销毁的事件
