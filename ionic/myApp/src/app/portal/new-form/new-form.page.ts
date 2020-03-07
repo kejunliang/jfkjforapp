@@ -623,7 +623,7 @@ export class NewFormPage implements OnInit {
         if (fieldError) {
           console.log("必填了")
           console.log(msg)
-          this.presentAlert("The following fields are mandatory:<br/>" + msg, "", "OK")
+          this.presentAlert("The follow fields are mandatory:<br/>" + msg, "", "OK")
           return false;
         }
         else {

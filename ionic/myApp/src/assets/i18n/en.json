@@ -46,8 +46,8 @@
         "or":"or",
         "login":"Log In",
         "ssologin":"SSO Log In",
-        "authmailerr":"The mailbox or verification code is incorrect, please re-enter!",
-        "authpasserr":"wrong password!"
+        "authmailerr":"Please enter correct email and authentication code!",
+        "authpasserr":"Incorrect password. Please be aware that password is case sensitive."
     },
     "setting":{
         "account":"My account",
@@ -56,7 +56,7 @@
         "logout":"Log out"
     },
     "alert":{
-        "title":"prompt",
+        "title":"",
         "btn":"ok"
     },
     "readAction":{
