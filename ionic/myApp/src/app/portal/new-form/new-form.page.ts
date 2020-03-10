@@ -97,6 +97,7 @@ export class NewFormPage implements OnInit {
   public riskname: string;
   public riskmatrixvalue: any;
   public minDate: string = '';
+  public attLists: any = [];
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -1638,10 +1639,11 @@ export class NewFormPage implements OnInit {
           let image = canvas.toDataURL();
           field.src =image // this.webview.convertFileSrc(imageData);
           //field.value =image // this.webview.convertFileSrc(imageData);
-          field.value=[{
+          this.attLists.push({
             type:'image',
             value:image
-          }]
+          })
+          field.value= this.attLists;
           //this.setValue(name, image);
         };
 
@@ -1721,10 +1723,11 @@ export class NewFormPage implements OnInit {
           //console.log(image)
           field.src =image // this.webview.convertFileSrc(imageData);
           //field.value =image // this.webview.convertFileSrc(imageData);
-          field.value=[{
+          this.attLists.push({
             type:'image',
             value:image
-          }]
+          })
+          field.value=  this.attLists
           this.attachedImages.push(image);
           //this.setValue(name, image);
         };
