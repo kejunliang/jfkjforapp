@@ -48,7 +48,7 @@ export class AccountPage implements OnInit {
         data = JSON.parse(data.data)
         this.accountData=data;
         let draftDate=this.accountData.lasttimelogout.substring(0,this.accountData.lasttimelogout.length-3)
-        this.accountData.lasttimelogout=this.datePipe.transform(draftDate,'dd/MM/yyyy')
+        //this.accountData.lasttimelogout=this.datePipe.transform(draftDate,'dd/MM/yyyy')
         this.getLan()
       }
     )

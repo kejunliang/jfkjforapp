@@ -29,6 +29,7 @@ export class LanguagePage implements OnInit {
       this.pass=data.password;
       this.LanguageService.getAppTranslation(this.user,this.pass,data.server,data.folder).pipe(first()).subscribe(
         data => {
+          data = JSON.parse(data.data)
           this.langularArr=data.Languages;
            //获取当前设置的语言
           let browerLang=this.translate.getDefaultLang();
