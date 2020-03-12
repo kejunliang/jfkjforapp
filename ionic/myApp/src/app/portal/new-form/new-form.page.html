@@ -75,6 +75,8 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
+              </ion-item>
+              <ion-item>
                 <ion-select [(ngModel)]='field.value' multiple="true" name="field.name"
                 (ionChange)="getSublistOption(field,section.secId,'change')">
                   <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
@@ -201,7 +203,8 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
-
+              </ion-item>
+              <ion-item>
                 <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getemplistData()"></ion-icon>
                 <ion-text color="primary">
                   <h6> {{field.value}}</h6>
@@ -333,7 +336,8 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
-
+              </ion-item>
+              <ion-item>
                 <ion-input type="number" style="background-color:#eee; " [(ngModel)]='field.value'
                   placeholder="Tap to enter"></ion-input>
               </ion-item>
