@@ -463,6 +463,22 @@
 
     </div>
     </div>
+    <div>
+      <ion-item lines="none">
+        <div>
+          <br/>
+
+        </div>
+
+      </ion-item>
+      <ion-item lines="none">
+        <div>
+          <br/>
+
+        </div>
+
+      </ion-item>
+    </div>
   </div>
 
   <div class="form-container" id="open" *ngIf="type=='open'">
@@ -475,10 +491,11 @@
         </ion-item>
         <ion-item>
           <ion-text color="primary">
-            <div *ngIf="field.xtype=='date'">
+            <!-- <div *ngIf="field.xtype=='date'">
               {{field.value | date:'dd/MM/yyyy' }}
             </div>
-            <div *ngIf="field.xtype!='date'">{{field.value}}</div>
+            <div *ngIf="field.xtype!='date'">{{field.value}}</div> -->
+            {{field.value}}
           </ion-text>
         </ion-item>
       </div>

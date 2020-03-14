@@ -210,12 +210,17 @@ export class FormListPage implements OnInit {
    console.log(val)
     if (val && val.trim() != '') {
       this.data = this.databak.filter((item) => {
-        if(item.title){
-          return (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        
+        if(item.FieldIDsForSearch){
+          let v = item.FieldIDsForSearch.find(it=>it.includes(val) || it.toLowerCase().includes(val));
+          if(v) return item;
         }else{
-          return (item.DocRefNumber.toLowerCase().indexOf(val.toLowerCase()) > -1);
+          if(item.title){
+            return (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+          }else{
+            return (item.DocRefNumber.toLowerCase().indexOf(val.toLowerCase()) > -1);
+          }
         }
-       
       })
     }
   };
