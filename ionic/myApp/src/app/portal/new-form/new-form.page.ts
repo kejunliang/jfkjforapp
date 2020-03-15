@@ -307,7 +307,7 @@ export class NewFormPage implements OnInit {
                 }
               }else if(data.xtype == 'date'){
                 if(this.type == 'edit'){
-                  if(data.value!=''){
+                  if(data.value && data.value!=''){
                     let tmp = '/';
                     if(data.value.indexOf('/')!=-1){
                       tmp = '/';
