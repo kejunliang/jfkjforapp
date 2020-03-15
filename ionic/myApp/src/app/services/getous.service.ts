@@ -4,6 +4,7 @@ import { Observable,from } from 'rxjs';
 import { catchError,map } from 'rxjs/operators';
 import { CommonService } from './common.service';
 import { HTTP } from '@ionic-native/http/ngx';
+import {AppConfig } from '../config'
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,9 @@ export class GetousService {
         "Content-Type":"application/json; charset=utf-8",
         "Authorization":auth
     };
-    return from(this.httpnative.get(domain+'/'+folder+'/appmgt.nsf/xp_ws.xsp/getAppKeyword?client=integrum','',options));
+    //return from(this.httpnative.get(domain+'/'+folder+'/appmgt.nsf/xp_ws.xsp/getAppKeyword?client=integrum','',options));
+    let url:string = `${AppConfig.domain}/${AppConfig.folder}/appmgt.nsf/xp_ws.xsp/getAppKeyword?client=integrum`;
+    return from(this.httpnative.get(url,'',options));
   }
 
   

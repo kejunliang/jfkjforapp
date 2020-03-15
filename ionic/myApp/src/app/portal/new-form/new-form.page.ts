@@ -245,7 +245,7 @@ export class NewFormPage implements OnInit {
                       }
 
                     }
-                    if (data.lookup.view) {
+                    if (data.lookup && data.lookup.view) {
                       this.getSublistOption(data, secId,'open');
                     }
                   }
