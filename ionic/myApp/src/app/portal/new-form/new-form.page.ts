@@ -785,9 +785,12 @@ export class NewFormPage implements OnInit {
     }
 
     this.sections.forEach(secelement => {
-      secelement.fields.forEach(element => {
-        this.selectScore(element, element.value, secelement.title)
-      });
+      if(secelement.fields){
+        secelement.fields.forEach(element => {
+          this.selectScore(element, element.value, secelement.title)
+        });
+      }
+      
     });
 
 
