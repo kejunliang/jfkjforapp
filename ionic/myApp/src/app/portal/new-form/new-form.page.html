@@ -351,6 +351,8 @@
                   {{field.label}}
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
+                </ion-item>
+              <ion-item>
                 <div *ngIf="field.options.length>3">
                   <ion-select [(ngModel)]='field.value' multiple="true"
                   (ionChange)=getSublistdetails(field.name,field.value)>
