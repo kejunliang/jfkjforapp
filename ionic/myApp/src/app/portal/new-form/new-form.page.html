@@ -27,7 +27,7 @@
           </ion-text>
         </ion-item>
       </div>
-      <div *ngIf="field.xtype=='singleempselect'">
+      <div *ngIf="field.xtype=='singleempselect'" [hidden]="field.hide">
         <ion-item>
           <ion-label color="basic" stacked>{{field.label}}</ion-label>
           <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getSecurity(field.name,field.value,'single',field.label)">
@@ -69,7 +69,7 @@
           <div *ngIf="section.secId!='AuditTrail' && section.secId!='subform' ">
           <div *ngFor="let field of section.fields;let index = index;" class="fieldshow">
             <!--multiselectfield-->
-            <div *ngIf="field.xtype==='multiselect'">
+            <div *ngIf="field.xtype==='multiselect'" [hidden]="field.hide">
               <ion-item lines="none">
                 <ion-label color="basic" stacked>
                   {{field.label}}
@@ -84,7 +84,7 @@
               </ion-item>
             </div>
             <!--textareafield-->
-            <div *ngIf="field.xtype==='textarea'">
+            <div *ngIf="field.xtype==='textarea'" [hidden]="field.hide">
               <ion-item>
                 <div class="divTextarea">
                   <div>
@@ -146,7 +146,7 @@
               </ion-item>
             </div>
             <!--singleempselect-->
-            <div *ngIf="field.xtype=='singleempselect'">
+            <div *ngIf="field.xtype=='singleempselect'" [hidden]="field.hide">
               <ion-item>
                 <ion-label>
                   {{field.label}}
