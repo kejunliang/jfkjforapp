@@ -1428,7 +1428,7 @@ export class NewFormPage implements OnInit {
     //var showSubfield=[];
     for (var i = 0; i < this.selecttemplat.template.hasSubFields.length; i++) {
       var field = this.selecttemplat.template.hasSubFields[i];
-      if (!field) return;
+      if (!field) continue;
       //if(secId!=field.parentSecId) continue;
       let hasSubFieldEl = field.subField;
       pid.push(field.fieldId);

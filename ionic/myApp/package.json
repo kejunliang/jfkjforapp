@@ -102,7 +102,6 @@
       },
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-geolocation": {},
-      "cordova-plugin-qrscanner": {},
       "cordova-plugin-advanced-http": {
         "OKHTTP_VERSION": "3.10.0"
       },
