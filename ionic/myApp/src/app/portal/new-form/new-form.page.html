@@ -227,9 +227,10 @@
             <div *ngIf="field.xtype==='time'" [hidden]="field.hide">
 
               <ion-item lines="none">
-                <ion-label color="basic" stacked>{{field.label}}</ion-label>
+                <ion-label color="basic" stacked>{{field.label}}
+                  <span *ngIf="field.hasmust==true" class="needfill">*</span>
+                </ion-label>
               </ion-item>
-              <span *ngIf="field.hasmust==true" class="needfill">*</span>
               <ion-item style="background-color:#eee;">
                 <ion-datetime displayFormat="hh:mm A" pickerFormat="h:mm A" [(ngModel)]='field.value' placeholder="Tap To Pick A Time">
                 </ion-datetime>
