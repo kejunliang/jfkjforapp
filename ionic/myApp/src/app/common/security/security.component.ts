@@ -97,7 +97,7 @@ export class SecurityComponent implements OnInit {
   }
   dismiss() {
     this.navParams.data.modal.dismiss({
-      result: ''
+      result: this.fval.join(";")
     })
   }
   setManager(item) {
