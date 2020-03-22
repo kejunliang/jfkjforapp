@@ -604,13 +604,19 @@ export class NewFormPage implements OnInit {
         for (let p = 0; p < this.selecttemplat.template.mandaFields.length; p++) {
           for (let d = 0; d < this.fields.length; d++) {
             if (this.selecttemplat.template.mandaFields[p].fieldId == this.fields[d].name) {
+              if(this.fields[d].hide && this.fields[d].hide==true) continue;
               console.log(this.fields[d].name)
               let type = this.selecttemplat.template.mandaFields[p].type;
               //let con=this.formType.template.mandaFields[p].con;
-              if (type == "m") {
+              if (type.includes("m")) {
                 if ((this.fields[d].value == "") || (this.fields[d].value == undefined)) {
                   msg += this.selecttemplat.template.mandaFields[p].label + ' <br/>';
                   fieldError = true;
+                }else if(type.includes("d")){
+                  if (this.fields[d].value < this.today) {
+                    msg += this.selecttemplat.template.mandaFields[p].label + ' date cannot be less than current date';
+                    fieldError = true;
+                  }
                 }
               }
               else {
@@ -777,7 +783,20 @@ export class NewFormPage implements OnInit {
         
         newArr.forEach(element => {
           let el = this.sectionsold.find(e => e.secId == element.e);
-          if (el) this.sections.push(el);this.initHasSubfield('change');
+          if (el){
+            let eindex = element.index;
+            let sindex:number = this.getSectionIndex(eindex-1);
+            const max:number = 30;
+            let i:number = 0;
+            while(sindex==-1){
+              eindex--;
+              i++;
+              sindex = this.getSectionIndex(eindex-1);
+              if(i==max) sindex = 1;
+            }
+            this.sections.splice(sindex,0,el);
+            this.initHasSubfield('change');
+          }
         });
       }
       
@@ -794,6 +813,22 @@ export class NewFormPage implements OnInit {
     });
 
 
+  }
+  getSectionIndex(index:number):number{
+    if(index<0) return 1;
+    
+    const fsection = this.sectionsold[index];
+    if(fsection){
+      const fsecId:string = fsection.secId;
+      const elenum:number = this.sections.findIndex(e=>e.secId==fsecId);
+      if(elenum==-1){
+        //this.getSectionIndex(index-1);
+        return -1;
+      }else{
+        return index+1;
+      }
+    }
+    return 1;
   }
   //查找名称
   async getSecurity(fieldname, fieldvalue,stype:string,label) {
