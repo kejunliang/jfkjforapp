@@ -1497,7 +1497,7 @@ export class NewFormPage implements OnInit {
       let v = this.initHasSubfieldValue(showfield.fieldId);
 
       var array = [];
-      if (!v) return;
+      if (!v) continue;
       if (typeof (v) == 'string') {
 
         array.push(v);
