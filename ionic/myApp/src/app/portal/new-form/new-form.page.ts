@@ -1238,7 +1238,17 @@ export class NewFormPage implements OnInit {
 
 
   }
-
+  radioChange(field, value, sectiontitle){
+    for (var i = 0; i < this.selecttemplat.template.hasSubFields.length; i++) {
+      var sfield = this.selecttemplat.template.hasSubFields[i];
+      //if(secId!=field.parentSecId) continue;
+      var hasSubFieldEl = sfield.fieldId;
+      if (hasSubFieldEl == field.name) {
+        this.hasSubfieldChange(sfield, value,"change");
+      }
+    }
+    this.selectScore(field, value, sectiontitle);
+  }
   selectScore(field, value, sectiontitle) {
 
     this.sections.forEach(element => {
