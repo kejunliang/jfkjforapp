@@ -29,7 +29,7 @@
        
     },
     "login":{
-        "email":"Email",
+        "email":"User Name",
         "password":"Password",
         "authcode":"Authentication Code",
         "welcom1":"Welcome to integrumNow (v2)",
@@ -46,7 +46,7 @@
         "or":"or",
         "login":"Log In",
         "ssologin":"SSO Log In",
-        "authmailerr":"Please enter correct email and authentication code!",
+        "authmailerr":"Please enter correct authentication code!",
         "authpasserr":"Incorrect password. Please be aware that password is case sensitive."
     },
     "setting":{

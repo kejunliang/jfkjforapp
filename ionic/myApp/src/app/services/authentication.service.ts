@@ -13,7 +13,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient,private common:CommonService,private httpnative: HTTP) { }
 
   login(userid: string,pass:string,domain:string,folder:string): Observable<any> {
-    console.log("code")
+
     let  data={
       "Code": ""
     }
@@ -28,16 +28,27 @@ export class AuthenticationService {
 
   
   
-  sendEmail(email:string,slid:string,code:string):Observable<any>{
+  sendEmail(code:string):Observable<any>{
     let s=new Date();
     let deviceid=s.getTime().toString()
     let  data= {
-      "email": email,
-      "code": code,
-      "deviceid":deviceid,
-      "devicettype":"test"
-  }
+      "code": code
+    }
   
     return from(this.httpnative.post(AppConfig.domain+'/'+AppConfig.folder+'/appmgt.nsf/xp_ws.xsp/UserAuthentication',data,""))
+  }
+  updateUserInfo(logindetail:any):Observable<any>{
+    const {folder,username,email,code,OUCategory} = logindetail;
+    const deviceid = "iphone12 001";
+    const data = {
+      username,
+      email,
+      "oucategory":OUCategory,
+      code,
+      deviceid,
+      "devicettype":"iphone13 plus"
+    }
+    return from(this.httpnative.post(AppConfig.domain+'/'+AppConfig.folder+'/appmgt.nsf/xp_ws.xsp/updateUserInfo',data,""))
+    
   }
 }

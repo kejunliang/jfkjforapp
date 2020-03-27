@@ -34,27 +34,41 @@
         <ion-row>
             <ion-col> </ion-col>
             <ion-col  size="9">
-                <ion-item class="email" >
-                  <ion-thumbnail class="emailthumbnail">
-                      <ion-img class="emailpng" [src]="'/assets/icon/email.png'"></ion-img>
+              <ion-item class="email" *ngIf="fase">
+                <ion-thumbnail class="emailthumbnail">
+                    <ion-img class="emailpng" [src]="'/assets/icon/email.png'"></ion-img>
+                </ion-thumbnail>
+                <ion-text>|&nbsp;&nbsp;</ion-text>
+                <ion-input class="autinput"  [formControl]="email"   placeholder="{{'login.email' | translate}} "></ion-input>
+              </ion-item> 
+              <ion-item class="email" >
+                  <ion-thumbnail class="auththumbnail">
+                        <ion-img class="atuhpng" [src]="'/assets/icon/auth.png'"></ion-img>
                   </ion-thumbnail>
                   <ion-text>|&nbsp;&nbsp;</ion-text>
-                  <ion-input class="autinput" [formControl]="email"   placeholder="{{'login.email' | translate}} "></ion-input>
-                </ion-item> 
-                <ion-item class="email" >
-                    <ion-thumbnail class="auththumbnail">
-                          <ion-img class="atuhpng" [src]="'/assets/icon/auth.png'"></ion-img>
-                    </ion-thumbnail>
-                    <ion-text>|&nbsp;&nbsp;</ion-text>
-                    <ion-input   [formControl]="code"   placeholder="{{'login.authcode' | translate}} "></ion-input>
+                  <ion-input  (ionChange)="onchange()"  formControlName="code"   placeholder="{{'login.authcode' | translate}} "></ion-input>
+              </ion-item>
+              <ion-item class="email" >
+                <ion-thumbnail class="auththumbnail">
+                      <ion-img class="atuhpng" [src]="'/assets/icon/name.png'"></ion-img>
+                </ion-thumbnail>
+                <ion-text>|&nbsp;&nbsp;</ion-text>
+                <ion-input   [formControl]="name"   placeholder="{{'login.email' | translate}} "></ion-input>
                 </ion-item>
+                <ion-item class="email" >
+                  <ion-thumbnail class="auththumbnail">
+                        <ion-img class="atuhpng" [src]="'/assets/icon/password.png'"></ion-img>
+                  </ion-thumbnail>
+                  <ion-text>|&nbsp;&nbsp;</ion-text>
+                  <ion-input type="password" [formControl]="password" placeholder="{{'login.password' | translate}} "></ion-input>
+              </ion-item>
             </ion-col> 
             <ion-col></ion-col>
         </ion-row>
         <ion-row>
             <ion-col></ion-col>
             <ion-col  size="9">
-                <ion-button  class="emailSend" *ngIf="sendStat" [disabled]="!authform.valid" ion-button type="submit"   expand="block">{{'login.submit' | translate}}</ion-button>
+                <ion-button  class="emailSend" *ngIf="sendStat" [disabled]="!authform.valid" ion-button type="submit"   expand="block">{{'login.login' | translate}}</ion-button>
             </ion-col> 
             <ion-col></ion-col>
         </ion-row>

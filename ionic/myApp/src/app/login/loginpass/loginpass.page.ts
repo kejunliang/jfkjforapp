@@ -17,14 +17,17 @@ import { GetallformsService } from "../../services/getallforms.service";
 export class LoginpassPage implements OnInit {
   public user: string;
   public pass: string;
+  public code: string;
   public resmsg: string;
-  public loginDetails = {
-    username: "",
-    password: "",
-    email: "",
-    OUCategory: "",
-    server: "",
-    folder: ""
+  public loginDetails ={
+    email:"",
+    code:"",
+    OUCategory:"",
+    server:"",
+    folder:"",
+    username:"",
+    password:"",
+    empgroup:""
   }
   public logPic = {
     log: "/assets/icon/logo.png",
@@ -58,11 +61,12 @@ export class LoginpassPage implements OnInit {
         this.pass = data.password
         this.server = data.server;
         this.folder = data.folder;
-        // this.getou.getLoginPic(data.username,data.password,data.server,data.folder).pipe(first()).subscribe(data => {
-        //   data = JSON.parse(data.data);
-        //  // this.logPic.log=data.LoginCompanyLogo
-        //  // this.logPic.background=data.LoginBKImage
-        // });
+        this.code = data.code;
+        this.getou.getLoginPic(this.loginDetails).pipe(first()).subscribe(data => {
+          data = JSON.parse(data.data);
+         this.logPic.log=data.LoginCompanyLogo
+         this.logPic.background=data.LoginBKImage
+        });
       } else {
         this.loginDetails.email = localStorage.getItem('email')
         this.loginDetails.OUCategory = localStorage.getItem('OUCategory')
@@ -78,9 +82,6 @@ export class LoginpassPage implements OnInit {
 
   //log in system
   Login() {
-
-    console.log(this.user)
-    console.log(this.pass)
     this.auth.login(this.user, this.pass, this.server, this.folder)
       .pipe(first())
       .subscribe(
@@ -88,15 +89,26 @@ export class LoginpassPage implements OnInit {
           if (result.data.indexOf('DOCTYPE') == -1) {
             result = JSON.parse(result.data)
             if (result.returnResponse == "Success") {
-              this.loginDetails.username = this.user.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
-              this.loginDetails.password = this.pass.replace(/\\/g, '\\\\').replace(/\'/g, '\\\'');
-              this.loginDetails.email = this.loginDetails.email
+              this.loginDetails.username = this.user;
+              this.loginDetails.password = this.pass;
               this.loginDetails.server = this.server;
               this.loginDetails.folder = this.folder;
-              console.log(this.loginDetails)
-              // alert(JSON.stringify(this.loginDetails))
-              this.storage.set("loginDetails", this.loginDetails)
-              localStorage.setItem('hasLogged', 'true');
+              this.loginDetails.code = this.code;
+              this.loginDetails.email = result.user.email;
+              this.loginDetails.OUCategory = result.user.oucategory;
+
+              this.storage.set("loginDetails",this.loginDetails)
+              this.auth.updateUserInfo(this.loginDetails).pipe(first()).subscribe(
+                data => {
+                  data = JSON.parse(data.data);
+                  this.loginDetails.OUCategory = data.OUCategory;
+                  const EmpCurrentPortal = data.EmpCurrentPortal;
+                  this.loginDetails.empgroup = EmpCurrentPortal;
+                  console.log('updateUserInfo---->this.loginDetails:',this.loginDetails)
+                  localStorage.setItem('EmpCurrentPortal',EmpCurrentPortal)
+                  this.storage.set("loginDetails",this.loginDetails)
+                }
+              )
               this.getou.getous(this.user, this.pass, this.server, this.folder).pipe(first()).subscribe(
                 data => {
                   data = JSON.parse(data.data);
