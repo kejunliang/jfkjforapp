@@ -183,4 +183,8 @@ export class AuthemailPage implements OnInit {
 
     await alert.present();
   }
+  onchange(){
+  
+   
+  }
 }
