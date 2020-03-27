@@ -31,6 +31,7 @@ export class Tab1Page {
   public titlelog :string ;
   public sdomain:string;
   public folder:string;
+
   constructor(
     public popoverController: PopoverController,
     public Nav: NavController,
@@ -43,11 +44,11 @@ export class Tab1Page {
     public translate: TranslateService,
     private getou:GetousService
   ) {
-
+    this.sdomain = AppConfig.domain;
+    this.folder = AppConfig.folder;
     this.show()
     this.storage.get("loginDetails").then(data => {
-      this.sdomain = data.server;
-      this.folder = data.folder;
+      
       this.geapp.getPortalInfoV2(data).pipe(first())
         .subscribe(data => {
           console.log(data)
