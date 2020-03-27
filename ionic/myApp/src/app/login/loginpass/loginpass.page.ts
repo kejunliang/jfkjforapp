@@ -62,7 +62,7 @@ export class LoginpassPage implements OnInit {
         this.server = data.server;
         this.folder = data.folder;
         this.code = data.code;
-        this.getou.getLoginPic(this.loginDetails).pipe(first()).subscribe(data => {
+        this.getou.getLoginPic(data).pipe(first()).subscribe(data => {
           data = JSON.parse(data.data);
          this.logPic.log=data.LoginCompanyLogo
          this.logPic.background=data.LoginBKImage
