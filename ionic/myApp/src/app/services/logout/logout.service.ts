@@ -20,7 +20,7 @@ export class LogoutService {
     };
     //http://oa.jf81.com/sfv3/appmgt.nsf/xp_ws.xsp/Logout?&email=zding@jf81.com&languageCode=zh&portalGroup=app.integrum Group A
     let params:string = `${AppConfig.domain}/${AppConfig.folder}/appmgt.nsf/xp_ws.xsp/Logout?&email=${encodeURIComponent(email)}&languageCode=${encodeURIComponent(language)}&portalGroup=${encodeURIComponent(protalGroup)}`;
-    return from(this.httpnative.get(params,'',options));
+    return from(this.httpnative.get(params,'',''));
     
   }
 

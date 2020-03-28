@@ -29,7 +29,7 @@ export class GetAppPortalService {
       "Authorization":auth
     };
     let params:string = `${AppConfig.domain}/${AppConfig.folder}/appmgt.nsf/xp_ws.xsp/getAppPortal?&email=${encodeURIComponent(logindetail.email)}`;
-    return from(this.httpnative.get(params,"",options));
+    return from(this.httpnative.get(params,"",''));
   }
   //sfv3/integrumws.nsf/xp_App.xsp/getViewData?key=Activity_form_New_Iberian&countperpage=10&curpage=4
   getViewData(logindetail:any,para:any ):Observable<any>{
