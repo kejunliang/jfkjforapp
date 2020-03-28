@@ -40,6 +40,15 @@ export class SecurityComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('this.navParams.data:', this.navParams.data);
+      this.stype = this.navParams.data.stype;
+      this.fval = this.navParams.data.fieldvalue;
+      this.title =this.navParams.data.label
+      if (!this.fval) {
+        this.fval = [];
+      } else {
+        this.fval = this.fval.split(';');
+      }
     //get Person
     this.storage.get('psninfo').then(data => {
       //console.log(JSON.parse(data))
@@ -56,15 +65,7 @@ export class SecurityComponent implements OnInit {
       }
       this.firstData=this.listData;
       console.log('this.listData:', this.listData);
-      console.log('this.navParams.data:', this.navParams.data);
-      this.stype = this.navParams.data.stype;
-      this.fval = this.navParams.data.fieldvalue;
-      this.title =this.navParams.data.label
-      if (!this.fval) {
-        this.fval = [];
-      } else {
-        this.fval = this.fval.split(';');
-      }
+      
 
       if (this.stype == 'multi') {
         this.listDatabak.forEach(e => {
