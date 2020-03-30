@@ -19,7 +19,7 @@ export class AccountService {
         "Authorization":auth
     };
     let url:string = `${AppConfig.domain}/${AppConfig.folder}/appmgt.nsf/xp_ws.xsp/getMyAccount?email=${email}`;
-    return from(this.httpnative.get(url,'',options));
+    return from(this.httpnative.get(url,'',''));
    
   };
   
