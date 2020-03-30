@@ -49,7 +49,7 @@ export class Tab1Page {
     this.show()
     this.storage.get("loginDetails").then(data => {
       
-      this.geapp.getPortalInfoV2(data).pipe(first())
+      this.geapp.getPortalInfo(data).pipe(first())
         .subscribe(data => {
           console.log(data)
           data = JSON.parse(data.data);
