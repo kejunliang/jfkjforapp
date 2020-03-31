@@ -21,7 +21,7 @@
 
 <ion-content>
   <div class="portal-box">
-    <div class="portal-title">
+    <div class="portal-title" [ngStyle]="{'background-color':cbgcolor}">
       <span>{{portalTile}}</span>
       <ion-icon name="list" (click)="presentPopoverPortal($event)"></ion-icon>
     </div>

@@ -31,7 +31,7 @@ export class Tab1Page {
   public titlelog :string ;
   public sdomain:string;
   public folder:string;
-
+  public cbgcolor = "#B81321";
   constructor(
     public popoverController: PopoverController,
     public Nav: NavController,
@@ -48,7 +48,7 @@ export class Tab1Page {
     this.folder = AppConfig.folder;
     this.show()
     this.storage.get("loginDetails").then(data => {
-      
+      if(data.code=="kn001") this.cbgcolor = "#004a80";
       this.geapp.getPortalInfo(data).pipe(first())
         .subscribe(data => {
           console.log(data)

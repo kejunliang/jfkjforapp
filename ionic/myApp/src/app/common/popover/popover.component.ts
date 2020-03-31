@@ -16,6 +16,7 @@ export class PopoverComponent implements OnInit {
   public fields:Array<object> =[]
   public para:any;
   public tempid:string;
+  public mycolor = "action";
   constructor(public params: NavParams,
     public Popover: PopoverController,
     public router: Router,
@@ -30,6 +31,7 @@ export class PopoverComponent implements OnInit {
     this.fields =this.params.get("formdata")
     this.formid =this.params.get("unid")
     this.tempid =this.params.get("tempid")
+    this.mycolor = this.params.get('txtfontcolor')
   }
 
   ngOnInit() { }

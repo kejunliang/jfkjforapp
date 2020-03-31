@@ -22,7 +22,7 @@
           <ion-label color="basic" stacked>{{field.label}}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-text color="primary">
+          <ion-text  [color]="txtfontcolor">
             {{field.value?field.value:initiator}}
           </ion-text>
         </ion-item>
@@ -34,7 +34,7 @@
           </ion-icon>
         </ion-item>
         <ion-item>
-          <ion-text color="primary">
+          <ion-text  [color]="txtfontcolor">
             {{field.value}}
           </ion-text>
         </ion-item>
@@ -46,7 +46,7 @@
           </ion-icon>
         </ion-item>
         <ion-item>
-          <ion-text color="primary">
+          <ion-text  [color]="txtfontcolor">
             {{field.value}}
           </ion-text>
         </ion-item>
@@ -58,7 +58,7 @@
         </ion-item>
         <ion-item>
           <ion-datetime displayFormat="DD/MM/YYYY" [min]="minDate" max="2027-12-31" [(ngModel)]='field.value'
-            placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
+            placeholder="Tap To Pick A Date" color="favorite" [ngStyle]="{'color':cbgcolor}"></ion-datetime>
             <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
         </ion-item>
       </div>
@@ -68,7 +68,7 @@
     <div *ngFor="let section of sections;let index = index;" class="field-container" [id]="section.secId">
       <div *ngIf="index>0">
         
-        <ion-item lines="none" color="favorite">
+        <ion-item lines="none" [color]="secbgcolor">
           <ion-label color="light">{{section.title}}&nbsp;&nbsp;&nbsp;&nbsp;{{section.score}}</ion-label>
           <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"
             (click)="isShowGuidance(section.secId,index)" *ngIf="!(list&&list[index]&&list[index].show)"></ion-icon>
@@ -89,7 +89,7 @@
                 </ion-label>
               </ion-item>
               <ion-item>
-                <ion-select [(ngModel)]='field.value' multiple="true" name="field.name"
+                <ion-select [(ngModel)]='field.value' multiple="true" name="field.name" [ngStyle]="{'color':cbgcolor}"
                 (ionChange)="getSublistOption(field,section.secId,'change')">
                   <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
                 </ion-select>
@@ -105,7 +105,7 @@
                       <span *ngIf="field.hasmust==true" class="needfill">*</span>
                     </ion-label>
                   </div>
-                  <div> <textarea rows="4" [(ngModel)]='field.value' style="background-color:#fff;color:#b81321;" placeholder="Enter a description"></textarea></div>
+                  <div> <textarea rows="4" [(ngModel)]='field.value' style="background-color:#fff;" [ngStyle]="{'color':cbgcolor}" placeholder="Enter a description"></textarea></div>
                 </div>
               </ion-item>
             </div>
@@ -118,7 +118,7 @@
                 </ion-label>
               </ion-item>
               <ion-item>
-                <ion-select [(ngModel)]='field.value' multiple="" name="field.name"
+                <ion-select [(ngModel)]='field.value' multiple="" name="field.name" [ngStyle]="{'color':cbgcolor}"
                   (ionChange)=getOUSublistdetails(field.name,field.value,section.secId)>
                   <ion-select-option *ngFor="let option of getOuList(field.name,section.secId)" [value]="option.value">
                     {{option.text}}</ion-select-option>
@@ -134,7 +134,7 @@
                 </ion-label>
               </ion-item>
               <ion-item>
-                <ion-select  [(ngModel)]='field.value' multiple="false"  [interfaceOptions]="customPopoverOptions" interface="popover" name="field.name"
+                <ion-select  [(ngModel)]='field.value' multiple="false"  [interfaceOptions]="customPopoverOptions" interface="popover" name="field.name" [ngStyle]="{'color':cbgcolor}"
                   (ionChange)=getOUSublistdetails(field.name,field.value,section.secId)>
                   <ion-select-option *ngFor="let option of getOuList(field.name,section.secId)" [value]="option.value">
                     {{option.text}}</ion-select-option>
@@ -151,7 +151,7 @@
               </ion-item>
               <ion-item>
                 <ion-datetime displayFormat="DD/MM/YYYY" min="1940-06-16" max="2027-12-31" [(ngModel)]='field.value'
-                  placeholder="Tap To Pick A Date" color="favorite"></ion-datetime>
+                  placeholder="Tap To Pick A Date" color="favorite" [ngStyle]="{'color':cbgcolor}"></ion-datetime>
                 <span class="down">
                   <ion-icon slot="end" name="calendar" mode="md"></ion-icon>
                 </span>
@@ -167,7 +167,7 @@
               </ion-item>
               <ion-item>
                 <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getSecurity(field.name,field.value,'single',field.label)"></ion-icon>
-                <ion-text color="primary">
+                <ion-text  [color]="txtfontcolor">
                   <h6> {{field.value}}</h6>
                 </ion-text>
               </ion-item>
@@ -182,7 +182,7 @@
                 </ion-item>
                 <ion-item>
                 <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getSecurity(field.name,field.value,'multi',field.label)"></ion-icon>
-                <ion-text color="primary">
+                <ion-text  [color]="txtfontcolor">
                   <h6> {{field.value}}</h6>
                 </ion-text>
               </ion-item>
@@ -195,7 +195,7 @@
                   <span *ngIf="field.hasmust==true" class="needfill">*</span>
                 </ion-label>
                 <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getemplistData()"></ion-icon>
-                <ion-text color="primary">
+                <ion-text  [color]="txtfontcolor">
                   <h6> {{field.value}}</h6>
                 </ion-text>
               </ion-item>
@@ -218,7 +218,7 @@
               </ion-item>
               <ion-item>
                 <ion-icon slot="end" name="arrow-forward" mode="ios" (click)="getemplistData()"></ion-icon>
-                <ion-text color="primary">
+                <ion-text  [color]="txtfontcolor">
                   <h6> {{field.value}}</h6>
                 </ion-text>
               </ion-item>
@@ -232,7 +232,7 @@
                 </ion-label>
               </ion-item>
               <ion-item style="background-color:#eee;">
-                <ion-datetime displayFormat="hh:mm A" pickerFormat="h:mm A" [(ngModel)]='field.value' placeholder="Tap To Pick A Time">
+                <ion-datetime displayFormat="hh:mm A" pickerFormat="h:mm A" [(ngModel)]='field.value' placeholder="Tap To Pick A Time" [ngStyle]="{'color':cbgcolor}">
                 </ion-datetime>
               </ion-item>
             </div>
@@ -245,7 +245,7 @@
                 </ion-label>
               </ion-item>
               <ion-item>
-                <ion-select [(ngModel)]='field.value' multiple="true">
+                <ion-select [(ngModel)]='field.value' multiple="true" [ngStyle]="{'color':cbgcolor}">
                   <ion-item-option *ngFor="let option of field.options">{{option.text}}</ion-item-option>
                 </ion-select>
               </ion-item>
@@ -259,7 +259,7 @@
                 </ion-label>
               </ion-item>
               <ion-item>
-                <ion-select [(ngModel)]='field.value' interface="popover" placeholder="Select One"
+                <ion-select [(ngModel)]='field.value' interface="popover" placeholder="Select One" [ngStyle]="{'color':cbgcolor}"
                   (ionChange)="change(field)">
                   <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
                 </ion-select>
@@ -302,7 +302,7 @@
                       <img [src]="att.value" />
                     </div>
                     <div *ngIf="att.type!=='image'">
-                      <ion-text color="primary">
+                      <ion-text  [color]="txtfontcolor">
                         {{att.value}}
                       </ion-text>
                     </div>
@@ -338,7 +338,7 @@
                     </ion-label>
                   </div>
                   <div>
-                    <ion-input type="text" style="background-color:#fff;color:#b81321;" [(ngModel)]='field.value'
+                    <ion-input type="text" style="background-color:#fff;" [ngStyle]="{'color':cbgcolor}" [(ngModel)]='field.value'
                       placeholder="Tap to enter"></ion-input>
                   </div>
                 </div>
@@ -353,7 +353,7 @@
                 </ion-label>
               </ion-item>
               <ion-item>
-                <ion-input type="number" style="background-color:#fff;color:#b81321;" [(ngModel)]='field.value'
+                <ion-input type="number" style="background-color:#fff;" [ngStyle]="{'color':cbgcolor}" [(ngModel)]='field.value'
                   placeholder="Tap to enter"></ion-input>
               </ion-item>
             </div>
@@ -421,7 +421,7 @@
               </ion-item>
               <ion-item style="margin-left:0px;padding-left:0px;padding-right:0px;">
                 <ion-select [(ngModel)]='field.value'
-                [interfaceOptions]="customPopoverOptions" interface="popover"
+                [interfaceOptions]="customPopoverOptions" interface="popover" [ngStyle]="{'color':cbgcolor}"
                 (ionChange)="getSublistOption(field,section.secId,'change')" placeholder="Select One">
                 <ion-select-option *ngFor="let option of getSelectOption(field,section.secId)">{{option.text}}</ion-select-option>
                 <div *ngIf="field.name==sublistObjId">
@@ -456,8 +456,8 @@
           <div *ngFor="let sdoc of section.sdocs;let index = index;" class="fieldshow">
             <ion-item lines="none">
               <div>
-                <ion-text color="primary">
-                  <a [routerLink]="['/new-form']" style="color:#b81321"
+                <ion-text  [color]="txtfontcolor">
+                  <a [routerLink]="['/new-form']"  [ngStyle]="{'color':cbgcolor}"
                     [queryParams]="{unid:sdoc.sunid,aid:sdoc.formid,title:sdoc.refNo,stat:sdoc.WFStatus,type:'open',cururl:ulrs.url}">{{sdoc.refNo}}</a>
                 </ion-text>
               </div>
@@ -468,7 +468,7 @@
         <div *ngIf="section.secId=='AuditTrail'">
           <ion-item lines="none">
             <div>
-              <ion-text color="primary">
+              <ion-text  [color]="txtfontcolor">
                 {{section.secInfoContent}}
               </ion-text>
 
@@ -507,7 +507,7 @@
           <ion-label color="basic" stacked>{{field.label}}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-text color="primary">
+          <ion-text  [color]="txtfontcolor">
             <!-- <div *ngIf="field.xtype=='date'">
               {{field.value | date:'dd/MM/yyyy' }}
             </div>
@@ -522,7 +522,7 @@
 
     <div *ngFor="let section of sections;let index = index;" class="field-container" [id]="section.secId">
       <div *ngIf="index>0">
-        <ion-item lines="none" color="favorite">
+        <ion-item lines="none" [color]="secbgcolor">
           <ion-label color="light">{{section.title}}&nbsp;&nbsp;&nbsp;&nbsp;{{section.score}}</ion-label>
           <ion-icon slot="end" color="light" name="arrow-forward" mode="ios"
             (click)="isShowGuidance(section.secId,index)" *ngIf="!(list&&list[index]&&list[index].show)"></ion-icon>
@@ -556,7 +556,7 @@
                           <img [src]="att.value" />
                         </div>
                         <div *ngIf="att.type!=='image'">
-                          <ion-text color="primary">
+                          <ion-text  [color]="txtfontcolor">
                             {{att.value}}
                           </ion-text>
                         </div>
@@ -565,7 +565,7 @@
                       
                     </div>
                     <div *ngIf="field.xtype!=='attachment'" [hidden]="field.hide">
-                      <ion-text color="primary">
+                      <ion-text  [color]="txtfontcolor">
                         {{field.value}}
                       </ion-text>
                     </div>
@@ -595,8 +595,8 @@
             <div *ngFor="let sdoc of section.sdocs;let index = index;" class="fieldshow">
                 <ion-item lines="none">
                   <div>
-                    <ion-text color="primary">
-                      <a [routerLink]="['/new-form']" style="color:#b81321" [queryParams]="{unid:sdoc.sunid,aid:sdoc.formid,title:sdoc.refNo,stat:sdoc.WFStatus,type:'open',cururl:ulrs.url}">{{sdoc.refNo}}</a>
+                    <ion-text  [color]="txtfontcolor">
+                      <a [routerLink]="['/new-form']" [ngStyle]="{'color':cbgcolor}" [queryParams]="{unid:sdoc.sunid,aid:sdoc.formid,title:sdoc.refNo,stat:sdoc.WFStatus,type:'open',cururl:ulrs.url}">{{sdoc.refNo}}</a>
                     </ion-text>
                   </div>
     
@@ -606,7 +606,7 @@
           <div *ngIf="section.secId=='AuditTrail'">
             <ion-item lines="none">
               <div>
-                <ion-text color="primary">
+                <ion-text  [color]="txtfontcolor">
                   {{section.secInfoContent}}
                 </ion-text>
               </div>

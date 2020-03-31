@@ -35,6 +35,7 @@ export class SecurityComponent implements OnInit {
   public pnum: number = 30;
   public title:string ="Security Manager";
   public firstData:any =[];
+  public cbgcolor = "#b81321";
   constructor(public navParams: NavParams, public storage: Storage, public commonCtrl: commonCtrl) {
 
   }
@@ -44,6 +45,7 @@ export class SecurityComponent implements OnInit {
       this.stype = this.navParams.data.stype;
       this.fval = this.navParams.data.fieldvalue;
       this.title =this.navParams.data.label
+      this.cbgcolor = this.navParams.data.cbgcolor;
       if (!this.fval) {
         this.fval = [];
       } else {

@@ -99,6 +99,9 @@ export class NewFormPage implements OnInit {
   public riskmatrixvalue: any;
   public minDate: string = '';
   public attLists: any = [];
+  public secbgcolor = "favorite";
+  public cbgcolor = "#b81321";
+  public txtfontcolor = "favorite";
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -133,6 +136,7 @@ export class NewFormPage implements OnInit {
     })
 
     this.storage.get('loginDetails').then(data => {
+      if(data.code=="kn001") this.cbgcolor = "#3880ff";this.secbgcolor = "action";this.txtfontcolor="primary";
       this.initiator = data.username;
       this.initiatorOU = data.OUCategory;
     })
@@ -514,7 +518,7 @@ export class NewFormPage implements OnInit {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      componentProps: { type: "action", data: this.btnBox, formdata: this.fields, unid: this.formID, tempid: this.templatid },
+      componentProps: { type: "action", data: this.btnBox, formdata: this.fields, unid: this.formID, tempid: this.templatid,txtfontcolor:this.txtfontcolor },
       translucent: true,
       cssClass: "custom-popover",
       mode: "md"
@@ -841,7 +845,7 @@ export class NewFormPage implements OnInit {
     const modal = await this.modal.create({
       showBackdrop: true,
       component: SecurityComponent,
-      componentProps: {stype,fieldvalue,label }
+      componentProps: {stype,fieldvalue,label,cbgcolor:this.cbgcolor }
     });
     modal.present();
     //监听销毁的事件

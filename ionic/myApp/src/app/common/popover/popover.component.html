@@ -1,5 +1,5 @@
 <ion-list >
-  <ion-item lines="full" *ngFor="let item of actions" (click)="dismiss(item.btnType)">
+  <ion-item lines="full" *ngFor="let item of actions"  [color]="mycolor" (click)="dismiss(item.btnType)">
     <ion-label>{{item.btnLabel}}</ion-label>
   </ion-item>
 </ion-list>

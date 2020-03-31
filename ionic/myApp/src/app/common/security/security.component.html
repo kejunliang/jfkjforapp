@@ -47,14 +47,14 @@
   </ion-infinite-scroll>
 </ion-content>
 <ion-footer *ngIf="stype=='multi'">
-  <div [ngStyle]="{ 'background-color': '#b81321','color':'white'}">
+  <div [ngStyle]="{ 'background-color': cbgcolor,'color':'white'}">
     <div class="button-wrapper">
     
-    <button [ngStyle]="{ 'background-color': '#b81321','color':'white'}" ion-button clear item-right icon-left (click)="dismiss()" align="center">
+    <button [ngStyle]="{ 'background-color': cbgcolor,'color':'white'}" ion-button clear item-right icon-left (click)="dismiss()" align="center">
       Close
     </button>
    
-    <button [ngStyle]="{ 'background-color': '#b81321','color':'white'}" ion-button clear item-right icon-left (click)="saveChoice()" align="center">
+    <button [ngStyle]="{ 'background-color': cbgcolor,'color':'white'}" ion-button clear item-right icon-left (click)="saveChoice()" align="center">
       Save
     </button>
    
