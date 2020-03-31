@@ -349,7 +349,13 @@ export class NewFormPage implements OnInit {
         this.fields = [];
         this.type = "edit"
         this.storage.get("allforms").then(data => {
-          this.templates = JSON.parse(data).templates
+          data = JSON.parse(data)
+          if(data==null){
+            console.log(' allforms is loading!');
+            return false;
+          }
+          this.templates = data.templates
+          //this.templates = JSON.parse(data).templates
           this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
           if (!this.selecttemplat) {
             console.log(res.aid,' is not find!');
@@ -893,6 +899,7 @@ export class NewFormPage implements OnInit {
     ou.ouGroupId = ouGroupId;
     let arr: any = [];
     let ouLevelList = JSON.parse(this.ous)["ou" + (level + 1)];
+    if(!ouLevelList) return;
     let tmparr: any = [];
     let tmparr1: any = [];
     let tmparr2: any = [];
@@ -1055,12 +1062,15 @@ export class NewFormPage implements OnInit {
       if (column == "1") {
         return field.options;
       } else {
-        let v = this['lookupOptins' + column].find(e => {
-          return e.secId == secId && e.view == field.lookup.view;
-        });
-        return v ? v.options : [];
+        if(column!=''){
+          let v = this['lookupOptins' + column].find(e => {
+            return e.secId == secId && e.view == field.lookup.view;
+          });
+          return v ? v.options : [];
+        }
+        
       }
-      return [];
+      return field.options;
     }
     if (field.pFieldId != '') {
       let v = this.selecttemplat.template.subListFields.find(e => e.parentSecId == secId && e.fieldId == field.name);
