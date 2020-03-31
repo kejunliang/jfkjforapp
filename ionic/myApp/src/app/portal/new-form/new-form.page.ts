@@ -136,7 +136,11 @@ export class NewFormPage implements OnInit {
     })
 
     this.storage.get('loginDetails').then(data => {
-      if(data.code=="kn001") this.cbgcolor = "#3880ff";this.secbgcolor = "action";this.txtfontcolor="primary";
+      if(data.code=="kn001"){
+        this.cbgcolor = "#3880ff";
+        this.secbgcolor = "action";
+        this.txtfontcolor="primary";
+      }
       this.initiator = data.username;
       this.initiatorOU = data.OUCategory;
     })
