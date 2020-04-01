@@ -1339,7 +1339,7 @@ export class NewFormPage implements OnInit {
       }
     }
 
-    this.hideSubfieldFunc(hideSubfield,stype)
+    this.hideSubfieldFunc(hideSubfield,stype,field.fieldType)
     //
     var v = (!v) ? "" : v;
     var array = [];
@@ -1399,7 +1399,7 @@ export class NewFormPage implements OnInit {
 
                   }
                 }
-                this.hideSubfieldFunc(hideSubfield,stype);
+                this.hideSubfieldFunc(hideSubfield,stype,v.xtype);
               }
             } else {
               let val = v.value;
@@ -1572,7 +1572,7 @@ export class NewFormPage implements OnInit {
 
                   }
                 }
-                this.hideSubfieldFunc(hideSubfield,stype);
+                this.hideSubfieldFunc(hideSubfield,stype,v.xtype);
               }
             }
             break;
@@ -1582,7 +1582,7 @@ export class NewFormPage implements OnInit {
 
     }
   };
-  hideSubfieldFunc(hideSubfield,stype:string) {
+  hideSubfieldFunc(hideSubfield,stype:string,fieldtype='select') {
     //this.hasSubFieldArray=hideSubfield;
     //var hideParentFieldIds=[];
 
@@ -1593,7 +1593,9 @@ export class NewFormPage implements OnInit {
           for (let e = 0; e < hideSubfield.length; e++) {
             if (this.sections[c].fields[d].name == hideSubfield[e]) {
               this.sections[c].fields[d].hide = true;
-              if(stype=="change") this.sections[c].fields[d].value = '';
+              if(fieldtype=='select'){
+                if(stype=="change") this.sections[c].fields[d].value = '';
+              }
             }
           }
         }
