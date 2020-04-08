@@ -102,6 +102,8 @@ export class NewFormPage implements OnInit {
   public secbgcolor = "favorite";
   public cbgcolor = "#b81321";
   public txtfontcolor = "favorite";
+  public skipMandatory:string = "0";
+  public mandatoryWhenApprove: string = "0";
   constructor(
     private storage: Storage,
     public modal: ModalController,
@@ -174,7 +176,9 @@ export class NewFormPage implements OnInit {
           //  console.log(this.templates)
           // alert(fileName);
           //this.selecttemplat = this.getTemplatByViewId(this.templates, res.aid)
-          this.selecttemplat = this.templates[0]
+          this.selecttemplat = this.templates[0];
+          this.mandatoryWhenApprove = this.selecttemplat.mandatoryWhenApprove?this.selecttemplat.mandatoryWhenApprove:"0";
+          this.skipMandatory = this.selecttemplat.skipMandatory?this.selecttemplat.skipMandatory:"0";
           let selectSecId: any = this.selecttemplat.sectionids ? this.selecttemplat.sectionids : [];
           selectSecId = ['FormMr'].concat(selectSecId);
           if (!this.selecttemplat) {
@@ -369,6 +373,8 @@ export class NewFormPage implements OnInit {
             console.log(res.aid,' is not find!');
             return false;
           }
+          this.mandatoryWhenApprove = this.selecttemplat.mandatoryWhenApprove?this.selecttemplat.mandatoryWhenApprove:"0";
+          this.skipMandatory = this.selecttemplat.skipMandatory?this.selecttemplat.skipMandatory:"0";
           this.btnBox = this.selecttemplat.menubaritem
           this.title = this.selecttemplat.template.templateTitle
           this.sysfields = this.selecttemplat.template.secs[0].fields
@@ -578,6 +584,15 @@ export class NewFormPage implements OnInit {
         }
 
         console.log("保存了")
+        if(this.mandatoryWhenApprove!="1" && this.skipMandatory=="0"){
+          const {fieldError,msg} = this.checkMandatoryField();
+          if (fieldError) {
+            console.log("必填了")
+            console.log(msg)
+            this.presentAlert("The follow fields are mandatory:<br/>" + msg, "", "OK")
+            return false;
+          }
+        }
         this.submit(this.paraforsubmit, actiontype)
         break;
       case "btnSubmit":
@@ -613,57 +628,18 @@ export class NewFormPage implements OnInit {
         }
 
         console.log("提交操作")
-        let msg = "";
-        let fieldError = false;
-        for (let p = 0; p < this.selecttemplat.template.mandaFields.length; p++) {
-          for (let d = 0; d < this.fields.length; d++) {
-            if (this.selecttemplat.template.mandaFields[p].fieldId == this.fields[d].name) {
-              if(this.fields[d].hide && this.fields[d].hide==true) continue;
-              console.log(this.fields[d].name)
-              let type = this.selecttemplat.template.mandaFields[p].type;
-              //let con=this.formType.template.mandaFields[p].con;
-              if (type.includes("m")) {
-                if ((this.fields[d].value == "") || (this.fields[d].value == undefined)) {
-                  msg += this.selecttemplat.template.mandaFields[p].label + ' <br/>';
-                  fieldError = true;
-                }else if(type.includes("d")){
-                  if (this.fields[d].value < this.today) {
-                    msg += this.selecttemplat.template.mandaFields[p].label + ' date cannot be less than current date';
-                    fieldError = true;
-                  }
-                }
-              }
-              else {
-                if (type == "d") {
-                  if ((this.fields[d].value == "") || (this.fields[d].value == undefined)) {
-                    msg += this.selecttemplat.template.mandaFields[p].label + '<br/>';
-                    fieldError = true;
-                  }
-                  else {
-
-                    if (this.fields[d].value < this.today) {
-                      msg += this.selecttemplat.template.mandaFields[p].label + ' date cannot be less than current date';
-                      fieldError = true;
-                    }
-                  }
-                }
-              }
-            }
+        if(this.mandatoryWhenApprove!="1"){
+          const {fieldError,msg} = this.checkMandatoryField();
+          if (fieldError) {
+            console.log("必填了")
+            console.log(msg)
+            this.presentAlert("The follow fields are mandatory:<br/>" + msg, "", "OK")
+            return false;
           }
-
-
-
-        }//End
-        console.log(msg)
-        if (fieldError) {
-          console.log("必填了")
-          console.log(msg)
-          this.presentAlert("The follow fields are mandatory:<br/>" + msg, "", "OK")
-          return false;
         }
-        else {
-          this.submit(this.paraforsubmit, actiontype)
-        }
+        
+
+        this.submit(this.paraforsubmit, actiontype)
 
         break;
       case "btnNewSubForm":
@@ -714,6 +690,57 @@ export class NewFormPage implements OnInit {
       if (pair[0] == variable) { return pair[1]; }
     }
     return (false);
+  }
+  checkMandatoryField():any{
+    let sectionsIds:any = [];
+    for (let i = 0; i < this.sections.length; i++) {
+      const element = this.sections[i];
+      if(element.secId) sectionsIds.push(element.secId);
+    }
+    console.log("check mandatory field!")
+    let msg = "";
+    let fieldError = false;
+    for (let p = 0; p < this.selecttemplat.template.mandaFields.length; p++) {
+      for (let d = 0; d < this.fields.length; d++) {
+        if (this.selecttemplat.template.mandaFields[p].fieldId == this.fields[d].name) {
+          if(this.fields[d].hide && this.fields[d].hide==true) continue;
+          const fiedSecId = this.fields[d].secId;
+          if(fiedSecId){
+            if(!sectionsIds.includes(fiedSecId)) continue;
+          }
+          let type = this.selecttemplat.template.mandaFields[p].type;
+          //let con=this.formType.template.mandaFields[p].con;
+          if (type.includes("m")) {
+            if ((this.fields[d].value == "") || (this.fields[d].value == undefined)) {
+              msg += this.selecttemplat.template.mandaFields[p].label + ' <br/>';
+              fieldError = true;
+            }else if(type.includes("d")){
+              if (this.fields[d].value < this.today) {
+                msg += this.selecttemplat.template.mandaFields[p].label + ' date cannot be less than current date';
+                fieldError = true;
+              }
+            }
+          }
+          else {
+            if (type == "d") {
+              if ((this.fields[d].value == "") || (this.fields[d].value == undefined)) {
+                msg += this.selecttemplat.template.mandaFields[p].label + '<br/>';
+                fieldError = true;
+              }
+              else {
+
+                if (this.fields[d].value < this.today) {
+                  msg += this.selecttemplat.template.mandaFields[p].label + ' date cannot be less than current date';
+                  fieldError = true;
+                }
+              }
+            }
+          }
+        }
+      }
+    }//End
+
+    return {fieldError,msg};
   }
   submit(para, actiontype) {
     return new Promise((resolve, reject) => {
