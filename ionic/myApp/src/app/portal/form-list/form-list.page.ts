@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { commonCtrl } from "../../common/common";
 import { NavController } from '@ionic/angular'; 
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 @Component({
   selector: 'app-form-list',
   templateUrl: './form-list.page.html',
@@ -97,7 +98,8 @@ export class FormListPage implements OnInit {
                     // //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
                     // this.draftime = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
                     // element.calendarDate = this.draftime;
-                    element.calendarDate = element.calendarDate.split(' ')[0]
+                    //element.calendarDate = element.calendarDate.split(' ')[0]
+                    element.calendarDate = moment(`${element.calendarDate}`,'YYYY-MM-DD').format('DD/MM/YYYY');
                   });
                   this.data = this.data.concat( data.data)
                   this.databak =this.data
@@ -119,7 +121,8 @@ export class FormListPage implements OnInit {
                       // tempdate = new Date(element.ActDueforCompletion.replace("ZE8", ""))
                       // this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
                       // element.ActDueforCompletion = this.draftime;
-                      element.ActDueforCompletion = element.ActDueforCompletion.split(' ')[0]
+                      //element.ActDueforCompletion = element.ActDueforCompletion.split(' ')[0];
+                      element.ActDueforCompletion = moment(`${element.ActDueforCompletion}`,'YYYY-MM-DD').format('DD/MM/YYYY')
                     }
                   
                   });
@@ -164,7 +167,7 @@ export class FormListPage implements OnInit {
                   // //this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
                   // this.draftime = tempdate.getDate() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getFullYear()
                   // element.calendarDate = this.draftime;
-                  element.calendarDate = element.calendarDate.split(' ')[0];
+                  element.calendarDate = moment(`${element.calendarDate}`,'YYYY-MM-DD').format('DD/MM/YYYY');
                 });
                 this.data = data.data
                 this.databak =this.data
@@ -186,7 +189,8 @@ export class FormListPage implements OnInit {
                     // tempdate = new Date(element.ActDueforCompletion.replace("ZE8", ""))
                     // this.draftime = tempdate.getFullYear() + "/" + (tempdate.getMonth() + 1) + "/" + tempdate.getDate()
                     // element.ActDueforCompletion = this.draftime;
-                    element.ActDueforCompletion = element.ActDueforCompletion.split(' ')[0];
+                    //element.ActDueforCompletion = element.ActDueforCompletion.split(' ')[0];
+                    element.ActDueforCompletion = moment(`${element.ActDueforCompletion}`,'YYYY-MM-DD').format('DD/MM/YYYY')
                   }
                 
                 });

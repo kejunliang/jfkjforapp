@@ -318,18 +318,7 @@ export class NewFormPage implements OnInit {
                   if(v.value!='') data.options.unshift({value:'',text:''});
                 }
               }else if(data.xtype == 'date'){
-                if(this.type == 'edit'){
-                  if(data.value && data.value!=''){
-                    let tmp = '/';
-                    if(data.value.indexOf('/')!=-1){
-                      tmp = '/';
-                    }else if(data.value.indexOf('-')!=-1){
-                      tmp = '-';
-                    }
-                    let ret = data.value.split(tmp);
-                    if(ret[0].length==2) data.value = moment(`${data.value}`,'DD/MM/YYYY').format('YYYY-MM-DD');
-                  }
-                }
+                if(this.type != 'edit') data.value = moment(`${data.value}`,'YYYY-MM-DD').format('DD/MM/YYYY');
               }
                 this.fields.push(data) //
                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
