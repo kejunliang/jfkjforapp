@@ -318,7 +318,9 @@ export class NewFormPage implements OnInit {
                   if(v.value!='') data.options.unshift({value:'',text:''});
                 }
               }else if(data.xtype == 'date'){
-                if(this.type != 'edit') data.value = moment(`${data.value}`,'YYYY-MM-DD').format('DD/MM/YYYY');
+                if(this.type != 'edit'){
+                  if(data.value!='') data.value = moment(`${data.value}`,'YYYY-MM-DD').format('DD/MM/YYYY');
+                }
               }
                 this.fields.push(data) //
                 // this.selectScore(data,data.value,this.selecttemplat.template.secs[i].title)
