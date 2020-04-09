@@ -29,7 +29,7 @@
        
     },
     "login":{
-        "email":"User Name",
+        "email":"Email",
         "password":"Password",
         "authcode":"Authentication Code",
         "welcom1":"Welcome to integrumNow (v2)",

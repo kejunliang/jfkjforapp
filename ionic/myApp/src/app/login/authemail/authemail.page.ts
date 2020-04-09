@@ -111,6 +111,7 @@ export class AuthemailPage implements OnInit {
           if (result.data.indexOf('DOCTYPE') == -1) {
             result = JSON.parse(result.data)
             if (result.returnResponse == "Success") {
+              this.user = result.user.username;
               this.loginDetails.username = this.user;
               this.loginDetails.password = this.pass;
               this.loginDetails.server = this.server;
