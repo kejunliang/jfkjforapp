@@ -58,5 +58,18 @@ export class GetallformsService {
     let param:string = `${logindetail.server}/${logindetail.folder}/integrumws.nsf/xp_App.xsp/getLookupOption?key=${encodeURIComponent(key)}${sparas}`
     return from(this.httpnative.get(param,'',options));
   }
+  doDeleteDoc(logindetail:any,para:any):Observable<any>{
+    let auth='Basic '+btoa(logindetail.username+':'+logindetail.password);
+
+    const unid:string = para.unid;
+    const cm:string   = para.cm;
+    const options = {
+      "Content-Type":"application/json; charset=utf-8",
+      "Authorization":auth
+    };
+    let param:string = `${logindetail.server}/${logindetail.folder}/integrumws.nsf/xp_App.xsp/deleteDoc?unid=${encodeURIComponent(unid)}$cm=${encodeURIComponent(cm)}`
+    return from(this.httpnative.get(param,'',options));
+    
+  }
 
 }

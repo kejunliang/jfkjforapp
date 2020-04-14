@@ -15,6 +15,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import * as moment from 'moment';
+import {OpenModalComponent} from "../../common/open-modal/open-modal.component";
+
 @Component({
   selector: 'app-new-form',
   templateUrl: './new-form.page.html',
@@ -234,13 +236,7 @@ export class NewFormPage implements OnInit {
                 if (data.name == "GMP_SEV_GMP_SH") {
                   this.severityvalue = data.value
                 }
-                if (this.mandafields) {
-                  this.mandafields.forEach(element => {
-                    if (element.label == data.label) {
-                      data.hasmust = true
-                    }
-                  });
-                }
+                
                 if (data.xtype == "radio" || data.xtype == "select") {
                   if(data.xtype == "radio") data.options = data.options.filter(function (obj) { return obj.value != "" })
                   //data.options = data.options.filter(function (obj) { return obj.value != "" })
@@ -384,11 +380,7 @@ export class NewFormPage implements OnInit {
 
           for (let i = 0; i < this.selecttemplat.template.secs.length; i++) {
             this.selecttemplat.template.secs[i].fields.forEach(data => {
-              this.mandafields.forEach(element => {
-                if (element.label == data.label) {
-                  data.hasmust = true
-                }
-              });
+              
               if (data.xtype == "radio" || data.xtype == "select") {
                 if(data.xtype == "radio") data.options = data.options.filter(function (obj) { return obj.value != "" })
                 //data.options = data.options.filter(function (obj) { return obj.value != "" })
@@ -651,6 +643,10 @@ export class NewFormPage implements OnInit {
         }
 
         break;
+        case "btnDelete":
+          console.log("操作删除")
+          this.presentModal('delete');
+          break;
       default:
         actiontype = "open"
         // this.router.navigateByUrl(this.lasturl)
@@ -1841,6 +1837,26 @@ export class NewFormPage implements OnInit {
     }, (err) => {
       console.log(err);
     });
+  }
+  async presentModal(stype:string) {
+    const modal = await this.modal.create({
+      component: OpenModalComponent
+    });
+   modal.present();
+   const { data } = await modal.onDidDismiss();
+   const para:any = {
+     unid:this.ulrs.unid,
+     cm:data
+   }
+   this.storage.get('loginDetails').then(logindata => {
+     this.getforms.doDeleteDoc(logindata,para).pipe(first()).subscribe(data => {
+       if(data.status=='success'){
+         this.router.navigateByUrl(this.lasturl);
+       }else{
+         this.presentAlert("failed!Error:" + data.result, "", "OK")
+       }
+     })
+   })
   }
 }
 
