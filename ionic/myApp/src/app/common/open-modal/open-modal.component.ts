@@ -18,13 +18,18 @@ export class OpenModalComponent implements OnInit {
 
   ngOnInit() {}
 
-  dismiss() {
-    if(!this.reason || this.reason.trim()==''){
-      this.presentAlert(this.title, "", "OK")
-      return false;
+  dismiss(stype:string) {
+    let result:string = "cancel";
+    if(stype=='ok'){
+      if(!this.reason || this.reason.trim()==''){
+        this.presentAlert(this.title, "", "OK")
+        return false;
+      }
+      result = this.reason;
     }
+    
     this.navParams.data.modal.dismiss({
-      result: this.reason
+      data:result
     })
   }
   async presentAlert(msg: string, header: string, btn: string) {

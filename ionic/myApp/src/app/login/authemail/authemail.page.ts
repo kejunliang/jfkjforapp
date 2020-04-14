@@ -132,22 +132,29 @@ export class AuthemailPage implements OnInit {
                   this.storage.set("loginDetails",this.loginDetails)
                 }
               )
-              
+              var curtime = new Date();
+              console.log('-->starttime:',curtime.toLocaleTimeString());
               localStorage.setItem('hasLogged','true');
               localStorage.setItem('user',this.user);
               this.getou.getous(this.user, this.pass, this.server, this.folder).pipe(first()).subscribe(
                 data => {
+                  const otime = new Date();
+                  console.log('getous--otime.toLocaleTimeString:',otime.toLocaleTimeString(),'-->starttime:',curtime.toLocaleTimeString());
                   data = JSON.parse(data.data);
                   this.storage.set('ous', JSON.stringify(data));
                 }
               )
               this.getpsn.getpersoninfo(this.user, this.pass, this.server, this.folder).pipe(first()).subscribe(
                 data => {
+                  const otime = new Date();
+                  console.log('getpersoninfo--otime.toLocaleTimeString:',otime.toLocaleTimeString(),'-->starttime:',curtime.toLocaleTimeString());
                   data = JSON.parse(data.data);
                   this.storage.set('psninfo', JSON.stringify(data));
                 }
               )
               this.getallforms.getAllForms(this.loginDetails).pipe(first()).subscribe(data => {
+                const otime = new Date();
+                  console.log('getAllForms--otime.toLocaleTimeString:',otime.toLocaleTimeString(),'-->starttime:',curtime.toLocaleTimeString());
                 data = JSON.parse(data.data);
                 this.storage.set('allforms', JSON.stringify(data));
               })

@@ -1844,19 +1844,23 @@ export class NewFormPage implements OnInit {
     });
    modal.present();
    const { data } = await modal.onDidDismiss();
-   const para:any = {
-     unid:this.ulrs.unid,
-     cm:data
+   if(data.data!='cancel'){
+    const para:any = {
+      unid:this.ulrs.unid,
+      cm:data
+    }
+    this.storage.get('loginDetails').then(logindata => {
+      this.getforms.doDeleteDoc(logindata,para).pipe(first()).subscribe(data => {
+        data = JSON.parse(data.data);
+        if(data.status=='success'){
+          this.router.navigateByUrl(this.lasturl);
+        }else{
+          this.presentAlert("failed!Error:" + data.result, "", "OK")
+        }
+      })
+    })
    }
-   this.storage.get('loginDetails').then(logindata => {
-     this.getforms.doDeleteDoc(logindata,para).pipe(first()).subscribe(data => {
-       if(data.status=='success'){
-         this.router.navigateByUrl(this.lasturl);
-       }else{
-         this.presentAlert("failed!Error:" + data.result, "", "OK")
-       }
-     })
-   })
+   
   }
 }
 
