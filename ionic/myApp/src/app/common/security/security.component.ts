@@ -36,6 +36,8 @@ export class SecurityComponent implements OnInit {
   public title:string ="Security Manager";
   public firstData:any =[];
   public cbgcolor = "#b81321";
+  public plen:number = 0;
+  public limitlen:number = 500;
   constructor(public navParams: NavParams, public storage: Storage, public commonCtrl: commonCtrl) {
 
   }
@@ -58,6 +60,7 @@ export class SecurityComponent implements OnInit {
       this.start = 0;
       this.listData = [];
       this.listDatabak = persons;
+      this.plen = persons.length;
       if (persons.length > this.pnum) {
         for (let i = 0; i < this.pnum; i++) {
           this.listData.push(persons[i]);
@@ -116,12 +119,14 @@ export class SecurityComponent implements OnInit {
     this.listData = this.firstData
   }
 
-  getItems(ev: any) {
-
-    console.log()
+  getItems() {
+    if(this.plen>0 && this.plen<=this.limitlen){
+      this.fnSearch();
+    }
+  };
+  fnSearch(){
     this.listData = this.listDatabak
-    let val = ev.target.value;
-    console.log(val)
+    let val = this.searchkey;
     if (val && val.trim() != '') {
       this.listData = this.listData.filter((item) => {
         return (item[this.selectManger].toLowerCase().indexOf(val.toLowerCase()) > -1);
