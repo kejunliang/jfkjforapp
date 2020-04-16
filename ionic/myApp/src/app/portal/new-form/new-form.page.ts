@@ -824,7 +824,7 @@ export class NewFormPage implements OnInit {
               if(i==max) sindex = 1;
             }
             this.sections.splice(sindex,0,el);
-            this.initHasSubfield('change');
+            this.initHasSubfield('open');
           }
         });
       }
@@ -854,7 +854,7 @@ export class NewFormPage implements OnInit {
         //this.getSectionIndex(index-1);
         return -1;
       }else{
-        return index+1;
+        return elenum+1;
       }
     }
     return 1;
