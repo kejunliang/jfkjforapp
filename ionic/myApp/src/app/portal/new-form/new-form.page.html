@@ -319,9 +319,9 @@
                 <img src="../../../../assets/icon/attachment/camera.png" (click)="takePicture(field.name,field)" alt="">
                 <!-- <button ion-button clear (click)="takePicture(field.name,field)" >Take a Picture</button> -->
               </div>
-              <div *ngIf="field.value" class="image-attach" (click)="takePicture(field.name,field)">
+              <div *ngIf="field.value" class="image-attach">
                 <!-- <img [src]="field.value" /> -->
-                  <div *ngFor="let att of field.value">
+                  <div *ngFor="let att of field.value"  (click)="takePicture(field.name,field,att)">
                     <div *ngIf="att.type==='image'">
                       <img [src]="att.value" />
                     </div>

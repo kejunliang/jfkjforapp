@@ -1629,7 +1629,7 @@ export class NewFormPage implements OnInit {
     });
     field.value = resvalue.join(",")
   }
-  async  takePicture(name,field) {
+  async  takePicture(name,field,att) {
     const actionSheetAttachment = await this.actionSheetCtrl.create({
       header: 'Add a Photo',
       buttons: [
@@ -1680,7 +1680,11 @@ export class NewFormPage implements OnInit {
         {
           text: 'Remove a Photo',
           handler: () => {
-            field.value="";
+            console.log(att)
+            this.attLists= this.attLists.filter(function(obj){
+                return obj!=att   
+            })
+            field.value= this.attLists
           }
         },
         {
