@@ -731,6 +731,7 @@ export class NewFormPage implements OnInit {
     return {fieldError,msg};
   }
   submit(para, actiontype) {
+    this.commonCtrl.processShow('Processing...');
     return new Promise((resolve, reject) => {
       this.storage.get("loginDetails").then(logindata => {
         //this.getforms.getFormData(logindata, { "unid": "EBE27D0FEC6AEFF9482584D90020DCE6" }).pipe(first()).subscribe(data => {
@@ -738,6 +739,7 @@ export class NewFormPage implements OnInit {
           console.log('this.getforms.submit:', data)
           //data = JSON.parse(data.data);
           console.log('this.getforms.submit:', JSON.parse(data.data))
+          this.commonCtrl.processHide();
           //this.router.navigate(["/new-form"], { queryParams: { unid:  this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime() } });
           if (this.subformflag) {
             this.router.navigate(["/new-form"], { queryParams: { unid: this.ulrs.unid, aid: this.ulrs.aid, title: this.ulrs.title, stat: this.ulrs.stat, type: actiontype, refresh: new Date().getTime(), cururl: this.lasturl } });
