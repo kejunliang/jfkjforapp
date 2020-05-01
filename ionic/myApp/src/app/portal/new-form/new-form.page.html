@@ -105,7 +105,7 @@
                 </ion-label>
               </ion-item>
               <ion-item>
-                <ion-select [(ngModel)]='field.value' multiple="true" name="field.name" [ngStyle]="{'color':cbgcolor}"
+                <ion-select [(ngModel)]='field.value' multiple="true" name="field.name" [ngStyle]="{'color':cbgcolor}" placeholder="Select one or more option(s)"
                 (ionChange)="getSublistOption(field,section.secId,'change')">
                   <ion-select-option *ngFor="let option of field.options">{{option.text}}</ion-select-option>
                 </ion-select>
@@ -134,7 +134,7 @@
                 </ion-label>
               </ion-item>
               <ion-item>
-                <ion-select [(ngModel)]='field.value' multiple="" name="field.name" [ngStyle]="{'color':cbgcolor}"
+                <ion-select [(ngModel)]='field.value' multiple="" name="field.name" [ngStyle]="{'color':cbgcolor}" placeholder="Select one or more option(s)"
                   (ionChange)=getOUSublistdetails(field.name,field.value,section.secId)>
                   <ion-select-option *ngFor="let option of getOuList(field.name,section.secId)" [value]="option.value">
                     {{option.text}}</ion-select-option>
