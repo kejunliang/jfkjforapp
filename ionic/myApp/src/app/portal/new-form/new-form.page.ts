@@ -1807,6 +1807,7 @@ export class NewFormPage implements OnInit {
         let context = canvas.getContext('2d');
         let newImg = new Image();
         newImg.src = this.webview.convertFileSrc(imageData); // imageData;
+        this.attLists=[]
         newImg.onload = () => {
 
           canvas.setAttribute("width", "400");
@@ -1830,7 +1831,12 @@ export class NewFormPage implements OnInit {
             type:'image',
             value:image
           })
-          field.value=  this.attLists
+          if(field.value){
+            field.value=  field.value.concat( this.attLists)
+          } else{
+            field.value=  this.attLists;
+          }
+          
           this.attachedImages.push(image);
           //this.setValue(name, image);
         };
